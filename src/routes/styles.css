@@ -1,0 +1,31 @@
+:root {
+	--color-trim: grey;
+	--color-theme-1: rgb(118, 57, 70);
+	--color-theme-1-sub: rgb(99, 47, 58);
+	--color-light-text: white;
+	--color-dark-text: black;
+
+	--screen-width-thresh: 520;
+}
+*{
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: lexend;
+}
+
+a {
+	color: var(--color-light-text);
+	text-decoration: none;
+	cursor: pointer;
+}
+button{
+	cursor: pointer;
+}
+
+input[type='text']:focus,
+input[type='password']:focus {
+	outline-color: var(--color-theme-1);
+}
