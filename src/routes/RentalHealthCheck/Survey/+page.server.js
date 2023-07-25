@@ -36,6 +36,7 @@ export const actions = {
         }
         //Add the form data to an intermediary object before adding it to the 'RentalHealthChecks' collection
         data.forEach((value, key)=>{
+            //If there are more than one pieces of data associated with a key, get all of them instead of just one
             if(data.getAll(key).length > 1){
                 obj[key] = data.getAll(key);
             }
@@ -50,7 +51,8 @@ export const actions = {
         console.log(obj)
 
         //Add the document
-        //TODO: Add rate limiting using 
+        
+        //TODO: Add rate limiting by checking the timestamp of the last report associated with each user
         
         firestore(app).collection('RentalHealthChecks').add(obj);
 
