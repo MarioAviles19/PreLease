@@ -29,6 +29,12 @@ export const actions = {
 
         //TODO: solve the 'Other' radio button issue where there is a value for the "other" option even if it isn't pressed
 
+        //If the "Other" text input has been filled out and the city field is set to 'Other, set the city property to that
+        if(data.get('cityOther') && data.get('city') == "Other"){
+            data.set('city', data.get('cityOther'))
+            data.delete('cityOther')
+        }
+        //Add the form data to an intermediary object before adding it to the 'RentalHealthChecks' collection
         data.forEach((value, key)=>{
             if(data.getAll(key).length > 1){
                 obj[key] = data.getAll(key);

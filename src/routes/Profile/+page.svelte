@@ -8,8 +8,9 @@
 
     function toggleEdit(){
         edit = !edit;
-        
-        
+
+        focusedElement.tabIndex = 0;
+        focusedElement.focus();
         
     }
 

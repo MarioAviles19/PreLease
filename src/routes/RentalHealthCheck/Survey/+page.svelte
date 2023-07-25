@@ -4,15 +4,17 @@
     import { addDoc, collection} from "firebase/firestore";
 	import { onMount } from "svelte";
 
-    export let data
+    export let data;
 
-    let housingEmergency = '';
+    let cityOtherInput;
 
-    let currentlyTenant = '';
+    let cityOtherSelected;
 
-    let currently;
+
 
     let moneyInputs = '';
+
+   
 
     function styleMoney(){
         if(!moneyInputs.startsWith('$')){
@@ -23,6 +25,8 @@
 
     onMount(()=>{
         signInWithCustomToken(auth, data.userToken).then((res)=>{console.log(res)})
+
+  
         
     })
     async function UploadDocument(){
@@ -30,6 +34,20 @@
         let doc = await addDoc(col, {Test: data.userData.uid, urgency: "Very"})
         console.log("Success");
 
+    }
+
+    $: cityOtherSelected, toggleOtherBox();
+
+    function toggleOtherBox(){
+        if(!cityOtherInput){
+            return;
+        }
+        if(cityOtherSelected === "Other"){
+            cityOtherInput.disabled = false
+            cityOtherInput.focus();
+        }else{
+            cityOtherInput.disabled = true;
+        }
     }
 
 
@@ -83,19 +101,19 @@
         <fieldset class="radioSelection  question">
             <legend>What city do you reside in?</legend>
             <div class="response">
-                <input type="radio" id="Minneapolis" value="Minneapolis" name="city" required>
+                <input bind:group={cityOtherSelected} type="radio" id="Minneapolis" value="Minneapolis" name="city" required>
                 <label class='required' for="Minneapolis">Minneapolis</label>
             </div>
 
             <div class="response">
-                <input type="radio" id="St.Paul" value='St.Paul' name="city" required>
+                <input bind:group={cityOtherSelected} type="radio" id="St.Paul" value='St.Paul' name="city" required>
                 <label class='required' for="St.Paul">St. Paul</label>
             </div>
 
             <div class="response">
-                <input type="radio" id="CityOther" value='No' name="city" required>
+                <input bind:group={cityOtherSelected} type="radio" id="CityOther" value='Other' name="city" required>
                 <label class='required' for="CityOther">Other</label>
-                <input name="city">
+                <input  bind:this={cityOtherInput} type="text" name="cityOther" disabled>
             </div>
 
 
@@ -635,6 +653,17 @@
     label{
         cursor:pointer;
     }
+    input[type='text']{
+        border:none;
+        box-shadow: 0px 1px grey;
+
+        font-size: 1.2rem;
+    }
+    input[type='text']:focus{
+        outline:none;
+        box-shadow: 0px 2px var(--color-theme-1);
+
+    }
     input[type='radio'], 
     input[type='checkbox']{
         cursor:pointer;
@@ -664,6 +693,17 @@
         width:100%;
 
     }
+    #submitionWrapper button{
+        background-color: var(--color-theme-1);
+
+        border:none;
+        color: var(--color-light-text);
+        width:fit-content;
+        height:fit-content;
+        font-size: 1.5rem;
+
+        border-radius: 5px;
+    }
     #healthCheckForm{
         display:flex;
         flex-direction: column;
@@ -686,11 +726,13 @@
       .money:focus{
         outline:none;
         border:none;
-        box-shadow: 0px 2px black;
+        box-shadow: 0px 2px var(--color-theme-1);
       }
     .question{
     
         margin: .2rem 0;
+
+        margin-top:2rem;
 
         padding:1rem;
 
