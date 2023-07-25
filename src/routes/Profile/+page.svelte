@@ -1,9 +1,18 @@
 <script>
-    let edit = false;
+	import { onMount } from 'svelte';
+
+
+
 
     export let data;
 
+    let edit = false;
+
     let focusedElement
+
+    let qrcodeurl;
+    let qrobj;
+
     console.log(data.userData)
 
     function toggleEdit(){
@@ -11,13 +20,23 @@
 
         focusedElement.tabIndex = 0;
         focusedElement.focus();
-        
+    
     }
+    onMount(()=>{
+        fetch(`/api/qrcode?user=${data.userData.uid}`).then((res)=>{
+            
+            res.text().then((res)=>{
+                qrobj.innerHTML = res;
+            })
+        })
+    })
 
 
 </script>
 
+<div id="qr" bind:this={qrobj}>
 
+</div>
 
 <form style="pointer-events:{edit? 'auto': 'none'}; --local-text:{edit? "black": "grey"};" class="profile">
     <div id="banner">
@@ -66,6 +85,10 @@
 
         padding:.5rem;
         border-radius: 5px;
+    }
+    #qr{
+        width:50%;
+        background-color: pink;
     }
     .profile{
         margin:auto;

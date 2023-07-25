@@ -56,6 +56,7 @@ export const actions = {
         
         firestore(app).collection('RentalHealthChecks').add(obj);
 
+        //Can Delete
         console.log(data)
     }
 }
