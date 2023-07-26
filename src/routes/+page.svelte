@@ -87,7 +87,7 @@
 	<h1>Resources</h1>
 	<form name="region" id="searchForm" on:submit|preventDefault>
 		<input id="searchBar" placeholder="Search" bind:value={searchBar} />
-		<button id="searchButton" on:click={ExecuteSearch}>Search</button>
+		<button id="searchButton" class="chunkyButton" on:click={ExecuteSearch}>Search</button>
 		<button id="advancedToggle" on:click={toggleAdvanced}
 			>Advanced <i class="fas {showAdvanced ? 'fa-chevron-up' : 'fa-chevron-down'} fa-sm" /></button
 		>
@@ -198,19 +198,9 @@
 	}
 	#searchButton {
 		height: 2.2rem;
-		border-radius: 5px;
-		border: none;
-		cursor: pointer;
-		outline: solid 1px black;
-		font-size:1.2rem;
-
-		color: var(--color-light-text);
-		background-color: var(--color-theme-1);
+		
 
 
-	}
-	#searchButton:active {
-		outline: solid 3px black;
 	}
 
 	#advancedOptions {

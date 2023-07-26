@@ -9,9 +9,10 @@
     let edit = false;
     let QRModalOpen = false;
 
+    
     let focusedElement;
 
-    
+    /**@type {Element}*/
     let QRContainer;
     let QRModal;
 
@@ -20,7 +21,7 @@
     function toggleEdit(){
         edit = !edit;
 
-        focusedElement.tabIndex = 0;
+        
         focusedElement.focus();
     
     }
@@ -49,7 +50,7 @@
         </div>
 
         <div bind:this={QRContainer} id="QRCodeWrapper"></div>
-        <a href="/Records/{data.userData.uid}">View Report</a>
+        <a href="/Records/{data.userData.uid}" id="viewReportsButton" class="chunkyButton">View Report</a>
     </div>
 
 </dialogue>
@@ -103,9 +104,6 @@
         padding:.5rem;
         border-radius: 5px;
     }
-    a{
-        color: black;
-    }
     #QRCodeModalUnderlay{
 
         z-index: 100;
@@ -127,13 +125,10 @@
         height:fit-content;
         background-color: white;
         box-shadow:1px 1px 5px grey;
-        
+        padding-bottom: 1rem;
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         
-    }
-    #QRCodeModal a{
-
     }
     #QRCodeWrapper{
         margin:auto;
@@ -142,6 +137,12 @@
 
         border: 7px dashed var(--color-theme-2);
         border-radius: 2rem;
+    }
+    #viewReportsButton{
+        display: block;
+        width:fit-content;
+        margin:auto;
+        margin-top:1rem;
     }
     #TopBar{
         position: relative;

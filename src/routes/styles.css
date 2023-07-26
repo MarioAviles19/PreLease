@@ -1,8 +1,8 @@
 :root {
 	--color-trim: grey;
-	--color-theme-1: #611e2c;
-	--color-theme-2: rgb(90, 130, 25);
-	--color-theme-1-sub: rgb(99, 47, 58);
+	--color-theme-1: #752436;
+	--color-theme-2: #5a8219;
+	--color-theme-1-sub: #882a3f;
 	--color-light-text: white;
 	--color-dark-text: black;
 
@@ -28,9 +28,37 @@ a {
 }
 button{
 	cursor: pointer;
+
 }
+
 
 input[type='text']:focus,
 input[type='password']:focus {
 	outline-color: var(--color-theme-1);
+}
+
+.chunkyButton{
+	
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+	
+	font-size:1.2rem;
+
+	outline: solid black 1px;
+	padding:.2rem;
+
+	color: var(--color-light-text);
+	background-color: var(--color-theme-1);
+
+	
+
+}
+.chunkyButton:hover{
+
+	background-color: var(--color-theme-1-sub);
+}
+.chunkyButton:active{
+
+	transform: translateY(1px);
 }

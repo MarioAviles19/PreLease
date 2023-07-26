@@ -2,8 +2,7 @@
 	import './styles.css';
 	import NavMenu from '../NavMenu.svelte';
 	import { onMount } from 'svelte';
-	import { auth } from '$lib/firebase/firebase.client';
-	import { authState, authHandler } from '../stores/authStore';
+
 
 	let navMenuOpen = false;
 
@@ -19,14 +18,7 @@
 	}
 
 	onMount(()=>{
-		//Once the page is loaded, load the user into the currentUser store
-		const unsubscribe = auth.onAuthStateChanged((user)=>{
-			authState.update((curr)=>{
-				return {...curr, isLoading:false, currentUser: user}
-			})
-			console.log($authState.currentUser);
-			console.log(data.miso);
-		})
+
 
 
 
