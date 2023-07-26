@@ -19,7 +19,7 @@
 
 	onMount(()=>{
 
-
+		console.log(data.userData)
 
 
 	})
@@ -104,6 +104,8 @@
 
 		margin-right:1rem;
 		background-color: white;
+
+		width:50px;
 	
 		
 	}
@@ -118,6 +120,8 @@
 		margin: auto;
 		margin-right: 2rem;
 		cursor: pointer;
+
+		width:fit-content;
 
 		display:flex;
 		align-items: center;

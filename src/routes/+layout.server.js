@@ -19,5 +19,6 @@ export const load = async ({locals, cookies})=>{
 
 
     const token = await auth(app).createCustomToken(user.uid)
+
     return {userData : {...SerializeNonPOJOs(user), ...SerializeNonPOJOs(extraData.data()), pfp : `https://api.dicebear.com/6.x/shapes/svg?seed=${user.uid}`}, userToken: token}
 }

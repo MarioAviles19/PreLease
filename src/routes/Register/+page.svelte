@@ -9,25 +9,26 @@
     let password = '';
     let firstName = '';
 	let lastName = '';
+	
     let photo = '';
 
-    function register(){
+    async function register(){
         if(!email || !password){
             return
         }
-        console.log("Running")
-        $authHandler.signUp(email, password).then((result)=>{
-            
-			setDoc(doc(firestore,'Users', result.user.uid), {firstName : firstName, lastName: lastName})
-			.then(
-				(res)=>{
-					console.log(res);
-				})
+        console.log("Running Register")
+        let user = await $authHandler.signUp(email, password);
+		
+		setDoc(doc(firestore,'Users', user.user.uid), {firstName: firstName, lastName: lastName}).then((res)=>{
+			console.log(res)
+		}).catch((err)=>{
+			console.log(err);
+		})
 
+		await updateProfile(user.user, {displayName: `${firstName}`})
 
-            return updateProfile(result.user,{
-                displayName: `${username}`})
-            }).then(()=>{window.location.href = '/'})
+		console.log(user)
+		
         }
     
 
