@@ -16,11 +16,26 @@ const firebaseConfig = {
     measurementId: "G-RCKRT6Y9FB"
 };
 
+export const load = async ({locals, url, request})=> {
+    let redirect = url.searchParams.get('redirect')
+    //If there is a 'redirect' searchParam return it
+    //If not return home
+    if(redirect){
+        return {redirect: redirect}
+    }
+    else{
+        return {redirect: '/'}
+    }
+}
+
 
 
 
 export const actions = {
-    login: async({ locals, request,cookies})=>{
+    login: async({ locals, request,cookies,url})=>{
+
+        let redirectPath = url.searchParams.get('redirect');
+
         let firebaseApp;
 
         if(!getApps().length){
@@ -50,6 +65,6 @@ export const actions = {
             console.log(err)
             return fail(401, {message: err.code});
         }
-        throw redirect(302, '/');
+        throw redirect(302, redirectPath || '/');
     }
 }

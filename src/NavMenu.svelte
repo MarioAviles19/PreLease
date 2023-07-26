@@ -50,13 +50,14 @@
 	#navBar a {
 		height: 3rem;
 		margin-bottom: 1rem;
+		padding-right:1rem;
 		color: var(--color-dark-text);
 		font-size: 1.5rem;
 		white-space: nowrap;
 	}
 	#navBar a:hover {
-		box-shadow: 4px 0px var(--color-theme-1);
-		color: var(--color-theme-1);
+		box-shadow: 4px 0px var(--color-theme-2);
+		color: var(--color-theme-2);
 	}
 	#closeButton {
 		border: none;

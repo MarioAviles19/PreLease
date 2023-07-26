@@ -11,7 +11,7 @@ export const load = async({locals, cookies})=>{
     const {user, app} = await locals.GetUserFromSession(cookies.get('session'))
     //If there is no user data, redirect to sign in
     if(!user){
-        throw redirect(302, '/SignIn')
+        throw redirect(302, '/SignIn?redirect=RentalHealthCheck/Survey')
     }
     
     //const token = auth(app).createCustomToken(user.uid);

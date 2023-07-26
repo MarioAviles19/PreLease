@@ -17,8 +17,6 @@ export const load = async ({locals, cookies})=>{
      }
      let extraData = await firestore(app).doc(`Users/${user.uid}`).get()
 
-     console.log('Extra')
-     console.log(extraData)
 
     const token = await auth(app).createCustomToken(user.uid)
     return {userData : {...SerializeNonPOJOs(user), ...SerializeNonPOJOs(extraData.data()), pfp : `https://api.dicebear.com/6.x/shapes/svg?seed=${user.uid}`}, userToken: token}

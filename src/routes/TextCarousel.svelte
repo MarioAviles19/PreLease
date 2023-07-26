@@ -45,7 +45,9 @@
 		color: var(--color-light-text);
 	}
 	#text {
-		padding: 1rem 20%;
+		padding: 1rem 10%;
+
+		max-height: 70%;
 		font-size: 1.2rem;
 	}
 	#text a {
@@ -54,7 +56,7 @@
 		text-decoration: underline;
 	}
 	#text a:hover {
-		color: rgb(176, 72, 122);
+		color: var(--color-theme-2)
 	}
 	#elipses {
 		letter-spacing: 0.2rem;
@@ -64,6 +66,21 @@
 		letter-spacing: 1px;
 	}
 	@media only screen and (max-width: 520px){
+		p{
+
+			font-size:1rem;
+		}
+		#text{
+			position:relative;
+			width:100%;
+			height:100%;
+			padding:1rem .7rem;
+		}
+		#text h1{
+			margin-top:.5rem;
+		}
+	}
+	@media only screen and (max-width: 650px){
 		p{
 
 			font-size:1rem;

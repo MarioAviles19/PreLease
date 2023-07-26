@@ -7,11 +7,13 @@
     export let data;
 
     let edit = false;
+    let QRModalOpen = false;
 
-    let focusedElement
+    let focusedElement;
 
-    let qrcodeurl;
-    let qrobj;
+    
+    let QRContainer;
+    let QRModal;
 
     console.log(data.userData)
 
@@ -22,11 +24,15 @@
         focusedElement.focus();
     
     }
+    function ToggleQrModal(){
+        QRModalOpen = !QRModalOpen;
+    }
+
     onMount(()=>{
         fetch(`/api/qrcode?user=${data.userData.uid}`).then((res)=>{
             
             res.text().then((res)=>{
-                qrobj.innerHTML = res;
+                QRContainer.innerHTML = res;
             })
         })
     })
@@ -34,14 +40,25 @@
 
 </script>
 
-<div id="qr" bind:this={qrobj}>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<dialogue style="display:{QRModalOpen? "flex": "none"}" id="QRCodeModalUnderlay" tabindex="0" role="button" on:click={ToggleQrModal} bind:this={QRModal}>
 
-</div>
+    <div id="QRCodeModal">
+        <div id="TopBar"><button on:click={ToggleQrModal} class="fas fa-close iconButton closeButton"></button>
+            <h1>{data.userData.firstName} {data.userData.lastName}</h1>
+        </div>
+
+        <div bind:this={QRContainer} id="QRCodeWrapper"></div>
+        <a href="/Records/{data.userData.uid}">View Report</a>
+    </div>
+
+</dialogue>
 
 <form style="pointer-events:{edit? 'auto': 'none'}; --local-text:{edit? "black": "grey"};" class="profile">
     <div id="banner">
+        <button on:click={ToggleQrModal} id="QRButton" class="ignoreEditState iconButton"><span class="fas fa-qrcode"></span></button>
         <img src={data.userData.pfp} id="pfp" alt="Profile">
-        <button on:click={toggleEdit} id="editButton" class="ignoreEditState"><span class="fas fa-edit"></span></button>
+        <button on:click={toggleEdit} id="editButton" class="ignoreEditState iconButton"><span class="fas fa-edit"></span></button>
     </div>
 
     <div class="sideInput">
@@ -86,9 +103,63 @@
         padding:.5rem;
         border-radius: 5px;
     }
-    #qr{
+    a{
+        color: black;
+    }
+    #QRCodeModalUnderlay{
+
+        z-index: 100;
+        position: fixed;
+        width:100%;
+        height:100%;
+        top:0;
+        left:0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        
+    }
+    #QRCodeModal{
+        width:60%;
+        max-width:40rem;
+        height:fit-content;
+        background-color: white;
+        box-shadow:1px 1px 5px grey;
+        
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        
+    }
+    #QRCodeModal a{
+
+    }
+    #QRCodeWrapper{
+        margin:auto;
+        margin-top:1rem;
         width:50%;
-        background-color: pink;
+
+        border: 7px dashed var(--color-theme-2);
+        border-radius: 2rem;
+    }
+    #TopBar{
+        position: relative;
+        width:100%;
+        font-size: 1.4rem;
+        padding:.5rem;
+
+        min-height: 2rem;
+        background-color: var(--color-theme-1);
+        color:var(--color-light-text);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    #TopBar h1{
+        margin:0;
+        width:100%;
+        text-align: center;
+        font-size: 1.2rem;
     }
     .profile{
         margin:auto;
@@ -110,6 +181,11 @@
     }
     .field{
         margin: .5rem 0;
+    }
+    .closeButton{
+        position: absolute;
+        top:.2rem;
+        left:0;
     }
     .buttons{
         padding:.5rem 0;
@@ -153,11 +229,13 @@
 
         background-color: var(--color-theme-1-sub);
     }
-    #editButton{
+    .iconButton{
         background: none;
         border:none;
         color:var(--color-light-text);
         font-size: 1.5rem;
+    }
+    #editButton{
 
         position: absolute;
         right:.2rem;

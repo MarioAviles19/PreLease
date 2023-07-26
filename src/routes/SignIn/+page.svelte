@@ -4,13 +4,16 @@
 	import { authHandler } from "../../stores/authStore";
 
 
-onMount(()=>{
-	$authHandler.signOut();
-})
+	export let data;
+
+
+	onMount(()=>{
+		$authHandler.signOut();
+	})
 </script>
 
 
-<form id="login" method="POST" action="?/login">
+<form id="login" method="POST" action="?/login&redirect={data.redirect}">
 	<h1>Sign In</h1>
 
 	<label for="email">Email</label>

@@ -9,11 +9,9 @@
 
     <p>The Rental Health Check is a diagnostic tool that we at PreLease use to connect you with housing resources based upon various factors including rental history, personal information, demographic information and income.</p>
     <div id="buttons">
-        {#if data.userData}
-        <a href="/RentalHealthCheck/Survey" class="continueButton">Continue</a>
-        {:else}
-        <a href="/SignIn" class="continueButton">Sign In</a>
-        {/if}
+    
+        <a href="/RentalHealthCheck/Survey" class="continueButton">{data.userData? "Continue": "Sign In"}</a>
+
     </div>
 </section>
 

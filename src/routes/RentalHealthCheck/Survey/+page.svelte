@@ -672,7 +672,7 @@
         -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
         transform: scale(1.5);
 
-        accent-color: var(--color-theme-1);
+        accent-color: var(--color-theme-2);
     }
     select{
         font-size:1.2rem;
@@ -718,18 +718,19 @@
         
       }
 
-      .money{
-        border:none;
-        box-shadow: 0px 1px var(--color-trim);
-        font-size:1.2rem;
-      }
-      .money:focus{
-        outline:none;
-        border:none;
-        box-shadow: 0px 2px var(--color-theme-1);
-      }
+    .money{
+    border:none;
+    box-shadow: 0px 1px var(--color-trim);
+    font-size:1.2rem;
+    }
+    .money:focus{
+    outline:none;
+    border:none;
+    box-shadow: 0px 2px var(--color-theme-1);
+    }
     .question{
     
+        background-color: white;
         margin: .2rem 0;
 
         margin-top:2rem;

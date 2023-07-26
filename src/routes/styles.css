@@ -1,6 +1,7 @@
 :root {
 	--color-trim: grey;
-	--color-theme-1: rgb(118, 57, 70);
+	--color-theme-1: #611e2c;
+	--color-theme-2: rgb(90, 130, 25);
 	--color-theme-1-sub: rgb(99, 47, 58);
 	--color-light-text: white;
 	--color-dark-text: black;
@@ -14,7 +15,11 @@
 body {
 	margin: 0;
 	font-family: lexend;
+
+	background-color: rgb(244, 244, 244);
+
 }
+/*Implement Custom Scrollbar*/
 
 a {
 	color: var(--color-light-text);

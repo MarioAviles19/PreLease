@@ -25,7 +25,7 @@
 	let previews = [
 		{
 			name: 'Our Mission',
-			text: 'Housing Support: Renters have access to the Rental Health Check, a diagnostic tool that connects tenants to public resources, improves screening health, and comes with a free consultation. For Rental Health Insurance, we assist tenants with early emergency intervention, and connect them to resources to reduce stress and rent burden',
+			text: 'Housing Support: Renters have access to the Rental Health Check, a diagnostic tool that connects tenants to public resources, improves screening health, and comes with a free consultation. For Rental Health Insurance, we assist tenants with early emergency intervention',
 			link: '/About'
 		},
 		{
@@ -132,7 +132,9 @@
 <style>
 
 	h1{
+		margin:0;
 		margin-bottom:1rem;
+		font-size: 2rem;
 	}
 	#banner {
 		position: relative;
@@ -165,9 +167,10 @@
 		width: 70%;
 		max-width: 40rem;
 		box-shadow: 1px 1px 5px var(--color-trim);
-		border-radius: 0.2rem;
+		border-radius: 10px;
 
 		padding: 1.5rem 2rem;
+		background-color: white;
 	}
 
 	#searchBar {
@@ -264,13 +267,15 @@
 		font-size: 0.8rem;
 	}
 	.region {
-		color: var(--color-theme-1);
+		color: var(--color-theme-2);
 		font-weight: 200;
 		font-size: 1rem;
 		margin: 0;
 		margin-bottom: 0.3rem;
-		width: fit-content;
+		width:fit-content;
+
 	}
+	
 	.type {
 		display: inline-block;
 

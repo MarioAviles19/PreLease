@@ -36,8 +36,8 @@
 		font-size: 1.5rem;
 	}
 	nav a:hover {
-		color: var(--color-theme-1);
-		box-shadow: 0px 2px var(--color-theme-1);
+		color: var(--color-theme-2);
+		box-shadow: 0px 2px var(--color-theme-2);
 	}
 	#banner {
 		height: fit-content;
@@ -53,8 +53,8 @@
 		display: block;
 	}
 	a[aria-current='page'] {
-		color: var(--color-theme-1);
-		box-shadow: 0px 2px var(--color-theme-1);
+		color: var(--color-theme-2);
+		box-shadow: 0px 2px var(--color-theme-2);
 	}
 
 	@media only screen and (max-width: 520px){

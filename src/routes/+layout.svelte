@@ -67,6 +67,8 @@
 	main{
 		width:100vw;
 		max-width:100%;
+
+		
 	}
 	header {
 		width:100vw;

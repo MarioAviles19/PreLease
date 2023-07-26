@@ -3,7 +3,7 @@ import qrcode from "qrcode"
 export const GET = async ({locals, request, cookies,params,url})=>{
     
     let uid = url.searchParams.get("user");
-    let dataURL = await qrcode.toString(`${url.origin}/records/${uid}`,{type:"svg", color:{light:"#00000000", dark:"#763946"}})
+    let SVG = await qrcode.toString(`${url.origin}/Records/${uid}`,{type:"svg", color:{light:"#00000000", dark:"#611e2c"}})
     
-    return new Response(dataURL)
+    return new Response(SVG)
 }

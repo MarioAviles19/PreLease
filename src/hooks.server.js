@@ -80,6 +80,8 @@ export const handle = async ({event, resolve})=>{
     }
         return await auth(app).createSessionCookie(token, {expiresIn: 1000 * 60 * 60 * 24 * 5})
     }
+
+    
     
 
     return await resolve(event)
