@@ -1,9 +1,11 @@
 
-import {auth, firestore} from "firebase-admin"
+import * as pkg from 'firebase-admin'; 
+const {auth, firestore} = pkg;
 import { SerializeNonPOJOs } from "$lib/helpers.js";
 
 
 export const load = async ({locals, cookies})=>{
+    console.log(import.meta.env.MODE);
     if(!cookies.get('session')){
         console.log('no session')
         return {userData : null}

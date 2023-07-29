@@ -1,4 +1,5 @@
-import { firestore } from 'firebase-admin';
+import * as pkg from 'firebase-admin'; 
+const { firestore } = pkg;;
 import { SerializeNonPOJOs } from '$lib/helpers.js';
 
 export const load = async ({locals, params, cookies})=>{
@@ -6,7 +7,7 @@ export const load = async ({locals, params, cookies})=>{
 
     const {user, app} =  await locals.GetUserFromSession(cookies.get('session'))
 
-    //TODO: Add Orderby Timestamp once index is built in console
+    //TO5DO: Add Orderby Timestamp once index is built in console
     let reportsRaw = await firestore(app).collection('RentalHealthChecks').where('owner','==', params.user).orderBy('Timestamp', 'desc').get();
     
     let reports = [];

@@ -1,7 +1,8 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { getAuth, signInWithEmailAndPassword, getIdToken} from 'firebase/auth'
 import { getApp, initializeApp, deleteApp, getApps } from 'firebase/app';
-import {auth} from "firebase-admin"
+import * as pkg from 'firebase-admin'; 
+const {auth} = pkg;
 
 
 

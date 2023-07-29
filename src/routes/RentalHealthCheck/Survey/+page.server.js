@@ -1,6 +1,7 @@
 import { SerializeNonPOJOs } from '$lib/helpers.js'
 import { redirect } from '@sveltejs/kit'
-import {auth, firestore} from "firebase-admin"
+import * as pkg from 'firebase-admin'; 
+const {auth, firestore} = pkg;
 import { Timestamp } from 'firebase-admin/firestore'
 import { Interface } from 'readline'
 

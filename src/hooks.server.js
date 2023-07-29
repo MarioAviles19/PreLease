@@ -1,6 +1,16 @@
 // @ts-nocheck
 
-import { initializeApp, credential, auth} from "firebase-admin"
+import * as admin from 'firebase-admin'; 
+import * as adminApp from 'firebase-admin/app'
+import * as auth from 'firebase-admin/auth'
+const {cert, initializeApp} = adminApp;
+const {getAuth} = auth;
+
+
+
+
+
+
 import { getApps, getApp, deleteApp} from "firebase-admin/app"
 import {key} from "$lib/firebase/ServiceAccountKey"
 import { redirect } from "@sveltejs/kit";
@@ -35,7 +45,8 @@ export const handle = async ({event, resolve})=>{
 
         } catch (error) {
             if(error.errorInfo.code = 'app/no-app'){
-                app = initializeApp({credential: credential.cert(key)},'auth')
+                console.log(admin.credential)
+                app = initializeApp({credential: cert(key)},'auth')
             }
         }
 
@@ -44,8 +55,8 @@ export const handle = async ({event, resolve})=>{
         }
 
 
-        let user = await auth(app).verifySessionCookie(cookie).then(async (decodedIdToken)=>{
-            let user = await auth(app).getUser(decodedIdToken.uid)
+        let user = await getAuth(app).verifySessionCookie(cookie).then(async (decodedIdToken)=>{
+            let user = await getAuth(app).getUser(decodedIdToken.uid)
            
             return user
         }).catch(err=>{

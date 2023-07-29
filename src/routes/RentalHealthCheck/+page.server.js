@@ -1,6 +1,7 @@
 import { SerializeNonPOJOs } from '$lib/helpers.js'
 import { redirect } from '@sveltejs/kit'
-import {auth} from "firebase-admin"
+import * as pkg from 'firebase-admin'; 
+const {auth} = pkg;
 
 export const load = async({locals, cookies})=>{
     const {user, app} = await locals.GetUserFromSession(cookies.get('session'))
