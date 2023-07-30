@@ -78,18 +78,18 @@ export const handle = async ({event, resolve})=>{
 
         } catch (error) {
             if(error.errorInfo.code = 'app/no-app'){
-                app = initializeApp({credential: credential.cert(key)},'alt')
+                app = initializeApp({credential: cert(key)},'alt')
             }
         }
     if(!getApps().length){
-        app = initializeApp({credential: credential.cert(key)},'alt')
+        app = initializeApp({credential: cert(key)},'alt')
     } else{
         app = getApp('alt');
         deleteApp(app);
-        app = initializeApp({credential: credential.cert(key)},'alt')
+        app = initializeApp({credential: cert(key)},'alt')
 
     }
-        return await auth(app).createSessionCookie(token, {expiresIn: 1000 * 60 * 60 * 24 * 5})
+        return await getAuth(app).createSessionCookie(token, {expiresIn: 1000 * 60 * 60 * 24 * 5})
     }
 
     
