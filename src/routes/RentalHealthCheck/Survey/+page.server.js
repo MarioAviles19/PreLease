@@ -1,7 +1,13 @@
 import { SerializeNonPOJOs } from '$lib/helpers.js'
 import { redirect } from '@sveltejs/kit'
-import {auth, firestore} from "firebase-admin"
-import { Timestamp } from 'firebase-admin/firestore'
+import * as adminAuth from 'firebase-admin/auth'; 
+const {getAuth} = adminAuth;
+import * as adminFirestore from 'firebase-admin/firestore'
+const{ getFirestore,Timestamp} = adminFirestore
+
+import * as admin from 'firebase-admin';
+
+
 import { Interface } from 'readline'
 
 
@@ -54,7 +60,7 @@ export const actions = {
         
         //TODO: Add rate limiting by checking the timestamp of the last report associated with each user
         
-        firestore(app).collection('RentalHealthChecks').add(obj);
+        getFirestore(app).collection('RentalHealthChecks').add(obj);
 
         //Can Delete
         console.log(data)

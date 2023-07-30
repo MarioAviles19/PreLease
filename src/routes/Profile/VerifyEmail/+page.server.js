@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import {auth} from 'firebase-admin';
+
 
 export const load = async ({locals, cookies})=>{
 
