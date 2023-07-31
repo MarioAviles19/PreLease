@@ -5,6 +5,16 @@
     let form;
 
     let questions;
+
+    let nextDisabled = true;
+
+    //Whenever the nextDisabled value is changed, update the data-answered attribute of the fieldset to 'true'
+    //So that the nextDisabled value can persist when navigating
+ 
+
+    //TODO: Add Google Maps API for the Cities field
+    //TODO: Only Enable next when a field is entered
+
     onMount(()=>{
         
         questions = form.querySelectorAll('fieldset');
@@ -12,16 +22,47 @@
         form.style = '';
 
     })
+
+    //use:action for enableing the 'next' button when the fieldset has an answer
+    function CheckFieldCompleted(element){
+        element.addEventListener("input", ev => {CheckInputValue(ev)})
+        element.addEventListener("click", ev => {CheckClickValue(ev)})
+    }
+    //Function to check if an input of a particular type (In this case 'type' and 'date')
+    //has a value, and if so, enable the 'next' button by changing the value of 'nextDisabled' to false
+    function CheckInputValue(event){
+        if(event.target.type == "text" || event.target.type == "date"){
+            if(event.target.value != ""){
+                nextDisabled = false;
+            }
+            else{
+                nextDisabled = true;
+            }
+            AddAnsweredAttr()
+        }
+    }
+    //Function to check if a fieldset with clickable input has been clicked
+    //And to enable the 'next' button
+    function CheckClickValue(event){
+        if(event.target.type == "radio"){
+
+            nextDisabled = false;
+            event.target.dataset.answered = true
+
+            AddAnsweredAttr()
+        }
+    }
+    //Hide all but the first fieldsets
     function HideOtherElements(){
-        console.log(questions)
+
         for(let i = 1; i < questions.length; i++){
-            console.log(i)
+
             questions[i].style = "display:none";
-            
-            console.log(questions[i]);
+
         }
     }
 
+    //Advance the form through the questions
     function AdvanceForm(index){
         if(currentQuestionIndex + index < 0){
             return
@@ -29,52 +70,90 @@
         questions[currentQuestionIndex].style = "display:none";
         currentQuestionIndex += index;
         questions[currentQuestionIndex].style = "";
+
+        //If the fieldset does not have the data-skippable attribute
+        //disable the 'next' button
+        if(!questions[currentQuestionIndex].dataset.skippable){
+            nextDisabled = true;
+        
+        }
+        //If the question has been answered, enable the 'next' button
+        if(questions[currentQuestionIndex].dataset.answered){
+            console.log(questions[currentQuestionIndex])
+            console.log(questions[currentQuestionIndex].dataset)
+            console.log(currentQuestionIndex)
+
+            
+            nextDisabled = false;
+
+        }
     }
 
-
+     
+    function AddAnsweredAttr(){
+        
+        if(!questions){
+            return;
+        }
+        questions[currentQuestionIndex].dataset.answered = !nextDisabled;
+        console.log(currentQuestionIndex + " " + questions[currentQuestionIndex].dataset.answered)
+    }
 
 </script>
+
+<h1>Complete Account Setup</h1>
 
 <form bind:this={form} method="POST" style="display:none">
 	
     <label for="progress">Progress:</label>
-    <progress id='Progress' value={currentQuestionIndex + 1} max={questions?.length ?? 0}></progress>
+    <progress id='Progress' value={currentQuestionIndex} max={questions?.length - 1 ?? 0}></progress>
 
+    <fieldset use:CheckFieldCompleted  class="selection question">
+        <legend>What city do you currently live in?</legend>
+        <p class="note">PreLease is currently only serving the Minneapolis, MN metro area</p>
+        
+        <div class="response">
+            <input type="text" placeholder="City">
+            
+        </div>
+    </fieldset>
+    
 
-
-    <fieldset class="selection question" >
+    <fieldset use:CheckFieldCompleted class="selection question" >
         <legend>Please Identify Your Gender</legend>
         
         <div class="response">
-            <input type="checkbox" id="man" value="man" name="gender">
+            <input type="radio" id="man" value="man" name="gender" >
             <label for="man">Man</label>
         </div>
 
         <div class="response">
-            <input type="checkbox" id="woman" value="woman" name="gender">
+            <input type="radio" id="woman" value="woman" name="gender">
             <label for="woman">Woman</label>
         </div>
 
         <div class="response">
-            <input type="checkbox" id="nonBinary" value="Non-Binary" name="gender">
+            <input type="radio" id="nonBinary" value="Non-Binary" name="gender">
             <label for="nonBinary">Non-Binary</label>
         </div>
 
         <div class="response">
-            <input type="checkbox" id="noGender" value="n/a" name="gender">
+            <input type="radio" id="noGender" value="n/a" name="gender">
             <label for="noGender">Prefer Not To Say</label>
         </div>
     </fieldset>
 
-    <fieldset class="selection question">
+    <fieldset use:CheckFieldCompleted  class="selection question">
         <legend>What is your Date of Birth?</legend>
         
         <div class="response">
-            <label for="man" class="block">Birthday</label>
-            <input type="date" id="birthDate" value="" name="birthDate">
+            <label for="birthDate" class="block">Birthday</label>
+            <input type="date" id="birthDate" name="birthDate">
             
         </div>
     </fieldset>
+
+    
 
     <fieldset class="selection question sideBySide">
         <legend class="smallText">Do you identify with any of these categories? [Check all that apply]</legend>
@@ -127,11 +206,11 @@
 
     </fieldset>
     <div id="buttons">
-        {#if currentQuestionIndex > 0}
-        <button type="button" on:click={()=>{AdvanceForm(-1)}} id="backButton">Back</button>
-        {/if}
+        
+        <button type="button" on:click={()=>{AdvanceForm(-1)}} id="backButton" disabled={currentQuestionIndex <= 0}>Back</button>
+        
         {#if currentQuestionIndex + 1 < questions?.length}
-        <button type="button" on:click={()=>{AdvanceForm(1)}} class="chunkyButton">Next</button>
+        <button type="button" on:click={()=>{AdvanceForm(1)}} class="chunkyButton" disabled={nextDisabled}>Next</button>
         {:else}
         <button type="submit" class="chunkyButton">Finish</button>
         {/if}
@@ -145,9 +224,19 @@
 </div>
 
 <style>
+    h1{
+        display: block;
+        color:var(--color-light-text);
+        text-align: center;
+        margin-bottom:0;
+    }
     label[for='progress']{
+        cursor: auto;
         margin:auto;
         font-size: 1rem;
+    }
+    label{
+        cursor: pointer;
     }
     progress {
     border-radius: 7px; 
@@ -186,22 +275,21 @@
 		flex-direction: column;
 
 		margin:auto;
-		margin-top:5rem;
+		margin-top:2rem;
 
 		padding: 1rem 2.5rem;
 		background-color: white;
 		box-shadow: 1px 1px 5px grey;
 		width: fit-content;
-		min-width: 30rem;
+		min-width: 40rem;
 		font-size: 1.5rem;
+        border-radius: 10px;
 	}
 	form input {
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
 		padding: 0.2rem;
 
-		border-style: solid;
-		border-radius: 5px;
 		
 	}
 	#background {
@@ -237,7 +325,8 @@
 
     }
     #buttons button{
-        font-size: 1.5rem;
+        font-size: 1.7rem;
+        transition: all 200ms ease-out;
     }
     #buttons button:only-child{
         margin-left:auto;
@@ -246,11 +335,17 @@
         border:none;
         font-size:1.2rem;
         
-        color:var(--color-trim);
+        color:black;
         background-color: white;
 
         outline: 2px solid grey;
 
+    }
+    #backButton:disabled{
+        cursor: auto;
+	    background-color: white;
+	    color: lightgrey;
+	    outline:2px solid lightgray;
     }
     #backButton:hover{
 
@@ -284,6 +379,13 @@
     
     .block{
         display: block;
+    }
+    .note{
+        width:100%;
+        text-align: center;
+        font-size:.8rem;
+        margin-top:0;
+
     }
 
     @media only screen and (max-width: 520px){

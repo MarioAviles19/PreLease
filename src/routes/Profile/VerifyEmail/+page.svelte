@@ -18,7 +18,9 @@
 <section>
     <p>Click to send verification email to <span style='color:var(--color-theme-2)'>{data.userData.email}</span></p>
     <div id="buttonWrapper">
-        <button on:click={SendEmail} class="chunkyButton">{emailSent? "Email Sent!": "Send Email"}</button>
+        
+        <button on:click={SendEmail} class="chunkyButton" disabled={emailSent}>{emailSent? "Email Sent!": "Send Email"}</button>
+        <button on:click={SendEmail} class="understated" disabled={!emailSent}>Resend Email</button>
     </div>
 </section>
 
@@ -32,12 +34,30 @@
         background-color: white;
         box-shadow: 1px 1px 5px var(--color-trim);
 
+        font-size: 1.2rem;
+
     }
     button{
-        margin:auto;
-        margin-right:0;
+        font-size: 1.3rem;
+        
     }
+    button:disabled{
+        cursor: auto;
+        color:lightgray
+    }
+    
     #buttonWrapper{
         width:100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .understated{
+        background:none;
+        border:none;
+        color:black;
+    }
+    .understated:disabled{
+
     }
 </style>
