@@ -111,9 +111,6 @@
         width:100%;
         height:100%;
         
-
-
-        
     }
     #QRCodeModalWrapper{
         z-index: 5;
@@ -193,11 +190,7 @@
     .field{
         margin: .5rem 0;
     }
-    .closeButton{
-        position: absolute;
-        top:.2rem;
-        left:0;
-    }
+
     .buttons{
         padding:.5rem 0;
         width:100%;
@@ -237,14 +230,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
-        background-color: var(--color-theme-1-sub);
+        border: 2px dashed var(--color-trim);
+        background:none;
     }
     .iconButton{
         background: none;
         border:none;
-        color:var(--color-light-text);
+        color:var(--color-theme-2);
         font-size: 1.5rem;
+    }
+    .closeButton{
+        position: absolute;
+        top: 20%;
+        left:0;
+        color:var(--color-light-text);
     }
     #editButton{
 

@@ -57,7 +57,7 @@
 
 <style>
 	main{
-		min-width:100vw;
+		
 		max-width:100%;
 		
 		

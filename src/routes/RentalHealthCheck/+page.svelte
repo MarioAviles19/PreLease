@@ -1,7 +1,7 @@
 <script>
     export let data;
 
-    
+    console.log(data.userData)
 </script>
 
 <section>
@@ -10,7 +10,7 @@
     <p>The Rental Health Check is a diagnostic tool that we at PreLease use to connect you with housing resources based upon various factors including rental history, personal information, demographic information and income.</p>
     <div id="buttons">
     
-        <a href="/RentalHealthCheck/Survey" class="continueButton chunkyButton">{data.userData? "Continue": "Sign In"}</a>
+        <a href="/RentalHealthCheck/Survey" class="continueButton chunkyButton">{!data.userData? "Sign In": "Continue"}</a>
 
     </div>
 </section>
@@ -25,7 +25,8 @@
 
 <style>
     section{
-        width:65%;
+        width:85%;
+        max-width: 50rem;
         margin:auto;
         margin-top:1rem;
         background-color: white;
@@ -44,5 +45,11 @@
     .continueButton{
         font-size: 1.5rem;
 
+    }
+    @media screen and (max-width:520px){
+        section{
+            line-height: 2rem;
+            width:95%;
+        }
     }
 </style>

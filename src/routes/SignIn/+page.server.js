@@ -49,8 +49,8 @@ export const actions = {
         console.log('Running login')
         let data = await request.formData()
 
-        let email = data.get('email');
-        let password = data.get('password');
+        const email = data.get('email');
+        const password = data.get('password');
 
         
 
@@ -64,7 +64,10 @@ export const actions = {
 
         } catch (err) {
             console.log(err)
-            return fail(401, {message: err.code});
+            let message;
+        
+            
+            return fail(401, {message: "invalid credentials", email});
         }
         throw redirect(302, redirectPath || '/');
     }

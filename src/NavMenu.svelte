@@ -12,6 +12,7 @@
 <nav transition:slide={{ axis: 'x', duration: 500}} id="navBar">
 	<button on:click={toggleMenu} id="closeButton"><span class="fas fa-close fa-lg" /></button>
 	<a on:click={toggleMenu} href="/">Home</a>
+	<a on:click={toggleMenu} href="/Community">Community</a>
 	<a on:click={toggleMenu} href="/RentalHealthCheck">Rental Health Check</a>
 	<a on:click={toggleMenu} href="/About">About</a>
 </nav>
@@ -53,6 +54,7 @@
 		padding-right:1rem;
 		color: var(--color-dark-text);
 		font-size: 1.5rem;
+		font-weight: bold;
 		white-space: nowrap;
 	}
 	#navBar a:hover {

@@ -59,16 +59,26 @@
 
 <style>
 	#main {
-		padding: 5rem 5rem;
+		padding: 5rem 3rem;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 5rem;
+		gap: 2%;
+	}
+	h2{
+		color:var(--color-theme-2);
+
 	}
 	p {
-		font-size: 1.2rem;
+		font-size: 1rem;
 	}
 	.card {
 		width: 100%;
+		background-color: white;
+		padding:1rem;
+		border-radius: 10px;
+		box-shadow: 1px 1px 3px var(--color-trim);
+		line-height: 2rem;
+
 	}
 
 	.pfp img {
@@ -77,11 +87,26 @@
 		border-radius: 100%;
 		object-fit: cover;
 	}
+	.pfp{
+		padding:1rem;
+	}
+	@media only screen and (max-width:1000px){
+		#main{
+			grid-template-columns: 1fr;
+			padding:1rem 20%;
+			margin-top:1rem;
+		}
+	}
 	@media only screen and (max-width: 520px){
 		#main{
 			grid-template-columns: 1fr;
 			padding:1rem 1.5rem;
 			margin-top:1rem;
 		}
-}
+		.card{
+			background:none;
+			box-shadow: none;
+		}
+		
+	}
 </style>

@@ -5,6 +5,7 @@
 
 
 	export let data;
+	export let form;
 
 
 	onMount(()=>{
@@ -18,13 +19,16 @@
 
 	<div class="field">
 		<label for="email">Email</label>
-		<input id="email" name="email" type="text" placeholder="Email" />
+		<input id="email" name="email" type="text" placeholder="Email" value={form?.email ?? ""}/>
 	</div>
 
 	<div class="field">
 		<label for="password">Password</label>
 		<input id="password" name="password" type="password" placeholder="Password" />
 	</div>
+	{#if form?.message}
+		<p class="errorText">{form.message}</p>
+	{/if}
 
 	<div id="links">
 		<a href="/Register">Create Account</a>
@@ -110,6 +114,16 @@
 		margin:.2rem auto;
 		text-align: center;
 	}
+	.errorText{
+		color:red;
+		font-size: .8rem;
+		width:100%;
+		margin-top:0;
+	}
+	.errorText::before{
+		content:"*";
+	}
+
 	.field{
 		width:100%;
 	}

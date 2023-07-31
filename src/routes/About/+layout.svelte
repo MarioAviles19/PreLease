@@ -5,7 +5,7 @@
 </script>
 
 <div id="banner"><img src="/longBrownstone.jpg" /></div>
-<section id="content" class="glassTint">
+<div id="backgroundOverlay" class="glassTint"></div>
 	<nav >
 		<a href="/About" aria-current={$page.url.pathname === '/About' ? 'page' : undefined}
 			>Our Mission</a
@@ -21,7 +21,7 @@
 	<div id="slot">
 		<slot />
 	</div>
-</section>
+
 
 <style>
 	* {
@@ -38,7 +38,7 @@
 		margin-top: 2rem;
 	}
 	nav a {
-		font-size: 1.5rem;
+		font-size: 1.8rem;
 	}
 	nav a:hover {
 		color: var(--color-theme-2);
@@ -57,6 +57,9 @@
 
 		display: block;
 	}
+	#slot{
+		line-height: 2rem;
+	}
 	a[aria-current='page'] {
 		color: var(--color-theme-2);
 		box-shadow: 0px 2px var(--color-theme-2);
@@ -70,7 +73,7 @@
 			
 		}
 		nav{
-			margin-top:0;
+			margin-top:1rem;
 			padding-bottom: .2rem;
 			margin-bottom:3rem;
 		
@@ -94,6 +97,15 @@
 		#slot{
 			
 			color:var(--color-light-text)
+
+		}
+		#backgroundOverlay{
+			z-index: -1;
+			position:fixed;
+			top:0;
+			left:0;
+			height:100%;
+			width:100%;
 
 		}
 		.glassTint{
