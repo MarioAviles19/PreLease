@@ -57,12 +57,15 @@ export const actions = {
         console.log(obj)
 
         //Add the document
+        await getFirestore(app).collection('RentalHealthChecks').add(obj);
         
         //TODO: Add rate limiting by checking the timestamp of the last report associated with each user
-        
-        getFirestore(app).collection('RentalHealthChecks').add(obj);
 
         //Can Delete
         console.log(data)
+
+        //Redirect to success page
+
+        throw redirect(302,'/RentalHealthCheck/Success')
     }
 }

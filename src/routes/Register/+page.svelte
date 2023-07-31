@@ -19,16 +19,14 @@
         console.log("Running Register")
         let user = await $authHandler.signUp(email, password);
 		
-		setDoc(doc(firestore,'Users', user.user.uid), {firstName: firstName, lastName: lastName}).then((res)=>{
-			console.log(res)
-		}).catch((err)=>{
-			console.log(err);
-		})
+		const response = await setDoc(doc(firestore,'Users', user.user.uid), {firstName: firstName, lastName: lastName})
+			
 
 		await updateProfile(user.user, {displayName: `${firstName}`})
 
-		console.log(user)
-		
+
+		window.location.href = "/Register/Success"
+	
         }
     
 
@@ -36,13 +34,21 @@
 
 
 <form id="register" on:submit|preventDefault>
-	<h1>Register</h1>
+	<h1>Create Account</h1>
 
-	<label for="firstName">First Name</label>
-	<input bind:value={firstName} id="username" name="FirstName" type="text" placeholder="Username"/>
+	<div class="sideBySide">
 
-	<label for="lastName">Last Name</label>
-	<input bind:value={lastName} id="username" name="LastName" type="text" placeholder="Username"/>
+		<div class="field">
+			<label for="firstName">First Name</label>
+			<input bind:value={firstName} id="username" name="firstName" type="text" placeholder="First Name"/>
+		</div>
+
+		<div class="field">
+			<label for="lastName">Last Name</label>
+			<input bind:value={lastName} id="username" name="lastName" type="text" placeholder="Last Name"/>
+		</div>
+
+	</div>
 
 	<label for="email">Email</label>
 	<input bind:value={email} id="email" name="email" type="text" placeholder="Email"/>
@@ -50,8 +56,12 @@
 	<label for="password">Password</label>
 	<input bind:value={password} id="password" name="password" type="password" placeholder="Password"/>
 
+	<div id="links">
+		<a href="/SignIn">Already Have An Account?</a>
+	</div>
+
 	<div>
-		<button on:click={register}>Sign Up</button>
+		<button on:click={register} class="chunkyButton">Sign Up</button>
 	</div>
 </form>
 <div id="background">
@@ -62,27 +72,35 @@
 <style>
 	h1 {
 		font-size: 1.7rem;
+		width: 100%;
+		text-align: center;
 	}
 	#register {
 		display: flex;
 		flex-direction: column;
 
-		margin: 10% auto;
+		margin:auto;
+		margin-top:5rem;
 
-		padding: 1rem;
+		padding: 1rem 2.5rem;
 		background-color: white;
 		box-shadow: 1px 1px 5px grey;
-		width: 30%;
-		min-width: 20rem;
+		width: 40%;
+		min-width: 30rem;
 		font-size: 1.5rem;
 	}
 	#register input {
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
 		padding: 0.2rem;
+
+		border-style: solid;
+		border-radius: 5px;
+		
 	}
 	#register button {
-		font-size: 1.2rem;
+		font-size: 1.5rem;
+		float:right;
 	}
 	#background {
 		z-index: -1;
@@ -107,5 +125,34 @@
 		width: 100%;
 		height: 100%;
 		background-color: rgba(0, 0, 0, 0.5);
+	}
+	#links{
+		width:fit-content;
+	}
+	#links a{
+		display:block;
+		color: var(--color-theme-2);
+		font-size: 1rem;
+		width:100%;
+		margin-top:.2rem;
+	}
+	.field{
+		width:100%;
+	}
+	.field input{
+		width:100%;
+	}
+	.sideBySide{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+	}
+	@media only screen and (max-width: 520px){
+		#register{
+			min-width: 0;
+			max-width: 400px;
+			padding:1rem 1rem;
+			width:95%;
+		}
 	}
 </style>

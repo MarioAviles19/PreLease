@@ -16,14 +16,22 @@
 <form id="login" method="POST" action="?/login&redirect={data.redirect}">
 	<h1>Sign In</h1>
 
-	<label for="email">Email</label>
-	<input id="email" name="email" type="text" placeholder="Email" />
+	<div class="field">
+		<label for="email">Email</label>
+		<input id="email" name="email" type="text" placeholder="Email" />
+	</div>
 
-	<label for="password">Password</label>
-	<input id="password" name="password" type="password" placeholder="Password" />
+	<div class="field">
+		<label for="password">Password</label>
+		<input id="password" name="password" type="password" placeholder="Password" />
+	</div>
 
+	<div id="links">
+		<a href="/Register">Create Account</a>
+		<a href="/SignIn">Forgot Password?</a>
+	</div>
 	<div>
-		<button type="submit">Sign In</button>
+		<button type="submit" class='chunkyButton'>Sign In</button>
 	</div>
 </form>
 <div id="background">
@@ -34,27 +42,37 @@
 <style>
 	h1 {
 		font-size: 1.7rem;
+		width:100%;
+		text-align: center;
+	}
+	label{
+		display: block;
 	}
 	#login {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 
-		margin: 10% auto;
+		margin: auto;
+		margin-top:5rem;
 
-		padding: 1rem;
+		padding: 1rem 2.5rem;
 		background-color: white;
 		box-shadow: 1px 1px 5px grey;
-		width: 30%;
-		min-width: 20rem;
+		width: fit-content;
+		min-width: 25rem;
 		font-size: 1.5rem;
 	}
 	#login input {
 		font-size: 1.2rem;
 		margin-bottom: 1rem;
 		padding: 0.2rem;
+		width:100%;
+		
 	}
 	#login button {
-		font-size: 1.2rem;
+		font-size: 1.5rem;
+		float:right;
 	}
 	#background {
 		z-index: -1;
@@ -80,10 +98,27 @@
 		height: 100%;
 		background-color: rgba(0, 0, 0, 0.5);
 	}
+	
+	#links{
+		margin-bottom:1rem;
+	}
+	#links a{
+		display:block;
+		color: var(--color-theme-2);
+		font-size: 1rem;
+		width:100%;
+		margin:.2rem auto;
+		text-align: center;
+	}
+	.field{
+		width:100%;
+	}
 	@media only screen and (max-width: 520px){
 		#login{
 			min-width: 0;
-			width:80%;
+			max-width: 400px;
+			padding:1rem 1rem;
+			width:95%;
 		}
 	}
 </style>

@@ -64,6 +64,9 @@
 		p{
 			font-size:1.1rem;
 		}
+		h1{
+			margin-top:1rem;
+		}
 		#main{
 			padding: 0 1.5rem;
 		}

@@ -5,9 +5,11 @@ const {getAuth} = adminAuth;
 import * as adminFirestore from 'firebase-admin/firestore';
 const {getFirestore} = adminFirestore;
 import { SerializeNonPOJOs } from "$lib/helpers.js";
+import { redirect } from '@sveltejs/kit';
 
 
-export const load = async ({locals, cookies})=>{
+
+export const load = async ({locals, cookies, url})=>{
     console.log(import.meta.env.MODE);
     if(!cookies.get('session')){
         console.log('no session')
@@ -16,14 +18,16 @@ export const load = async ({locals, cookies})=>{
     const {user, app}  = await locals.GetUserFromSession(cookies.get('session'))
     
 
-     if(!user){
+    if(!user){
         cookies.delete('session')
         return {userData : null}
      }
-     let extraData = await getFirestore(app).doc(`Users/${user.uid}`).get()
+    let extraData = await getFirestore(app).doc(`Users/${user.uid}`).get()
 
-
+    
     const token = await getAuth(app).createCustomToken(user.uid)
 
-    return {userData : {...SerializeNonPOJOs(user), ...SerializeNonPOJOs(extraData.data()), pfp : `https://api.dicebear.com/6.x/shapes/svg?seed=${user.uid}`}, userToken: token}
+
+
+    return {userData : {...SerializeNonPOJOs(user), ...SerializeNonPOJOs(extraData.data() ?? null), pfp : `https://api.dicebear.com/6.x/shapes/svg?seed=${user.uid}`}, userToken: token}
 }

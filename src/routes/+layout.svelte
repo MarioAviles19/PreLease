@@ -57,9 +57,9 @@
 
 <style>
 	main{
-		width:100vw;
+		min-width:100vw;
 		max-width:100%;
-
+		
 		
 	}
 	header {
@@ -81,7 +81,7 @@
 		
 	}
 	footer{
-		min-height: 3rem;
+		
 	}
 	#navSelector {
 		display: flex;
@@ -105,7 +105,7 @@
 		margin-right:1rem;
 		background-color: white;
 
-		width:50px;
+		max-width:70px;
 	
 		
 	}
@@ -113,19 +113,22 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		font-size: 1.2rem;
 	}
 	.cornerLink {
 		font-size: 1.7rem;
 
 		margin: auto;
-		margin-right: 2rem;
+		margin-right: 2%;
 		cursor: pointer;
 
 		width:fit-content;
 
 		display:flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: right;
+
+
 		
 	}
 	@media only screen and (max-width: 520px){
@@ -152,7 +155,11 @@
 
 		}
 		.cornerLink{
-			font-size: 1rem;
+			font-size: 1.2rem;
+			height:2.25rem;
+		}
+		.cornerLink img{
+			height:100%;
 		}
 		.cornerLink h3{
 			margin:0;

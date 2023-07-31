@@ -10,7 +10,7 @@
 
 <div transition:fade={{ duration: 200 }} on:click={toggleMenu} id="underlay" />
 <nav transition:slide={{ axis: 'x', duration: 500}} id="navBar">
-	<button on:click={toggleMenu} id="closeButton"><i class="fas fa-close fa-lg" /></button>
+	<button on:click={toggleMenu} id="closeButton"><span class="fas fa-close fa-lg" /></button>
 	<a on:click={toggleMenu} href="/">Home</a>
 	<a on:click={toggleMenu} href="/RentalHealthCheck">Rental Health Check</a>
 	<a on:click={toggleMenu} href="/About">About</a>
@@ -65,9 +65,12 @@
 
 		height: 2rem;
 		margin: 2rem auto;
-		width: fit-content;
+		width: 100%;
 
 		cursor: pointer;
+		text-align: left;
+		color: var(--color-theme-2);
+		font-size:2rem;
 	}
 	#closeButton:hover {
 		box-shadow: 1px 0 var(--color-theme-1), -1px 0 var(--color-theme-1), 0 1px var(--color-theme-1),

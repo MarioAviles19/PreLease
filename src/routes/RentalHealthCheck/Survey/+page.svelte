@@ -57,9 +57,9 @@
     <form id="healthCheckForm" method="POST">
         <h1>Rental Health Check</h1>
 
-        <div class="radioSelection question">
-            <h1>Are you currently experiencing a housing emergency? (i.e., threat of eviction,
-                or need immediate housing)</h1>
+        <fieldset class="radioSelection question">
+            <legend>Are you currently experiencing a housing emergency? (i.e., threat of eviction,
+                or need immediate housing)</legend>
             <div class="response">
                 <input type="radio" id="emergencyYes" value="Yes" name="emergency" required>
                 <label class='required' for="emergencyYes">Yes</label>
@@ -69,10 +69,10 @@
                 <input type="radio" id="emergencyNo" value='No' name="emergency" required>
                 <label class='required' for="emergencyNo">No</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Are you planning to move to a new rental property soon?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Are you planning to move to a new rental property soon?</legend>
             <div class="response">
                 <input type="radio" id="planningToMoveYes" value="Yes" name="planningToMove" required>
                 <label class='required' for="planningToMoveYes">Yes</label>
@@ -82,10 +82,10 @@
                 <input type="radio" id="planningToMoveNo" value='No' name="planningToMove"required>
                 <label class='required' for="planningToMoveNo">No</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Are you currently a tenant?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Are you currently a tenant?</legend>
             <div class="response">
                 <input type="radio" id="currentTennentYes" value="Yes" name="currentTenant" required>
                 <label class='required' for="currentTennentYes">Yes</label>
@@ -95,11 +95,11 @@
                 <input type="radio" id="currentTennentNo" value='No' name="currentTenant"required>
                 <label class='required' for="currentTennentNo">No</label>
             </div>
-        </div>
+        </fieldset>
 
 
-        <div class="radioSelection question">
-            <h1>What city do you reside in?</h1>
+        <fieldset class="radioSelection question">
+            <legend>What city do you reside in?</legend>
             <div class="response">
                 <input bind:group={cityOtherSelected} type="radio" id="Minneapolis" value="Minneapolis" name="city" required>
                 <label class='required' for="Minneapolis">Minneapolis</label>
@@ -117,11 +117,11 @@
             </div>
 
 
-        </div>
+        </fieldset>
 
         <!--Other Info-->
-        <div class="radioSelection question">
-            <h1>What is your current lease?</h1>
+        <fieldset class="radioSelection question">
+            <legend>What is your current lease?</legend>
             <div class="response">
                 <input type="radio" id="OralAgreement" value="Oral" name="currentLease" required>
                 <label class='' for="OralAgreement">Oral Agreement</label>
@@ -132,11 +132,11 @@
                 <label class='' for="WrittenAgreement">Written Agreement</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Do you have any non-related housemates signed to your lease,
-                and face any conflict with them?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Do you have any non-related housemates signed to your lease,
+                and face any conflict with them?</legend>
             <div class="response">
                 <input type="radio" id="cosignerSmallConflict" value="Yes" name="cosigners" required>
                 <label class='required' for="cosignerSmallConflict">Yes with minimal to no conflict</label>
@@ -151,10 +151,10 @@
                 <input type="radio" id="noCosigner" value='No' name="cosigners"required>
                 <label class='required' for="noCosigner">No</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Does your landlord or property manager live in the rental building?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Does your landlord or property manager live in the rental building?</legend>
             <div class="response">
                 <input type="radio" id="liveInLandlordYes" value="Yes" name="liveInLandlord" required>
                 <label class='required' for="liveInLandlordYes">Yes</label>
@@ -164,10 +164,10 @@
                 <input type="radio" id="liveInLandlordNo" value='No' name="liveInLandlord"required>
                 <label class='required' for="liveInLandlordNo">No</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>What type of rental building do you live in?</h1>
+        <fieldset class="radioSelection question">
+            <legend>What type of rental building do you live in?</legend>
             <div class="response">
                 <input type="radio" id="apartment" value="Apartment" name="buildingType" required>
                 <label class='required' for="apartment">Yes</label>
@@ -182,10 +182,10 @@
                 <input type="radio" id="plex" value='N-plex' name="buildingType"required>
                 <label class='required' for="plex">Duplex | Triplex | Quadplex</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>What type of rental building do you live in?</h1>
+        <fieldset class="radioSelection question">
+            <legend>What type of rental building do you live in?</legend>
             <div class="response">
                 <input type="radio" id="check" value="Check" name="paymentType" required>
                 <label class='required' for="check">Check</label>
@@ -206,10 +206,10 @@
                 <label class='required' for="paymentOther">Other</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Are you behind or struggling to pay for utility bills?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Are you behind or struggling to pay for utility bills?</legend>
             <div class="response">
                 <input type="radio" id="utilityStruggleYes" value="Yes" name="utilityStruggle" required>
                 <label class='required' for="utilityStruggleYes">Yes</label>
@@ -220,10 +220,10 @@
                 <label class='required' for="utilityStruggleNo">No</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Have you filed a renter credit refund (Property Tax Refund Form M-1PR) in the previous year?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Have you filed a renter credit refund (Property Tax Refund Form M-1PR) in the previous year?</legend>
             <div class="response">
                 <input type="radio" id="creditRefundFiledYes" value="Yes" name="creditRefundFiled" required>
                 <label class='required' for="creditRefundFiledYes">Yes</label>
@@ -234,10 +234,10 @@
                 <label class='required' for="creditRefundFiledNo">No</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>How would you rate your relationship with your landlord?</h1>
+        <fieldset class="radioSelection question">
+            <legend>How would you rate your relationship with your landlord?</legend>
             <div class="response">
                 <input type="radio" id="landlordRelationShipFavorable" value="Favorable" name="landlordRelationShip" required>
                 <label class='required' for="landlordRelationShipFavorable">Favorable</label>
@@ -258,16 +258,16 @@
                 <label class='required' for="landlordRelationShipCombative">Combative</label>
             </div>
 
-        </div>
+        </fieldset>
 
         <!--Rate Satisfaction with landlord or property management-->
         
 
         <!--Peronal Info-->
 
-        <div class="question">
-            <h1>Rate your credit rating</h1>
-            <select name="creditRating">
+        <fieldset class="question">
+            <legend>Rate your credit rating</legend>
+            <select name="creditRating" required>
                 <option value="" disabled selected hidden>Select</option>
                 <option value="Poor">Poor</option>
                 <option value="Good">Good</option>
@@ -275,11 +275,11 @@
                 <option value="Don't Wish To Disclose">Don't Wish To Disclose</option>
                 <option value="Don't Know">Don't Know</option>
             </select>
-        </div>
+        </fieldset>
 
 
-        <div class="radioSelection question">
-            <h1>Do you have a criminal background?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Do you have a criminal background?</legend>
             <div class="response">
                 <input type="radio" id="criminalBackgroundYes" value="Yes" name="criminalBackground"required>
                 <label class='' for="criminalBackgroundYes">Yes</label>
@@ -300,11 +300,11 @@
                 <label class='' for="criminalBackgroundNoDisclose">I don't want to disclose</label>
             </div>
 
-        </div>
+        </fieldset>
 
         
-        <div class="radioSelection question">
-            <h1>Have you ever been evicted?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Have you ever been evicted?</legend>
             <div class="response">
                 <input type="radio" id="evictedYes" value="Yes" name="evicted"required>
                 <label class='' for="evictedYes">Yes</label>
@@ -320,10 +320,10 @@
                 <label class='' for="evictedDontKnow">I Don't Know</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Do you have a negative relationship with your previous landlord?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Do you have a negative relationship with your previous landlord?</legend>
             <div class="response">
                 <input type="radio" id="negativeRelationshipYes" value="Yes" name="negativeRelationship"required>
                 <label class='' for="negativeRelationshipYes">Yes</label>
@@ -334,12 +334,12 @@
                 <label class='' for="negativeRelationshipNo">No</label>
             </div>
 
-        </div>
+        </fieldset>
 
         
-        <div class="radioSelection question">
-            <h1>Have you recently been denied housing due to low credit, criminal background,
-                or recent eviction?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Have you recently been denied housing due to low credit, criminal background,
+                or recent eviction?</legend>
             <div class="response">
                 <input type="radio" id="recentlyDeniedHousingYes" value="Yes" name="recentlyDeniedHousing"required>
                 <label class='' for="recentlyDeniedHousingYes">Yes</label>
@@ -355,31 +355,31 @@
                 <label class='' for="recentlyDeniedHousingDontKnow">I'm Not Sure</label>
             </div>
 
-        </div>
+        </fieldset>
 
         <!---Tenent's rights Knowledge Test-->
 
 
         <!--demos-->
 
-        <div class="question">
-            <h1>Please Indicate Your Annual Household Income</h1>
+        <fieldset class="question">
+            <legend>Please Indicate Your Annual Household Income</legend>
             
             <div class="moneyWrapper">
-            <input class="money" type="number" placeholder="(e.g., $15000)" name="income">
+            <input class="money" type="number" placeholder="(e.g., $15000)" name="income" required>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="selection question">
-            <h1>Please Identify Your Gender</h1>
+        <fieldset class="selection question">
+            <legend>Please Identify Your Gender</legend>
             
             <div class="response">
-                <input type="checkbox" id="man" value="man" name="gender">
+                <input type="checkbox" id="man" value="man" name="gender" >
                 <label for="man">Man</label>
             </div>
 
             <div class="response">
-                <input type="checkbox" id="woman" value="woman" name="gender">
+                <input type="checkbox" id="woman" value="woman" name="gender" >
                 <label for="woman">Woman</label>
             </div>
 
@@ -392,28 +392,28 @@
                 <input type="checkbox" id="noGender" value="n/a" name="gender">
                 <label for="noGender">Prefer Not To Say</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="selection question">
-            <h1>Please Identify Your Race or Ethnicity [Check all that apply]</h1>
+        <fieldset class="selection question">
+            <legend>Please Identify Your Race or Ethnicity [Check all that apply]</legend>
             
             <div class="response">
-                <input type="checkbox" id="native" value="native" name="race">
+                <input type="checkbox" id="native" value="native" name="race" >
                 <label for="native">American Indian or Alaskan Native</label>
             </div>
 
             <div class="response">
-                <input type="checkbox" id="asianPI" value="asian/pacific islander" name="race">
+                <input type="checkbox" id="asianPI" value="asian/pacific islander" name="race" >
                 <label for="asianPI">Asian / Pacific Islander</label>
             </div>
 
             <div class="response">
-                <input type="checkbox" id="black" value="Black / African American" name="race">
+                <input type="checkbox" id="black" value="Black / African American" name="race" >
                 <label for="black">Black or African American</label>
             </div>
 
             <div class="response">
-                <input type="checkbox" id="white" value="White / Caucasian" name="race">
+                <input type="checkbox" id="white" value="White / Caucasian" name="race" >
                 <label for="white">White / Caucasian</label>
             </div>
 
@@ -421,10 +421,10 @@
                 <input type="checkbox" id="raceNotDisclosing" value="Not Disclosing" name="race">
                 <label for="raceNotDisclosing">Not Disclosing</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Are any household members under the age of 18?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Are any household members under the age of 18?</legend>
             <div class="response">
                 <input type="radio" id="minorsInHouseYes" value="Yes" name="minorsInHouse"required>
                 <label for="minorsInHouseYes">Yes</label>
@@ -435,10 +435,10 @@
                 <label for="minorsInHouseNo">No</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Are you or any household member currently pregnant or planning to be pregnant soon?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Are you or any household member currently pregnant or planning to be pregnant soon?</legend>
             <div class="response">
                 <input type="radio" id="preganancyYes" value="Yes" name="preganancy"required>
                 <label for="preganancyYes">Yes</label>
@@ -448,10 +448,10 @@
                 <input type="radio" id="preganancyNo" value="No" name="preganancy"required>
                 <label for="preganancyNo">No</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Do you take public transit regularly and receive a discount fare?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Do you take public transit regularly and receive a discount fare?</legend>
             <div class="response">
                 <input type="radio" id="transitYesReg" value="regular rate" name="transit"required>
                 <label for="transitYes">Yes and pay regular price</label>
@@ -466,75 +466,70 @@
                 <input type="radio" id="transitYesDiscount" value="no transit" name="transit"required>
                 <label for="transitNo">I Do Not Use Public Transit Regularly</label>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="selection question">
-            <h1>Do you identify with any of these categories? [Check all that apply]</h1>
+        <fieldset class="selection question">
+            <legend>Do you identify with any of these categories? [Check all that apply]</legend>
             
             <div class="response">
-                <input type="checkbox" id="homeless" value="Homeless" name="demographic">
+                <input type="checkbox" id="homeless" value="Homeless" name="demographics">
                 <label for="homeless">Homeless or Imminent Homelessness</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="substanceAbuse" value="In Recovery From Substance Abuse" name="demographic">
+                <input type="checkbox" id="substanceAbuse" value="In Recovery From Substance Abuse" name="demographics">
                 <label for="substanceAbuse">In Recovery From Substance Abuse</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="student" value="University Student" name="demographic">
+                <input type="checkbox" id="student" value="University Student" name="demographics">
                 <label for="student">University Student</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="nonCitizen" value="Non-Citizen" name="demographic">
+                <input type="checkbox" id="nonCitizen" value="Non-Citizen" name="demographics">
                 <label for="nonCitizen">Non-US Citizen</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="veteran" value="Veteran" name="demographic">
+                <input type="checkbox" id="veteran" value="Veteran" name="demographics">
                 <label for="veteran">Veteran</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="youth" value="Youth" name="demographic">
+                <input type="checkbox" id="youth" value="Youth" name="demographics">
                 <label for="youth">Youth (24 and younger)</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="senior" value="Senior" name="demographic">
+                <input type="checkbox" id="senior" value="Senior" name="demographics">
                 <label for="senior">Senior (60 and older)</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="disability" value="Disability" name="demographic">
+                <input type="checkbox" id="disability" value="Disability" name="demographics">
                 <label for="disability">Disability (Physical or Mental)</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="disability" value="Disability" name="demographic">
-                <label for="disability">Disability (Physical or Mental)</label>
-            </div>
-            
-            <div class="response">
-                <input type="checkbox" id="language" value="language placeholder" name="demographic">
+                <input type="checkbox" id="language" value="language placeholder" name="demographics">
                 <label for="language">Non-English Speaker (TODO: Add language selector)</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="activeMilitary" value="Active Military" name="demographic">
+                <input type="checkbox" id="activeMilitary" value="Active Military" name="demographics">
                 <label for="activeMilitary">Active Military</label>
             </div>
             
             <div class="response">
-                <input type="checkbox" id="refugee" value="Refugee" name="demographic">
+                <input type="checkbox" id="refugee" value="Refugee" name="demographics">
                 <label for="refugee">Refugee</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="selection question">
-            <h1>Are you currently enrolled in any of these support programs? [Check all that apply]</h1>
+        <fieldset class="selection question">
+            <legend>Are you currently enrolled in any of these support programs? [Check all that apply]</legend>
             
             <div class="response">
                 <input type="checkbox" id="foodAssistance" value="Food Asistance" name="supportPrograms">
@@ -581,10 +576,10 @@
                 <label for="CE">Coordinated Entry (CE)</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Do you have an active case manager for housing, health, and/or social needs?</h1>
+        <fieldset class="radioSelection question">
+            <legend>Do you have an active case manager for housing, health, and/or social needs?</legend>
             <div class="response">
                 <input type="radio" id="caseManagerYes" value="Yes" name="caseManager" required>
                 <label for="caseManagerYes">Yes</label>
@@ -595,10 +590,10 @@
                 <label for="caseManagerNo">No</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="selection question">
-            <h1>Would you like more information on the following topics?</h1>
+        <fieldset class="selection question">
+            <legend>Would you like more information on any of the following topics?</legend>
             
             <div class="response">
                 <input type="checkbox" id="affordableHousing" value="Applying for Affordable Housing" name="moreInfo">
@@ -625,10 +620,10 @@
                 <label for="peerEngagement">Peer Engagement or Social Activities</label>
             </div>
 
-        </div>
+        </fieldset>
 
-        <div class="radioSelection question">
-            <h1>Would you like us to follow up with your Rental Health Check??</h1>
+        <fieldset class="radioSelection question">
+            <legend>Would you like us to follow up with your Rental Health Check??</legend>
             <div class="response">
                 <input type="radio" id="followUpYes" value="Yes" name="followUp" required>
                 <label for="followUpYes">Yes</label>
@@ -639,7 +634,7 @@
                 <label for="followUpYes">No</label>
             </div>
 
-        </div>
+        </fieldset>
 
         <div id="submitionWrapper">
             <button type="submit">Submit</button>
@@ -650,18 +645,28 @@
 </section> 
 
 <style>
+    h1{
+        width:100%;
+        text-align: center;
+        font-size: 2.5rem;
+    }
     label{
         cursor:pointer;
     }
     input[type='text']{
         border:none;
-        box-shadow: 0px 1px grey;
+        background-color: white;
+        box-shadow: 0px 2px darkgrey;
 
         font-size: 1.2rem;
     }
+    input[type='text']:disabled{
+        color:lightgrey;
+        box-shadow: 0px 2px lightgrey;
+    }
     input[type='text']:focus{
         outline:none;
-        box-shadow: 0px 2px var(--color-theme-1);
+        box-shadow: 0px 2px var(--color-theme-2);
 
     }
     input[type='radio'], 
@@ -707,7 +712,8 @@
     #healthCheckForm{
         display:flex;
         flex-direction: column;
-        width:60%;
+        width:80%;
+        max-width:800px;
         margin:auto;
     }
     .moneyWrapper::before {
@@ -737,11 +743,20 @@
 
         padding:1rem;
 
-        border-radius: 5px;
+        border-radius: 10px;
+
+        box-shadow: 1px 1px 3px var(--color-trim);
+        border:none;
+        display: block;
+
         
     }
-    .question h1{
+    .question legend{
+        display: block;
+        width:100%;
+        float:left;
         font-size:1.1rem;
+        font-weight: bold;
         margin:0;
         margin-bottom:1rem;
     }

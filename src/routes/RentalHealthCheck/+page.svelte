@@ -27,15 +27,22 @@
     section{
         width:65%;
         margin:auto;
+        margin-top:1rem;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 1px 1px 3px var(--color-trim);
+        padding:1.5rem;
 
     }
 
     #buttons{
         width:100%;
-
+        display: flex;
+        align-items: center;
+        justify-content: right;
     }
     .continueButton{
-        float:right;
+        font-size: 1.5rem;
 
     }
 </style>

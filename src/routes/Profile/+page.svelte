@@ -42,8 +42,8 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<dialogue style="display:{QRModalOpen? "flex": "none"}" id="QRCodeModalUnderlay" tabindex="0" role="button" on:click={ToggleQrModal} bind:this={QRModal}>
-
+<dialogue style="display:{QRModalOpen? "flex": "none"}" id="QRCodeModalWrapper" bind:this={QRModal}>
+    <div id="QRCodeModalUnderlay" role="button" tabindex="0" on:click={ToggleQrModal}></div>
     <div id="QRCodeModal">
         <div id="TopBar"><button on:click={ToggleQrModal} class="fas fa-close iconButton closeButton"></button>
             <h1>{data.userData.firstName} {data.userData.lastName}</h1>
@@ -100,13 +100,23 @@
         border:none;
 
         color: var(--local-text);
-
+        width:100%;
         padding:.5rem;
         border-radius: 5px;
     }
     #QRCodeModalUnderlay{
+        position: absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        
 
-        z-index: 100;
+
+        
+    }
+    #QRCodeModalWrapper{
+        z-index: 5;
         position: fixed;
         width:100%;
         height:100%;
@@ -116,11 +126,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
-        
     }
     #QRCodeModal{
         width:60%;
+        z-index: 3;
         max-width:40rem;
         height:fit-content;
         background-color: white;
@@ -167,10 +176,11 @@
         margin-top:1.2rem;
         width:fit-content;
 
+        background-color: white;
         box-shadow: 1px 1px 15px var(--color-trim);
 
         padding:1.2rem;
-
+        
         border-radius: 5px;
     }
     .sideInput{
@@ -244,5 +254,15 @@
     }
     #email{
         width:100%;
+    }
+    @media only screen and (max-width: 520px){
+		#QRCodeModal{
+            max-width: none;
+            width:90%;
+            height:70%;
+        }
+        #QRCodeWrapper{
+            width:70%;
+        }
     }
 </style>

@@ -8,10 +8,6 @@ export default defineConfig({
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
 	ssr: {
-<<<<<<< HEAD
-		noExternal: Object.keys(pkg.dependencies || {})
-=======
 		//noExternal: Object.keys(pkg.dependencies || {})
->>>>>>> temp
 	  },
 });
