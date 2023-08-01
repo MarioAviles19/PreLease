@@ -1,4 +1,5 @@
 <script>
+	import { quintOut } from 'svelte/easing';
 	import { fade, slide } from 'svelte/transition';
 
 	export let open = false;
@@ -9,10 +10,10 @@
 </script>
 
 <div transition:fade={{ duration: 200 }} on:click={toggleMenu} id="underlay" />
-<nav transition:slide={{ axis: 'x', duration: 500}} id="navBar">
+<nav transition:slide={{ axis: 'x', duration: 300, easing:quintOut}} id="navBar">
 	<button on:click={toggleMenu} id="closeButton"><span class="fas fa-close fa-lg" /></button>
 	<a on:click={toggleMenu} href="/">Home</a>
-	<a on:click={toggleMenu} href="/Community">Community</a>
+	<a on:click={toggleMenu} href="/Community/RateMyLandlord">Rate Your Landlord</a>
 	<a on:click={toggleMenu} href="/RentalHealthCheck">Rental Health Check</a>
 	<a on:click={toggleMenu} href="/About">About</a>
 </nav>

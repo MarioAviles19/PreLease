@@ -13,6 +13,7 @@
 }
 
 body {
+	min-height: 100vh;
 	margin: 0;
 	font-family: lexend;
 
@@ -43,7 +44,7 @@ input[type='text']:focus{
 /*Implement Custom Scrollbar*/
 
 a {
-	color: var(--color-light-text);
+	color: var(--color-dark-text);
 	text-decoration: none;
 	cursor: pointer;
 }
@@ -52,7 +53,14 @@ button{
 	font-size: 1.2rem;
 }
 
-
+.roundedContainer{
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 1px 1px 3px var(--color-trim);
+}
+.block{
+	display: block;
+}
 
 .chunkyButton{
 	
@@ -87,4 +95,11 @@ button{
 	background-color: white;
 	color: lightgrey;
 	outline:2px solid lightgray;
+}
+
+.glassTint{
+	width:fit-content;
+	background-color: rgba(0, 0, 0, 0.688);
+	backdrop-filter: blur(2px);
+
 }

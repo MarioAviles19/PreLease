@@ -58,8 +58,10 @@
 <style>
 	main{
 		
+		width: 100%;
 		max-width:100%;
 		
+
 		
 	}
 	header {
@@ -72,6 +74,7 @@
 		grid-template-columns: 1fr 1fr 1fr;
 		background-color: var(--color-theme-1);
 		min-height: 4rem;
+		height: fit-content;
 		padding: 0.5rem;
 		text-align: center;
 		color: var(--color-light-text);
@@ -82,6 +85,12 @@
 	}
 	footer{
 		
+	}
+	a{
+		color:var(--color-light-text);
+	}
+	h1{
+		margin:0;
 	}
 	#navSelector {
 		display: flex;
@@ -97,7 +106,7 @@
 		color: var(--color-light-text);
 		font-size: large;
 		margin-left: 2.5%;
-		padding: 2rem;
+		
 		cursor: pointer;
 	}
 	#avatar{
@@ -105,7 +114,7 @@
 		margin-right:1rem;
 		background-color: white;
 
-		max-width:70px;
+		max-width:45px;
 	
 		
 	}
@@ -128,8 +137,9 @@
 		align-items: center;
 		justify-content: right;
 
-
-		
+	}
+	.cornerLink h3{
+		margin:0;
 	}
 	@media only screen and (max-width: 520px){
 		header{
