@@ -8,7 +8,8 @@
         Rate My Landlord
     </h1>
     <form action="/Community/RateMyLandlord/Search">
-        <input aria-label="Search" type="text" name="address" placeholder="Enter Address (e.g., 1234 Hennepin Ave. Minneapolis, MN)">
+        <label for="search">Enter Address</label>
+        <input aria-label="Search" id="search" type="text" name="address" placeholder="1234 Hennepin Ave. Minneapolis, MN">
         
     </form>
         
@@ -31,9 +32,17 @@
         background:none;
         box-shadow: 0px 4px var(--color-light-text);
         min-width: 40rem;
+
+        text-align: center;
     }
     input[type=text]::placeholder{
         color:rgba(255, 255, 255, 0.579);
+    }
+    label{
+        display: block;
+        color:var(--color-light-text);
+        font-size:1.4rem;
+        margin:1rem;
     }
     button{
         padding:.5rem;

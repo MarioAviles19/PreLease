@@ -1,9 +1,10 @@
 <script>
     export let data
 
-    
+    //TODO: Maybe consider Client Side Rendering for this page in particular
 
 </script>
+<a href="/Community/RateMyLandlord" class="backButton"><span class="fas fa-chevron-left"></span>Back</a>
 
 <section>
     <div id="results" class="roundedContainer">
@@ -18,14 +19,6 @@
             <h2>Responsiveness: {data.addressInfo.responsivenessRating || "N/A"}</h2>
 
         </div>
-        
-
-        {#if Object.keys(data.addressInfo).length == 0}
-            <div class="noResultsMessage roundedContainer">
-                <p>It looks like no one has made an entry for <span class="textColorAccent">{data.address}</span> yet!</p>
-                <a href="/">Be The First!</a>
-            </div>
-        {/if}
     </div>
     <div id="sidePanel">
         
@@ -49,11 +42,17 @@
     section{
         display: grid;
         grid-template-columns: 1.25fr .75fr;
-        padding:1rem 2rem;
         gap:1.5rem;
 
-        min-height:85vh;
+        min-height:75vh;
 
+    }
+    .backButton{
+        display: block;
+        color:var(--color-light-text);
+        font-size: 2rem;
+        margin:1rem;
+        margin-top:0;
     }
     .textColorAccent{
 

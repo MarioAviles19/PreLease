@@ -6,7 +6,7 @@
 
 
 {#key data.url}
-<div in:fly={{duration: 500 ,delay: 500, opacity:0, x:'100vw'}}
+<div class="content" in:fly={{duration: 500 ,delay: 500, opacity:0, x:'100vw'}}
     out:fly={{duration:500,opacity:0, x: '-100vw'}}
 >
     <slot/>
@@ -21,6 +21,9 @@
 
 
 <style>
+    .content{
+        padding:1rem;
+    }
     .background{
     z-index: -1;
     position: absolute;
