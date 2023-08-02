@@ -53,6 +53,7 @@ button{
 	font-size: 1.2rem;
 }
 
+
 .roundedContainer{
 	background-color: white;
 	border-radius: 10px;
@@ -60,6 +61,13 @@ button{
 }
 .block{
 	display: block;
+}
+.overlay{
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
 }
 
 .chunkyButton{
@@ -98,8 +106,11 @@ button{
 }
 
 .glassTint{
-	width:fit-content;
 	background-color: rgba(0, 0, 0, 0.688);
 	backdrop-filter: blur(2px);
 
+}
+
+.textColorAccent{
+	color: var(--color-theme-2);
 }

@@ -13,10 +13,7 @@
     </form>
         
 </section>
-<div class="background">
-    <img src="/longBrownstone.jpg" alt="Background of a brownstone building">
-    <div class="glassTint overlay"></div>
-</div>
+
 
 <style>
     h1{
@@ -45,13 +42,8 @@
         font-size: 2rem;
         border-radius: 7px;
     }
-    .overlay{
-        position: absolute;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-    }
+
+
     .background{
         z-index: -1;
         position: absolute;

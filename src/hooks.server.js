@@ -41,12 +41,12 @@ export const handle = async ({event, resolve})=>{
 
         //if no firebaseApp entitled auth exists, initialize one
         try {
-            app = getApp('auth');
+            app = getApp();
 
         } catch (error) {
             if(error.errorInfo.code = 'app/no-app'){
                 console.log(admin.credential)
-                app = initializeApp({credential: cert(key)},'auth')
+                app = initializeApp({credential: cert(key)})
             }
         }
 
