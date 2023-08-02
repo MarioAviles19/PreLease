@@ -31,7 +31,7 @@
         font-size: 1.2rem;
         background:none;
         box-shadow: 0px 4px var(--color-light-text);
-        min-width: 40rem;
+        width: clamp(10rem, 90%, 40rem);
 
         text-align: center;
     }

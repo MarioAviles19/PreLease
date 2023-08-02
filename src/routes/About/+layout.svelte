@@ -1,6 +1,8 @@
 <script>
 	import { page } from '$app/stores';
+	import { fly } from 'svelte/transition';
 
+	export let data;
 	//TODO: add page transitions
 </script>
 
@@ -18,10 +20,12 @@
 		>
 	</nav>
 
-	<div id="slot">
-		<slot />
-	</div>
-
+	{#key data.url}
+		<div id="slot" in:fly={{x:'100vw', duration: 400, delay: 500}} 
+		out:fly={{x:'-100vw', duration:400}}>
+			<slot />
+		</div>
+	{/key}
 
 <style>
 	* {
@@ -108,11 +112,6 @@
 			width:100%;
 
 		}
-		.glassTint{
-			width:fit-content;
-			background-color: rgba(0, 0, 0, 0.688);
-			backdrop-filter: blur(2px);
 
-		}
 	}
 </style>
