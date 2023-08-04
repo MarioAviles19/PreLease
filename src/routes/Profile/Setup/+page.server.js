@@ -13,8 +13,9 @@ export const actions = {
         const birthDate = data.get('birthDate');
         const demographics = data.getAll('demographics');
 
+        //TODO: Ensure all data is valid and that it is all there
         
-        await getFirestore(app).doc(`Users/${user.uid}`).set({setupComplete: true, gender: gender, birthDate : birthDate, demographics: demographics}, {merge:true})
+        await getFirestore(app).doc(`Users/${user.uid}`).set({setupComplete: true, gender: gender, birthDate : birthDate, demographics: demographics, completion: 1}, {merge:true})
         
         throw redirect(302, "/Profile/CompletedSetup")
     }

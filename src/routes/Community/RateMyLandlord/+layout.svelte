@@ -1,17 +1,13 @@
 <script>
 	import { fly } from "svelte/transition";
 
-    export let data
+    //TODO: Page transitions
 </script>
 
 
-{#key data.url}
-<div class="content" in:fly={{duration: 500 ,delay: 500, opacity:0, x:'100vw'}}
-    out:fly={{duration:500,opacity:0, x: '-100vw'}}
->
+<div class="content">
     <slot/>
 </div>
-{/key}
 
 
 <div class="background">
@@ -21,16 +17,24 @@
 
 
 <style>
+    .contentWrapper{
+        overflow:none;
+        
+    }
     .content{
         padding:1rem;
+        overflow-x: hidden;
+        max-width: 100%;
+        
     }
     .background{
+    overflow: hidden;
     z-index: -1;
     position: absolute;
     top:0;
     left:0;
-    width:100%;
-    height:100%;
+    width:100vw;
+    height:100vh;
     }
     .background img{
         position: absolute;

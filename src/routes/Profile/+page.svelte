@@ -9,9 +9,6 @@
     let edit = false;
     let QRModalOpen = false;
 
-    
-    let focusedElement;
-
     /**@type {Element}*/
     let QRContainer;
     let QRModal;
@@ -55,54 +52,60 @@
 
 </dialogue>
 
-<form style="pointer-events:{edit? 'auto': 'none'}; --local-text:{edit? "black": "grey"};" class="profile">
-    <div id="banner">
-        <button on:click={ToggleQrModal} id="QRButton" class="ignoreEditState iconButton"><span class="fas fa-qrcode"></span></button>
-        <img src={data.userData.pfp} id="pfp" alt="Profile">
-        <button on:click={toggleEdit} id="editButton" class="ignoreEditState iconButton"><span class="fas fa-edit"></span></button>
-    </div>
+<section class="profile">
+    <div class="card roundedContainer">
+        <div class="banner">
 
-    <div class="sideInput">
-        <div class="field">
-            <label for='firstName'>First Name</label>
-            <input bind:this={focusedElement}  type="text" id="firstName" value="{data.userData.firstName ?? ''}">
         </div>
+        <div class="profileInfo">
+            <img id="pfp" src={data.userData.pfp} alt="Avatar" >
+            <h1>{data.userData.firstName} {data.userData.lastName} <span class="subtitle" style="color:{data.userData.verified?"var(--color-theme-2)": ""}">{data.userData.verified? "verified": "unverified"}</span></h1>
+            <h2 class="subtitle">{data.userData.email}</h2>
 
-        <div class="field">
-            <label for='lastName'>Last Name</label>
-            <input type="text" id="lastName" value="{data.userData.lastName ?? ''}">
+            <nav><a href="/" class="filledLink">Complete Your Rental Resume</a> <a href="/">Update Info</a></nav>
+
         </div>
     </div>
+    {#if !data.userData.setUpComplete}
+    <div class="card roundedContainer" id="setupMessage">
 
-    <div class="field">
-        <label for="email">Email</label>
-        <input type="text" id="email" value="{data.userData.email ?? ''}">
+        <label for="profileCompletion">{data.userData.completion ?? "0"} Out of 4 Items Completed</label>
+        <progress id="profileCompletion" value={data.userData.completion ?? 0} max="4"></progress>
+
+        
+        <a class="filledLink completeSetup" href="/">Complete Setup!</a>
+
+     </div>
+    {/if}
+    <div class="card roundedContainer" id="rentalResume">
+        {#if !data.userData.rentalResumeCompleted}
+            <h1>No Rental Resume</h1>
+            <a>Create</a>
+        {/if}
     </div>
-    
-    <div class="buttons">
-        <form method="POST" class="bottomButton" action="?/logout">
-            <button  type="submit">Log Out</button>
-        </form>
+    <div class="card roundedContainer" id="rentalHealthCheck">
+        <h1>Take A Rental Health Check</h1>
+        <a href="/">Get Started</a>
     </div>
-</form>
+
+
+
+
+
+</section>
 
 
 <style>
-    
-    label{
-        display: block;
-        font-size:1.2rem;
-    }
-    input[type="text"]{
-        display:block;
-        font-size:1.5rem;
-        background-color: lightgrey;
-        border:none;
+    nav{
 
-        color: var(--local-text);
-        width:100%;
-        padding:.5rem;
-        border-radius: 5px;
+    }
+    nav a {
+        color:var(--color-theme-2);
+        font-weight: bold;
+        font-size:1.2rem;
+        padding:.1rem;
+        border-radius: 1.2rem;
+        border: 2px solid var(--color-theme-2)
     }
     #QRCodeModalUnderlay{
         position: absolute;
@@ -112,6 +115,7 @@
         height:100%;
         
     }
+    
     #QRCodeModalWrapper{
         z-index: 5;
         position: fixed;
@@ -168,70 +172,74 @@
         text-align: center;
         font-size: 1.2rem;
     }
-    .profile{
-        margin:auto;
-        margin-top:1.2rem;
-        width:fit-content;
-
-        background-color: white;
-        box-shadow: 1px 1px 15px var(--color-trim);
-
-        padding:1.2rem;
-        
-        border-radius: 5px;
-    }
-    .sideInput{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-
-        
-        gap: 1rem;
-    }
-    .field{
-        margin: .5rem 0;
-    }
-
-    .buttons{
-        padding:.5rem 0;
-        width:100%;
-
-        display:flex;
-        align-items: center;
-        justify-content: right;
-    }
-    .bottomButton button{
-        background-color: var(--color-theme-1);
-        color: var(--color-light-text);
-
-        border:none;
-
-        font-size:1.2rem;
-        padding:.5rem;
-        border-radius:6px;
-
-        pointer-events: all;
-        cursor: pointer;
-    }
-    .ignoreEditState{
-        pointer-events: all;
-    }
     #pfp{
-        aspect-ratio: 1/1;
-        height:8rem;
-        margin:auto;
+        width:clamp(8rem, 25%, 10rem);
+        margin-top:-8rem;
+        margin-left:1rem;
+        border:2px solid var(--color-theme-1);
+        border-radius: 100%;
     }
-    #banner{
-        width:100%;
-        position: relative;
-
-        min-width: 4rem;
-        padding: 1rem;
-
+    #setupMessage{
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        border: 2px dashed var(--color-trim);
-        background:none;
+    }
+    #setupMessage label{
+        display:block;
+        width:fit-content;
+    }
+    #setupMessage progress{
+        width:60%;
+        margin-bottom: 1rem;
+        
+    }
+    #setupMessage a{
+        display:block;
+        width:50%;
+        margin:auto;
+        font-size:1.5rem;
+        padding: .2rem 0;
+        text-align: center;
+        border-radius: 1.5rem;
+
+    }
+    .filledLink{
+        background-color: var(--color-theme-2);
+        color: white
+    }
+    .banner{
+
+        width:100%;
+        height:10rem;
+        
+        background-size: 25%;
+        
+        background-color: #f1ffda;
+background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%235a8219' fill-opacity='0.68'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        
+
+    }
+    .profile{
+        width: clamp(15rem, 100%, 50rem);
+        margin:auto;
+        padding:1rem;
+        min-height: 70vh;
+    }
+    .card{
+        padding:1rem;
+        margin-bottom:.5rem;
+        
+    }
+    .profile h1{
+        margin:0;
+        letter-spacing: 1px;
+        font-size: 2rem;
+    }
+    .subtitle{
+        font-size: 1rem;
+        color:var(--color-trim);
+
     }
     .iconButton{
         background: none;
@@ -244,15 +252,6 @@
         top: 20%;
         left:0;
         color:var(--color-light-text);
-    }
-    #editButton{
-
-        position: absolute;
-        right:.2rem;
-        bottom:.2rem;
-    }
-    #email{
-        width:100%;
     }
     @media only screen and (max-width: 520px){
 		#QRCodeModal{
