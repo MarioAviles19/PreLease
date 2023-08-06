@@ -80,7 +80,7 @@
     <div class="card roundedContainer" id="rentalResume">
         {#if !data.userData.rentalResumeCompleted}
             <h1>No Rental Resume</h1>
-            <a>Create</a>
+            <a href="/Profile/RentalResume/Create">Create</a>
         {/if}
     </div>
     <div class="card roundedContainer" id="rentalHealthCheck">
