@@ -6,6 +6,9 @@
 	--color-light-text: white;
 	--color-dark-text: black;
 
+
+	--TEMP-glass-panel: rgba(238, 238, 238, 0.164);
+
 	--screen-width-thresh: 520;
 }
 *{
