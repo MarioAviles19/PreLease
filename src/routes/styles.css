@@ -27,8 +27,12 @@ body {
 	
 	overflow-x: hidden;
 }
+textarea{
+	font-family: lexend;
+}
 input[type='text'],
 input[type='password']{
+	font-family: lexend;
 	outline: none;
 	border:none;
 	background-color: white;
