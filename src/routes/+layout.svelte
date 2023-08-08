@@ -2,8 +2,16 @@
 	import './styles.css';
 	import NavMenu from '../NavMenu.svelte';
 	import { onMount } from 'svelte';
+	import { getAnalytics, isSupported } from 'firebase/analytics';
+	import { app } from '$lib/firebase/firebase.client';
 
 
+
+	let analytics = isSupported().then(val=>{
+		if(val){
+			return getAnalytics(app)
+		}
+	});
 	let navMenuOpen = false;
 
 	export let data;

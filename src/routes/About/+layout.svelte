@@ -21,7 +21,7 @@
 	</nav>
 
 	{#key data.url}
-		<div id="slot" in:fly={{x:'100vw', duration: 400, delay: 500}} 
+		<div id="slot" in:fly={{x:'100vw', duration: 400, delay: 600}} 
 		out:fly={{x:'-100vw', duration:400}}>
 			<slot />
 		</div>

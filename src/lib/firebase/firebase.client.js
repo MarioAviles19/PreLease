@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp, deleteApp } from "firebase/app";
 import {getStorage} from "firebase/storage";
+import {getAnalytics} from "firebase/analytics"
 import {getFirestore} from "firebase/firestore";
 import {getAuth, setPersistence, inMemoryPersistence} from "firebase/auth"
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,5 +32,6 @@ if(!getApps().length){
 export const storage = getStorage(firebaseApp);
 export const firestore = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
+export const app = firebaseApp;
 
 auth.setPersistence(inMemoryPersistence)

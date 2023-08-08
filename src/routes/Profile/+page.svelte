@@ -89,7 +89,12 @@
     </div>
 
 
+    <div class="card roundedContainer">
 
+        <form action="?/logout" method="POST">
+            <button>Logout</button>
+        </form>
+    </div>
 
 
 </section>
