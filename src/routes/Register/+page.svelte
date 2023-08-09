@@ -25,7 +25,7 @@
 		await updateProfile(user.user, {displayName: `${firstName}`})
 
 
-		window.location.href = "/Register/Success"
+		window.location.href = "/SignIn"
 	
         }
     
@@ -94,8 +94,8 @@
 		margin-bottom: 1rem;
 		padding: 0.2rem;
 
-		border-style: solid;
-		border-radius: 5px;
+		border:none;
+		border-radius: 0px;
 		
 	}
 	#register button {

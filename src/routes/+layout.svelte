@@ -3,15 +3,13 @@
 	import NavMenu from '../NavMenu.svelte';
 	import { onMount } from 'svelte';
 	import { getAnalytics, isSupported } from 'firebase/analytics';
-	import { app } from '$lib/firebase/firebase.client';
+	import {signInWithCustomToken} from 'firebase/auth'
+	import { app, auth } from '$lib/firebase/firebase.client';
+	import { analyticsStore } from '$lib/stores/analytics';
 
 
 
-	let analytics = isSupported().then(val=>{
-		if(val){
-			return getAnalytics(app)
-		}
-	});
+
 	let navMenuOpen = false;
 
 	export let data;
@@ -19,7 +17,18 @@
 
 	let headerHeight;
 
+
+
 	//TODO: Stick menu to top on scroll
+
+	async function InitLogging(){
+		isSupported().then(val=>{
+			if(val){
+
+				analyticsStore.set(getAnalytics(app))
+			}
+		});
+	}
 
 	function toggleMenu() {
 		navMenuOpen = true;
@@ -28,6 +37,7 @@
 	onMount(()=>{
 
 		console.log(data.userData)
+		InitLogging()
 
 
 	})

@@ -50,18 +50,56 @@
 <section>
     <form action="">
         <fieldset class="fivePoint">
+            <label for="overall">Management</label>
+            <FivePointRating name="management"/> 
+        </fieldset>
+        <fieldset class="fivePoint">
+            <label for="overall">Responsiveness</label>
+            <FivePointRating name="responsiveness"/> 
+        </fieldset>
+        <fieldset class="fivePoint">
             <label for="overall">Overall</label>
             <FivePointRating name="overall"/> 
         </fieldset>
+
+        <div class="response">
+            <label for="reviewBody">Extra Info</label>
+            <textarea name="body" id="reviewBody" cols="30" rows="6"></textarea>
+        </div>
 
         <button>submit</button>
     </form>
 </section>
 
 <style>
+    label{
+        display:block;
+        color:white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    textarea{
+        border:none;
+        resize: none;
+        padding:.5rem;
+        font-size: 1.2rem;
+        background-color: rgba(255, 255, 255, 0.253);
+        width:100%;
+        transition: all 200ms ease-out;
+    }
+    textarea:focus{
+        background-color: rgba(255, 255, 255, 0.558);
+        border:none;
+        outline:none;
+    }
     .fivePoint{
-        margin:auto;
+        margin: 1rem auto;
+        border:none;
         width: clamp(15rem, 40%, 25rem)
     }
-
+    .response{
+        margin:1rem auto;
+        width: clamp(15rem, 50%, 35rem)
+    }
 </style>

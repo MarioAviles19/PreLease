@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { auth } from "../lib/firebase/firebase.client"
+import { auth } from "$lib/firebase/firebase.client"
 import { createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, sendPasswordResetEmail, updateEmail, updatePassword} from "firebase/auth";
 
 

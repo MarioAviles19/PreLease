@@ -1,7 +1,7 @@
 
 <script>
 	import { onMount } from "svelte";
-	import { authHandler } from "../../stores/authStore";
+	import { authHandler } from "$lib/stores/authStore";
 
 
 	export let data;

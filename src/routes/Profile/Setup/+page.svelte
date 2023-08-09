@@ -13,7 +13,7 @@
  
 
     //TODO: Add Google Maps API for the Cities field
-    //TODO: Only Enable next when a field is entered
+    //TODO: Prevent default behavior on `enter` until the form is completed
 
     onMount(()=>{
         

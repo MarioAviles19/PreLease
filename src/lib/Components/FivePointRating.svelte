@@ -1,5 +1,7 @@
 
 <script>
+// @ts-nocheck
+
     export let name;
     let buttons = []
 
@@ -22,14 +24,14 @@
         })
 
         
-        console.log(buttons)
+
     }
 
     function RemoveAllColors(){
-        if(answered){
-            return
-        }
+
+
         buttons.forEach(el=>{
+            if(currentValue < el.dataset.order || answered == false)
             el.classList.remove("checked")
         })
     }
@@ -42,7 +44,7 @@
             answered = true;
         }
 
-        console.log(event.target.dataset.order)
+
         if(event.type == "change"){
             currentValue = parseInt(event.target.value);
         }
@@ -51,7 +53,7 @@
             let targetOrder = parseInt(buttons[i].dataset.order)
 
             if( targetOrder<= parseInt(event.target.dataset.order)){
-                console.log("weem")
+
                 buttons[i].classList.add("checked")
             }
             else if(targetOrder > currentValue){
@@ -96,52 +98,73 @@
 </div>
 
 <style>
-        input[type=radio]{
-        position: absolute;
-        top:0;
-        left:0;
-        opacity: 0;
-        cursor: pointer;
-        pointer-events: none;
+    input[type=radio]{
+    position: absolute;
+    top:0;
+    left:0;
+    opacity: 0;
+    cursor: pointer;
+    pointer-events: none;
     }
+
     span{
-        /*box-shadow: 1px 0px 1px var(--color-trim), -1px 0px 1px var(--color-trim);*/
+        /* box-shadow: 1px 0px 1px var(--color-trim), -1px 0px 1px var(--color-trim); */
     }
 
 
-    :global(input.checked~ span){
-        background-color: black;
+
+    :global(label input ~ span.one){
+        color: var(--color-1);
+    }
+    :global(label input ~ span.two){
+        color: var(--color-2);
+    }
+    :global(label input ~ span.three){
+        color: var(--color-3);
+    }
+    :global(label input ~ span.four){
+        color: var(--color-4);
+    }
+    :global(label input ~ span.five){
+        color: var(--color-5);
+    }
+
+/*Change the color of the faux button on checked*/
+    :global(label input.checked ~ span){
+        color: white;
     }
     :global(label input.checked ~ span.one){
-        background-color: #aeb0aa;
+        background-color: var(--color-1);
+
     }
     :global(label input.checked ~ span.two){
-        background-color: #72805d;
+        background-color: var(--color-2);
     }
     :global(label input.checked ~ span.three){
-        background-color: #677a4a;
+        background-color: var(--color-3);
     }
     :global(label input.checked ~ span.four){
-        background-color: #6e8844;
+        background-color: var(--color-4);
     }
     :global(label input.checked ~ span.five){
-        background-color: #5a8219;
+        background-color: var(--color-5);
     }
+    /*Change the color of the faux button on hover*/
 
     :global(label input:hover ~ span.one){
-        background-color: #aeb0aa;
+        background-color: var(--color-1);
     }
     :global(label input:hover ~ span.two){
-        background-color: #72805d;
+        background-color: var(--color-2)
     }
     :global(label input:hover ~ span.three){
-        background-color: #677a4a;
+        background-color: var(--color-3);
     }
     :global(label input:hover ~ span.four){
-        background-color: #6e8844;
+        background-color: var(--color-4);
     }
     :global(label input:hover ~ span.five){
-        background-color: #5a8219;
+        background-color: var(--color-5);
     }
 
     :global(.checked){
@@ -153,14 +176,20 @@
         justify-content: center;
         font-size: 2rem;
         font-weight: bold;
-        color:white;
-        aspect-ratio: 1/1;
+        aspect-ratio: 1/.6;
         width:100%;
         
         background-color: white;
         
     }
     .rating{
+
+        --color-1: #c1d499;
+        --color-2: #a3c472;
+        --color-3: #8db64f;
+        --color-4: #8cc433;
+        --color-5: #80bf1b;
+
         display:grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 

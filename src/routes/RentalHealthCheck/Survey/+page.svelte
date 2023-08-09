@@ -3,6 +3,9 @@
     import { signInWithCustomToken } from "firebase/auth";
     import { addDoc, collection} from "firebase/firestore";
 	import { onMount } from "svelte";
+    import { logEvent } from "firebase/analytics";
+    import { analyticsStore} from "$lib/stores/analytics.js";
+    
 
     export let data;
 
@@ -17,6 +20,7 @@
    
 
     function styleMoney(){
+
         if(!moneyInputs.startsWith('$')){
             moneyInputs = `\$${moneyInputs}`
         }
@@ -24,9 +28,12 @@
     
 
     onMount(()=>{
-        signInWithCustomToken(auth, data.userToken).then((res)=>{console.log(res)})
+        console.log("Token")
+        console.log(data);
+        signInWithCustomToken(auth, data.userToken).then((res)=>{logEvent($analyticsStore, "begin_health_check");})
 
-  
+
+
         
     })
     async function UploadDocument(){

@@ -21,7 +21,7 @@ export const load = async({locals, cookies})=>{
     }
     
     //const token = auth(app).createCustomToken(user.uid);
-    return {userData: SerializeNonPOJOs(user), userToken: ''}
+    return {userData: SerializeNonPOJOs(user)}
 }
 
 export const actions = {

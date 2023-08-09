@@ -46,7 +46,7 @@ export const actions = {
             deleteApp(firebaseApp);
             firebaseApp = initializeApp(firebaseConfig);
         }
-        console.log('Running login')
+
         let data = await request.formData()
 
         const email = data.get('email');
@@ -63,11 +63,11 @@ export const actions = {
             cookies.set('session', cookie, {maxAge: 1000 * 60 * 60 * 24 * 5})
 
         } catch (err) {
-            console.log(err)
-            let message;
+
+           
         
             
-            return fail(401, {message: "invalid credentials", email});
+            return fail(401, {message: "invalid username or password", email});
         }
         throw redirect(302, redirectPath || '/');
     }
