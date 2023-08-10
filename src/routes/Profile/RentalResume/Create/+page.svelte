@@ -1,7 +1,11 @@
 <script>
+    import FormCarousel from "$lib/Components/FormCarousel.svelte";
     let workHistoryCount = 1
     let rentalHistoryCount = 1
     let referenceCount = 1;
+
+    let questions;
+    let currentQuestionIndex;
 
     function AddWorkHistory(i){
         if(workHistoryCount + i < 1){
@@ -26,9 +30,13 @@
 </script>
 
 <section>
-    <form action="upload" method="POST">
+    <div id="progressContainer">
+        <label for="progress">Progress:</label>
+        <progress id='Progress' value={currentQuestionIndex ?? 0} max={questions?.length - 1 ?? 0}></progress>
+    </div>
+    <FormCarousel action="upload" bind:questions bind:currentQuestionIndex>
         
-        <fieldset class="roundedContainer">
+        <fieldset class="">
             <legend>Personal Info</legend>
             <div class="personalInfoGrid">
                 <div class="responseContainer">
@@ -45,48 +53,23 @@
                     <label for="phoneNumber">Phone Number</label>
                     <input id="phoneNumber" name="phoneNumber"type="text">
                 </div>
-                <div class="responseContainer">
-                    <label for="maritalStatus">Marital Status</label>
-                    <select name="maritalStatus" id="maritalStatus">
-                        <option value="" disabled hidden selected>Select</option>
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                    </select>
-                </div>
-                <div class="responseContainer">
-                    <label for="citizenship">Citizenship</label>
-                    <select name="citizenship" id="citizenship">
-                        <option value="" disabled hidden selected>Select</option>
-                        <option value="citizen">Citizen</option>
-                        <option value="nonCitizen">Non-Citizen</option>
-                    </select>
-                </div>
-                <div class="responseContainer">
-                    <label for="householdSize">Household Size</label>
-                    <input type="number" id="householdSize">
-                </div>
-            </div>
 
-
-            <label for="petInfo" class="centered">Pet Information</label>
-            <p class="note">Tell us about any pets you may have</p>
-            <textarea name="objective" id="petInfo" cols="35" rows="10"></textarea>
             
         </fieldset>
 
-        <fieldset class="roundedContainer">
+        <fieldset class="">
             <label for="objective" class="centered">Objective</label>
             <p class="note">Tell us a little bit about what you're looking for in your next residence</p>
             <textarea name="objective" id="objective" cols="35" rows="10"></textarea>
         </fieldset>
 
-        <fieldset class="roundedContainer">
+        <fieldset class="">
             <label for="background" class="centered">Background</label>
             <p class="note">Tell us about your background. Where you grew up, where you've worked, hobbies, and interests. That sort of thing</p>
             <textarea name="background" id="background" cols="35" rows="10"></textarea>
         </fieldset>
 
-        <fieldset class="roundedContainer">
+        <fieldset class="">
             <legend>Work History</legend>
 
             <label for="income">Annual Income</label>
@@ -143,7 +126,7 @@
 
         </fieldset>
 
-        <fieldset class="roundedContainer">
+        <fieldset class="glassContainer ">
             <legend>Rental History</legend>
             
             {#each {length : rentalHistoryCount} as _, i}
@@ -201,7 +184,7 @@
             </div>
         </fieldset>
 
-        <fieldset class="roundedContainer">
+        <fieldset class="">
             <legend>References</legend>
 
             <div class="entry">
@@ -237,7 +220,7 @@
                 
         </fieldset>
 
-        <fieldset class="roundedContainer">
+        <fieldset class="">
             <label for="extraInfo" class="centered">Extra Info</label>
             <p class="note">Anything that hasn't been covered that you'd like to include</p>
             <textarea name="extraInfo" id="extraInfo" cols="35" rows="10"></textarea>
@@ -245,10 +228,16 @@
 
 
 
-    </form>
+    </FormCarousel>
 </section>
+<div class="background glassTint">
+    <img src="/longBrownstone.jpg" alt="brownstone">
+    <div class="overlay glassTint"></div>
+</div>
 
 <style>
+
+
     h1{
         font-weight:normal;
     }
@@ -257,7 +246,8 @@
         margin:auto;
     }
     input[type=text]{
-        background-color: rgb(227, 227, 227);
+        background-color: rgba(94, 94, 94, 0.901);
+        box-shadow: 0px 2px black;
     }
     label{
         font-weight: bold;
@@ -266,6 +256,35 @@
     fieldset{
         margin:1rem;
         border:none;
+
+        
+    }
+    label[for=progress]{
+        color:white;
+        display:block;
+    }
+    progress {
+    border-radius: 7px; 
+    width: 15rem;
+    margin:auto;
+    margin-bottom:1rem;
+    height:.5rem;
+    box-shadow: 1px 1px 4px rgba( 0, 0, 0, 0.2 );
+
+
+    }
+    progress[value]::-webkit-progress-value {
+    transition: width 0.5s;
+    background: var(--color-theme-2);
+}
+    progress::-webkit-progress-bar {
+    
+    border-radius: 7px;
+    background-color: lightgrey;
+    }
+    progress::-webkit-progress-value {
+    background-color: var(--color-theme-2);
+    border-radius: 10px; 
     }
 
     legend{
@@ -279,6 +298,7 @@
     textarea{
         width:100%;
         resize: none;
+        font-size: 1.2rem;
     }
     label.centered{
         display: block;
@@ -290,6 +310,12 @@
     }
     h2{
         font-size: 1.2rem;
+    }
+    #progressContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     .personalInfoGrid{
 
