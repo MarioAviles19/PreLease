@@ -1,16 +1,25 @@
 <script>
     import FivePointRating from "$lib/Components/FivePointRating.svelte";
+    import { FormatDate } from "$lib/helpers.js";
 	import { onMount } from "svelte";
 
+    export let form;
+    export let data;
 
     let values = [];
 
     let allAnswered = false;
 
-    export let form;
+
     onMount(()=>{
         console.log(form);
     })
+
+
+    function DateListener(el){
+        el.addEventListener('onkeydown',FormatDate)
+    }
+
     function CheckAllAnswered(event){
         let valid = true;
         if(values.length == 0){
@@ -27,10 +36,12 @@
     }
    
     $: values, CheckAllAnswered()
-</script>
 
+</script>
+<a class="backButton" href="/Community/RateMyLandlord/Search?address={data.address}"><span class="fas fa-chevron-left"></span>back</a>
 <section>
-    <form method="POST" action="?/upload">
+    <h1 class="address">{data.address}</h1>
+    <form method="POST" action="?/upload&address={data.address}">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div  class="ratings">
@@ -49,6 +60,21 @@
         </div>
 
         <div class="response">
+            <div class="dates">
+                <div class="dateResponse">
+                    <label for="start">Start Date</label>
+                    <input type="date" name="startDate" id="start">
+                </div>
+                <div class="dateResponse">
+                    <label for="end">End Date</label>
+                    <div use:DateListener class="customDate">
+                    <input type="text" placeholder="Day" pattern="d*" maxlength="2" name="endDate" id="endMonth">
+                    <span>/</span>
+                    <input  type="text" placeholder="Year"  pattern="d*" maxlength="4" name="endDate" id="endYear">
+                    </div>
+                </div>
+
+            </div>
             <label for="reviewBody">Comments (optional)</label>
             <textarea name="comments" id="reviewBody" cols="30" rows="6" value={form?.comments ?? ''}></textarea>
             <div class="reference">
@@ -67,6 +93,9 @@
         margin:auto;
         display: grid;
         grid-template-columns: 1fr 1fr;
+    }
+    input{
+        background:none;
     }
     label{
         display:block;
@@ -108,6 +137,47 @@
         background-color: rgba(255, 255, 255, 0.558);
         border:none;
         outline:none;
+    }
+    .customDate{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color:white;
+        box-shadow: 0px 2px white;
+        
+    }
+    .customDate span{
+        font-size: 1.5rem;
+    }
+    .customDate input[type=text]{
+        width:45%;
+        box-shadow: none;
+        color:white
+    }
+    .customDate input[type=text]::placeholder{
+        text-align: center;
+    }
+    .dates{
+        margin:auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .dateResponse{
+        margin:auto;
+        margin-bottom: 1.5rem;
+    }
+    .backButton{
+    
+        color:var(--color-light-text);
+        font-size: 2rem;
+        margin:1rem;
+        margin-top:0;
+    }
+    .address{
+        margin-top:0;
+        color: lightgreen;
+        font-size: 2rem;
+        text-align: center;
     }
     
     .smallLabel{
