@@ -17,7 +17,7 @@
 
 
     function DateListener(el){
-        el.addEventListener('onkeydown',FormatDate)
+        el.addEventListener('keydown',FormatDate)
     }
 
     function CheckAllAnswered(event){
@@ -62,15 +62,19 @@
         <div class="response">
             <div class="dates">
                 <div class="dateResponse">
-                    <label for="start">Start Date</label>
-                    <input type="date" name="startDate" id="start">
+                    <label for="startDay">Start Date</label>
+                    <div use:DateListener class="customDate">
+                        <input type="text" placeholder="Month" data-form="month" pattern="d*" maxlength="2" name="startMonth" id="endMonth">
+                        <span>/</span>
+                        <input  type="text" placeholder="Year"  pattern="d*" maxlength="4" name="startYear" id="endYear">
+                    </div>
                 </div>
                 <div class="dateResponse">
                     <label for="end">End Date</label>
                     <div use:DateListener class="customDate">
-                    <input type="text" placeholder="Day" pattern="d*" maxlength="2" name="endDate" id="endMonth">
-                    <span>/</span>
-                    <input  type="text" placeholder="Year"  pattern="d*" maxlength="4" name="endDate" id="endYear">
+                        <input type="text" placeholder="Month" data-form="month" pattern="d*" maxlength="2" name="endMonth" id="endMonth">
+                        <span>/</span>
+                        <input  type="text" placeholder="Year"  pattern="d*" maxlength="4" name="endYear" id="endYear">
                     </div>
                 </div>
 
@@ -152,10 +156,12 @@
     .customDate input[type=text]{
         width:45%;
         box-shadow: none;
-        color:white
+        color:white;
+        font-size:1.5rem;
+        text-align: center;
     }
     .customDate input[type=text]::placeholder{
-        text-align: center;
+
     }
     .dates{
         margin:auto;
@@ -165,6 +171,10 @@
     .dateResponse{
         margin:auto;
         margin-bottom: 1.5rem;
+        width:90%;
+    }
+    .dateResponse label{
+        text-align: center;
     }
     .backButton{
     
