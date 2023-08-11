@@ -1,9 +1,11 @@
 <script>
     import { onMount } from "svelte";
+    import { fly } from "svelte/transition";
     export let currentQuestionIndex = 0;
     export let questions = null;
 
-    
+    let animate = false;
+    let loaded = false;
 
     //TODO: Name this something better
     let currentQuestion;
@@ -31,6 +33,7 @@
 
         HideOtherElements();
         form.style = '';
+        loaded = true;
         currentQuestion = questions[0];
 
         console.log(currentQuestion);
@@ -92,6 +95,7 @@
         if(currentQuestionIndex + index < 0){
             return
         }
+
         questions[currentQuestionIndex].style = "display:none";
         currentQuestionIndex += index;
         questions[currentQuestionIndex].style = "";
@@ -110,6 +114,8 @@
             nextDisabled = false;
 
         }
+
+
     }
 
      
@@ -131,8 +137,9 @@
 
 </script>
 
+{#key animate}
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<form bind:this={form} on:keyup={(event)=>{AdvanceOnEnter(event.key)}}  use:CheckFieldCompleted method="POST" class="glassContainer" action={action ?? ''} style="display:none">
+<form bind:this={form} on:keyup={(event)=>{AdvanceOnEnter(event.key)}}  use:CheckFieldCompleted method="POST" class="glassContainer" action={action ?? ''} style={loaded? "": "display:none"}>
 	
 
 
@@ -151,7 +158,7 @@
     </div>
 
 </form>
-
+{/key}
 <style>
     h1{
         display: block;

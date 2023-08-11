@@ -1,11 +1,25 @@
 <script>
     import FormCarousel from "$lib/Components/FormCarousel.svelte";
+    import { FormatPhoneNumberInput } from "$lib/helpers.js";
+
+    export let data;
+
     let workHistoryCount = 1
     let rentalHistoryCount = 1
     let referenceCount = 1;
 
     let questions;
     let currentQuestionIndex;
+
+
+    //Form Data for Preview
+    let address = '';
+    let email = '';
+    let phoneNumber = '';
+
+    function PhoneNumber(el){
+        el.addEventListener('keydown', FormatPhoneNumberInput)
+    }
 
     function AddWorkHistory(i){
         if(workHistoryCount + i < 1){
@@ -27,34 +41,36 @@
         }
         referenceCount = referenceCount + i;
     }
+
 </script>
 
-<section>
+    
+<section class="form">
     <div id="progressContainer">
         <label for="progress">Progress:</label>
         <progress id='Progress' value={currentQuestionIndex ?? 0} max={questions?.length - 1 ?? 0}></progress>
     </div>
-    <FormCarousel action="upload" bind:questions bind:currentQuestionIndex>
-        
-        <fieldset class="">
+    <FormCarousel action="/api/getResume" bind:questions bind:currentQuestionIndex>
+
+        <fieldset class="small">
             <legend>Personal Info</legend>
             <div class="personalInfoGrid">
-                <div class="responseContainer">
+                <div class="responseContainer address">
                     <label for="address">Address</label>
-                    <input id="address" name="address" type="text">
+                    <input bind:value={address} id="address" placeholder="Address" name="userAddress" type="text">
                 </div>
 
                 <div class="responseContainer">
                     <label for="preferedEmail">Prefered Email</label>
-                    <input id="preferedEmail" name="preferedEmail" type="text">
+                    <input bind:value={email} id="preferedEmail" name="userEmail" placeholder="Email" type="text">
                 </div>
 
                 <div class="responseContainer">
-                    <label for="phoneNumber">Phone Number</label>
-                    <input id="phoneNumber" name="phoneNumber"type="text">
+                    <label for="phoneNumber">Phone</label>
+                    <input use:PhoneNumber bind:value={phoneNumber} id="phoneNumber" name="userPhone" placeholder="Phone" type="text">
                 </div>
 
-            
+
         </fieldset>
 
         <fieldset class="">
@@ -74,7 +90,7 @@
 
             <label for="income">Annual Income</label>
             <input id="income" type="text">
-            
+
             {#each {length : workHistoryCount} as _, i}
             <div class="entry">
                 <h1>Job {i + 1}</h1>
@@ -96,6 +112,7 @@
                             <input id="workEndDate" name="workEndDate"type="text">
                         </div>
                 </div>
+                
                 <h2>Contact</h2>
                 <div class="contactGrid">
                     <div class="responseContainer">
@@ -112,7 +129,7 @@
                     </div>
 
                 </div>
-                
+
             </div>
             {/each}
             <div class="additionButtonsContainer">
@@ -128,7 +145,7 @@
 
         <fieldset class="glassContainer ">
             <legend>Rental History</legend>
-            
+
             {#each {length : rentalHistoryCount} as _, i}
             <h1>Entry {i + 1}</h1>
             <div class="entry">
@@ -160,7 +177,7 @@
                         <input id="rentalHistoryContactName" type="text">
                     </div>
                     <div class="responseContainer">
-    
+
                         <label for="rentalHistoryContactTitle">Title</label>
                         <input id="rentalHistoryContactTitle" type="text">
                     </div>
@@ -217,7 +234,7 @@
                     <button type="button" on:click={()=>{AddReferenceCount(1)}}><span class="fas fa-plus"></span></button>
                 </div>
             </div>
-                
+
         </fieldset>
 
         <fieldset class="">
@@ -230,6 +247,7 @@
 
     </FormCarousel>
 </section>
+
 <div class="background glassTint">
     <img src="/longBrownstone.jpg" alt="brownstone">
     <div class="overlay glassTint"></div>
@@ -241,13 +259,18 @@
     h1{
         font-weight:normal;
     }
-    section{
-        width: clamp(15rem, 100%, 60rem);
+    section.form{
+        height: 100%;
+        width: clamp(15rem, 95%, 40rem);
         margin:auto;
     }
     input[type=text]{
-        background-color: rgba(94, 94, 94, 0.901);
-        box-shadow: 0px 2px black;
+        
+        outline: solid 2px rgb(96, 96, 96);
+        border-radius: 3px;
+    }
+    input[type=text]::placeholder{
+
     }
     label{
         font-weight: bold;
@@ -265,7 +288,7 @@
     }
     progress {
     border-radius: 7px; 
-    width: 15rem;
+    width: clamp(15rem, 95%, 30rem);
     margin:auto;
     margin-bottom:1rem;
     height:.5rem;
@@ -317,10 +340,48 @@
         align-items: center;
         justify-content: center;
     }
+    .address{
+        grid-column: 1/4;
+    }
+    :global(.big){
+        max-width: 55rem;
+    }
+    .resume{
+        background-color: white;
+        aspect-ratio: 8.3 / 11.7 ;
+
+        width:70%;
+        padding:.5rem;
+        margin:auto;
+        overflow: hidden;
+    }
+    .resumeName{
+        text-align: center;
+        font-size: calc(1rem * 1vw);
+        margin:0;
+    }
+    .resumeContactInfo{
+        font-size: .6rem;
+        text-align: center;
+        text-overflow: elipsis;
+        white-space: nowrap;
+
+        box-shadow: 0 1px black;
+    }
+    .preview{
+        
+    }
+
+    .wrapper{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        
+        padding:2rem;
+    }
     .personalInfoGrid{
 
         display:grid;
-        grid-template-columns: 1fr .6fr .4fr;
+        grid-template-columns: 1.4fr .6fr;
         gap:1rem;
         width:100%;
     }
@@ -372,5 +433,10 @@
     .responseContainer input{
         display:block;
         width:100%;
+    }
+
+    .note{
+        text-align: center;
+        font-size: 1.2rem;
     }
 </style>
