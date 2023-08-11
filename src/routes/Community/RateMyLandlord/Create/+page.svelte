@@ -1,83 +1,99 @@
 <script>
     import FivePointRating from "$lib/Components/FivePointRating.svelte";
+	import { onMount } from "svelte";
 
-    let ratings = []
 
-    function AttachRatingListeners(element){
-        let buttons = element.querySelectorAll("input[type=radio]")
-        let icons = element.querySelectorAll("label.radioLabel")
+    let values = [];
 
-        let ratingIndex = ratings.length;
-        ratings[ratingIndex] = buttons
+    let allAnswered = false;
 
-        buttons.forEach(el => {
-            el.addEventListener("change", ChangeRatingColors(ratingIndex))
-        });
-        icons.forEach(el =>{
-            //el.addEventListener("mouseover", ChangeRatingColors(ratingIndex))
+    export let form;
+    onMount(()=>{
+        console.log(form);
+    })
+    function CheckAllAnswered(event){
+        let valid = true;
+        if(values.length == 0){
+            valid = false;
+            return
+        }
+        values.forEach(val=>{
+            if(val == ''){
+                valid = false;
+            }
         })
 
-        
-        console.log(ratings)
+        allAnswered = valid;
     }
-
-    function ChangeRatingColors(index){
-
-    
-        let buttons = ratings[index] || []
-
-        return function (event){
-            if(event.target.checked || true == true){
-                console.log(event.target.dataset.order)
-
-                for(let i = 0; i < buttons.length; i++){
-                    if(parseInt(buttons[i].dataset.order) <= parseInt(event.target.dataset.order)){
-                        console.log("weem")
-                        buttons[i].classList.add("checked")
-                    }
-                    else{
-                        buttons[i].classList.remove('checked')
-                    }
-                }
-                
-            }
-    }
-
-    }
-
+   
+    $: values, CheckAllAnswered()
 </script>
 
 <section>
-    <form action="">
-        <fieldset class="fivePoint">
-            <label for="overall">Management</label>
-            <FivePointRating name="management"/> 
-        </fieldset>
-        <fieldset class="fivePoint">
-            <label for="overall">Responsiveness</label>
-            <FivePointRating name="responsiveness"/> 
-        </fieldset>
-        <fieldset class="fivePoint">
-            <label for="overall">Overall</label>
-            <FivePointRating name="overall"/> 
-        </fieldset>
-
-        <div class="response">
-            <label for="reviewBody">Extra Info</label>
-            <textarea name="body" id="reviewBody" cols="30" rows="6"></textarea>
+    <form method="POST" action="?/upload">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div  class="ratings">
+            <fieldset class="fivePoint">
+                <label for="overall">Management</label>
+                <FivePointRating bind:value={values[0]} name="management"/>
+            </fieldset>
+            <fieldset class="fivePoint">
+                <label for="overall">Responsiveness</label>
+                <FivePointRating bind:value={values[1]}  name="responsiveness"/>
+            </fieldset>
+            <fieldset class="fivePoint">
+                <label for="overall">Overall</label>
+                <FivePointRating bind:value={values[2]}  name="overall"/>
+            </fieldset>
         </div>
 
-        <button>submit</button>
+        <div class="response">
+            <label for="reviewBody">Comments (optional)</label>
+            <textarea name="comments" id="reviewBody" cols="30" rows="6" value={form?.comments ?? ''}></textarea>
+            <div class="reference">
+                <input type="checkbox" name="willingToReference" id="ref">
+                <label class="smallLabel" for="ref">I would like to be a part of the Rental Referal Program <span style="color:var(--color-theme-2)" class="fa fa-info-circle"></span></label>
+            </div>
+            <button disabled={!allAnswered}>submit</button>
+        </div>
+
+
     </form>
 </section>
 
 <style>
+    form{
+        margin:auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
     label{
         display:block;
         color:white;
         font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 1rem;
+    }
+    button{
+        display: block;
+        border:none;
+        outline:none;
+        background-color: var(--color-theme-2);
+        padding: .2rem 1rem;
+        border-radius: 2rem;
+        color:white;
+        font-size: 2rem;
+        font-weight: bold;
+        margin:auto;
+        margin-top:2rem;
+
+        transition:all 200ms ease-out;
+    }
+    button:disabled{
+        background:none;
+        outline: 3px solid white;
+        cursor:auto;
     }
     textarea{
         border:none;
@@ -93,13 +109,28 @@
         border:none;
         outline:none;
     }
+    
+    .smallLabel{
+        display: inline;
+        font-size: 1rem;
+        font-weight: normal;
+    }
+
+    .ratings{
+        width:100%;
+    }
     .fivePoint{
-        margin: 1rem auto;
+        margin: 2rem auto;
         border:none;
-        width: clamp(15rem, 40%, 25rem)
+        width: clamp(15rem, 100%, 30rem)
+    }
+    .reference{
+        
+        text-align: center;
+        margin-top:1rem;
     }
     .response{
         margin:1rem auto;
-        width: clamp(15rem, 50%, 35rem)
+        width: clamp(15rem, 100%, 35rem)
     }
 </style>

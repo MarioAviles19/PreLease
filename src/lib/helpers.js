@@ -7,3 +7,7 @@ export const SerializeNonPOJOs = (obj) =>{
 
     return JSON.parse(JSON.stringify(obj));
 }
+
+//Extremely basic filter
+//TODO: Improve this
+export const bannedWordsRegex =  RegExp("(fuck|shit|bitch)")

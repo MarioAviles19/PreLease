@@ -26,7 +26,7 @@
         <div class="card roundedContainer">
             <h1>No Results</h1>
             <p>It looks like no one has left a review yet!</p>
-            <a href="/">Be The First!</a>
+            <a href="/Community/RateMyLandlord/Create">Be The First!</a>
         </div>
         {/if}
         <div class="card review roundedContainer">
