@@ -18,8 +18,8 @@
 <a href="/Community/RateMyLandlord" class="backButton"><span class="fas fa-chevron-left"></span>Back</a>
 
 <section>
-    <div id="results" class="roundedContainer">
-        <div class="heading">
+    <div id="results" class="">
+        <div class="roundedContainer heading">
             
             <h1 class="textColorAccent">{data.address}</h1>
             <a href="/Community/RateMyLandlord/{data.address}" class="reviewCount {data.property.reviewCount? "": "linkDisabled"}">{data.property.reviewCount || 0} reviews</a>
@@ -30,6 +30,15 @@
             <h3>Responsiveness: {data.property.responsivenessRating || "N/A"}</h3>
 
         </div>
+        {#if data.userReview}
+            <div class="myReview roundedContainer">
+                <h1>My Review</h1>
+                <p>{data.userReview.comments}</p>
+                <h2>Overall: {data.userReview.overall || "N/A"}</h2>
+                <h3>Management: {data.userReview.management || "N/A"}</h3>
+                <h3>Responsiveness: {data.userReview.responsiveness || "N/A"}</h3>
+            </div>
+        {/if}
     </div>
     <div id="sidePanel">
         
@@ -61,11 +70,21 @@
         height:75vh;
 
     }
+    .myReview{
+        margin-top:.5rem;
+        padding:1rem;
+    }
+    .myReview h1{
+        margin:0;
+    }
     .linkDisabled{
         pointer-events: none;
     }
+    .heading{
+        padding:1rem;
+    }
     .heading h1{
-        
+        margin-top:0;
         font-size: 2rem;
     }
     .heading h2{
@@ -80,15 +99,16 @@
         color:white;
         text-decoration: underline;
     }
-    .heading a:hover{
+    a:hover{
         color:lightgreen;
     }
     .backButton{
         display: block;
+        width:fit-content;
         color:var(--color-light-text);
         font-size: 2rem;
-        margin:1rem;
-        margin-top:0;
+        padding:1rem;
+        padding-top:0;
     }
     .textColorAccent{
 
@@ -98,11 +118,12 @@
 
         background-color: rgba(238, 238, 238, 0.164);
         border-radius: 0px;
+
         box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.346);
         color: var(--color-light-text)
     }
     #results{
-        padding:1rem;
+        
         height: 100%;
     }
     #sidePanel{

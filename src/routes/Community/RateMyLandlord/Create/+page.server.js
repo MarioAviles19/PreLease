@@ -31,12 +31,12 @@ export const actions = {
 
         //Make sure the user should be creating a review
 
-        //If there is no address in the search params
+        //Redirect if there is no address in the search params
         if(!address){
             throw redirect(302, '/Community/RateMyLandlord');
         }
 
-        //If the user isn't signed in
+        //Redirect if the user isn't signed in
         if(!user){
             throw redirect(302, `/SignIn?redirect=${pathname+ "?address=" + address}`)
         }
@@ -93,6 +93,7 @@ export const actions = {
         const firestore = getFirestore(app);
         //TODO: Add address validation
         //TODO: Look into promise.all();
+        //TODO: Look into firestore Transactions
         const snapshot = await firestore.collection("LandlordRatings").add(
             {address, 
             comments, 
@@ -108,7 +109,7 @@ export const actions = {
         const propertySnapshot = await firestore.collection("Properties").doc(address).get();
         const updatedProperty = await firestore.collection("Properties").doc(address).set({
             reviewCount: FieldValue.increment(1),
-            overallRatings: ((parseInt(propertySnapshot.data()?.overallRating) || 0) + parseInt(overall)) / (propertySnapshot.data()?.reviews + 1 || 1)
+            overallRatings: ((parseInt(propertySnapshot.data()?.overallRating) || 0) + overall) / (propertySnapshot.data()?.reviews + 1 || 1)
             
             },{merge:true});
 
