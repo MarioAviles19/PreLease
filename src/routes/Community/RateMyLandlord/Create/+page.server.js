@@ -17,13 +17,27 @@ export const actions = {
 
         const maxComment = 250;
 
-        console.log(url);
 
         const data = await request.formData();
 
         const overall = data.get('overall');
         const responsiveness = data.get('responsiveness');
         const management = data.get('management');
+
+
+        const startMonth = data.get('startMonth');
+        const startYear = data.get('startYear');
+
+        const endMonth = data.get('endMonth');
+        const endYear = data.get('endYear');
+
+        const startDate = new Date(startYear, startMonth);
+
+        const endDate = new Date(endYear, endMonth);
+
+
+
+
 
         /**@type {string} */
         const comments = data.get('comments');
@@ -32,10 +46,13 @@ export const actions = {
 
         if(bannedWordsRegex.exec(comments)){
             console.log("match")
-            return fail(400, {comments:"Profanity", message: "Please do not use profanity"});
+            return fail(400, {comments, message: "Please do not use profanity"});
         }
         if(comments.length > maxComment){
             return fail(400, {comments, message:"Comment too long"})
+        }
+        if(startDate > endDate){
+            return fail(400, {comments, message: "Please ensure that start date is before end date"});
         }
 
 

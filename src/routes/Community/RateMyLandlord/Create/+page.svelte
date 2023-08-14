@@ -6,28 +6,70 @@
     export let form;
     export let data;
 
+    let commentValue = form?.comments ?? '';
+
+    const currentDate = new Date();
+
+    let startMonth;
+    let startYear;
+
+    let endMonth;
+    let endYear;
+
     let values = [];
+    values[3] = '';
+    values[4] = '';
+    values[5] = currentDate.getMonth() + 1;
+    values[6] = currentDate.getFullYear();
+
 
     let allAnswered = false;
 
 
     onMount(()=>{
         console.log(form);
+        console.log(currentDate)
     })
 
 
-    function DateListener(el){
-        el.addEventListener('keydown',FormatDate)
+    function StartDate(event){
+        const val = parseInt(event.target.value + event.key);
+
+
+
+
+    }
+    function monthInput(event){
+        const val = parseInt(event.target.value + event.key);
+
+        if(val > 12){
+            event.preventDefault();
+        }
+    }
+    function YearFormat(event){
+        if(event.target.value > currentDate.getFullYear()){
+            event.target.value = currentDate.getFullYear();
+        }
+
+    }
+    function MonthFormat(event){
+        if(event.target.value > 12){
+            event.target.value = 12;
+        }
+        else if(event.target.value < 1 && !event.target.value == ''){
+            event.target.value = 1;
+        }
     }
 
     function CheckAllAnswered(event){
         let valid = true;
+        console.log(values)
         if(values.length == 0){
             valid = false;
             return
         }
         values.forEach(val=>{
-            if(val == ''){
+            if(val == ''|| !val){
                 valid = false;
             }
         })
@@ -63,24 +105,29 @@
             <div class="dates">
                 <div class="dateResponse">
                     <label for="startDay">Start Date</label>
-                    <div use:DateListener class="customDate">
-                        <input type="text" placeholder="Month" data-form="month" pattern="d*" maxlength="2" name="startMonth" id="endMonth">
+                    <div  role="textbox" tabindex="0" class="customDate">
+                        <input on:input={MonthFormat} bind:value={values[3]}  type="number" placeholder="Month" data-form="month" pattern="d*" maxlength="2" name="startMonth" id="endMonth">
                         <span>/</span>
-                        <input  type="text" placeholder="Year"  pattern="d*" maxlength="4" name="startYear" id="endYear">
+                        <input on:input={YearFormat} bind:value={values[4]} type="number" placeholder="Year"  pattern="d*" maxlength="4" name="startYear" id="endYear">
                     </div>
                 </div>
                 <div class="dateResponse">
                     <label for="end">End Date</label>
-                    <div use:DateListener class="customDate">
-                        <input type="text" placeholder="Month" data-form="month" pattern="d*" maxlength="2" name="endMonth" id="endMonth">
+                    <div  class="customDate">
+                        <input on:input={MonthFormat} bind:value={values[5]} type="number" placeholder="Month" min=1 max=12 name="endMonth" id="endMonth">
                         <span>/</span>
-                        <input  type="text" placeholder="Year"  pattern="d*" maxlength="4" name="endYear" id="endYear">
+                        <input on:input={YearFormat} bind:value={values[6]} type="number" placeholder="Year" max={currentDate.getFullYear()}  pattern="d*" maxlength="4" name="endYear" id="endYear">
                     </div>
                 </div>
 
             </div>
             <label for="reviewBody">Comments (optional)</label>
-            <textarea name="comments" id="reviewBody" cols="30" rows="6" value={form?.comments ?? ''}></textarea>
+            <div class="commentWrapper">
+                <textarea bind:value={commentValue} maxlength=250 name="comments" id="reviewBody" cols="30" rows="6" ></textarea>
+                <div class="commentOverlay">
+                    <p class="commentCount {commentValue.length > 235? "commentCountWarning": ""}" >{commentValue.length}/250</p>
+                </div>
+            </div>
             <div class="reference">
                 <input type="checkbox" name="willingToReference" id="ref">
                 <label class="smallLabel" for="ref">I would like to be a part of the Rental Referal Program <span style="color:var(--color-theme-2)" class="fa fa-info-circle"></span></label>
@@ -153,15 +200,26 @@
     .customDate span{
         font-size: 1.5rem;
     }
-    .customDate input[type=text]{
+    .customDate input[type=number]{
+        border:none;
         width:45%;
         box-shadow: none;
         color:white;
         font-size:1.5rem;
         text-align: center;
     }
-    .customDate input[type=text]::placeholder{
+    .customDate input[type=number]:focus{
+        outline:none;
+        border: none;
+    }
+    .customDate input[type=number]::placeholder{
 
+    }
+    
+    .customDate input[type=number]::-webkit-outer-spin-button,
+    .customDate input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+        margin: 0;
     }
     .dates{
         margin:auto;
@@ -182,6 +240,11 @@
         font-size: 2rem;
         margin:1rem;
         margin-top:0;
+
+
+    }
+    .backButton:hover{
+        color:lightgreen;
     }
     .address{
         margin-top:0;
@@ -194,6 +257,30 @@
         display: inline;
         font-size: 1rem;
         font-weight: normal;
+    }
+    .commentOverlay{
+        pointer-events: none;
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height:100%;
+    }
+    .commentWrapper{
+        position: relative;
+    }
+    .commentCount{
+        position:absolute;
+        bottom:0;
+        right:0;
+        margin:.5rem;
+        color:rgba(0, 0, 0, 0.411);
+    }
+    .commentCountWarning{
+        color:rgb(176, 115, 2);
+    }
+    .commentCountLimit{
+
     }
 
     .ratings{

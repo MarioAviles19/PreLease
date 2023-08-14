@@ -110,7 +110,7 @@
 
     span{
         /* box-shadow: 1px 0px 1px var(--color-trim), -1px 0px 1px var(--color-trim); */
-        transition:all 200ms ease-out;
+        transition:all 100ms ease-out;
     }
 
 
