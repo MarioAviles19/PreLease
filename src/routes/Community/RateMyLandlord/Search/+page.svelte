@@ -1,6 +1,17 @@
 <script>
     export let data
 
+    function RatingToColorString(num){
+        if(num <= 2){
+            return "red";
+        }
+        else if(num <= 3){
+            return "orange";
+        }
+        else if(num <= 5){
+            return "lightgreen";
+        }
+    }
     //TODO: Maybe consider Client Side Rendering for this page in particular
 
 </script>
@@ -14,26 +25,29 @@
             <p>2 reviews</p>
         
 
-            <h2>Overall: {data.addressInfo.overallRating || "N/A"}</h2>
-            <h2>Management: {data.addressInfo.managementRating || "N/A"}</h2>
-            <h2>Responsiveness: {data.addressInfo.responsivenessRating || "N/A"}</h2>
+            <h2>Overall: {data.property.overallRatings || "N/A"}</h2>
+            <h2>Management: {data.property.managementRating || "N/A"}</h2>
+            <h2>Responsiveness: {data.property.responsivenessRating || "N/A"}</h2>
 
         </div>
     </div>
     <div id="sidePanel">
         
-        {#if Object.keys(data.addressInfo).length == 0}
+        {#if Object.keys(data.reviews).length == 0}
         <div class="card roundedContainer">
             <h1>No Results</h1>
             <p>It looks like no one has left a review yet!</p>
             <a href="/Community/RateMyLandlord/Create?address={data.address}">Be The First!</a>
         </div>
         {/if}
+        
+        {#each data.reviews as review}
         <div class="card review roundedContainer">
-            <h1>2/2023 - 4/2023</h1>
-            <p>"Very responsive! When my dishwasher broke, they were able to get it fixed within the day!"</p>
-            <h2>Overall Rating: 4/5</h2>
+            <h1>{new Date(review.startDate).getMonth()}/{new Date(review.startDate).getFullYear()} - {new Date(review.endDate).getMonth()}/{new Date(review.endDate).getFullYear()}</h1>
+            <p>{review.comments}</p>
+            <h2>Overall Rating: <span style="color:{RatingToColorString(review.overall)}">{review.overall}/5</span></h2>
         </div>
+        {/each}
     </div>
 </section>
 
@@ -44,7 +58,7 @@
         grid-template-columns: 1.25fr .75fr;
         gap:1.5rem;
 
-        min-height:75vh;
+        height:75vh;
 
     }
     .backButton{
@@ -70,32 +84,8 @@
         height: 100%;
     }
     #sidePanel{
-
-    }
-    .background{
-        z-index: -1;
-        position: absolute;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-    }
-    
-    .background img{
-        position: absolute;
-        display: block;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        object-fit: cover;
-    }
-    .noResultsMessage{
-        
-        width:80%;
-        margin:auto;
-        font-size: 1.2rem;
-        padding:.5rem 0;
+        max-height: 100%;
+       
     }
     .card a{
         display: block;
@@ -110,12 +100,15 @@
         font-size: 1.2rem;
 
     }
+    .card p{
+        max-height: 40%;
+    }
 
     .card{
 
         padding:1rem;
         width:100%;
-        min-height:10rem;
+        height:10rem;
         margin-bottom: 1rem;
     }
     .card.review h1{

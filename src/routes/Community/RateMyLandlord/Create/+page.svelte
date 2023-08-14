@@ -29,6 +29,7 @@
     onMount(()=>{
         console.log(form);
         console.log(currentDate)
+        
     })
 
 
@@ -63,11 +64,17 @@
 
     function CheckAllAnswered(event){
         let valid = true;
-        console.log(values)
+        //TODO: Fix this 'values' array thing. It's very bad.
+        
         if(values.length == 0){
             valid = false;
             return
         }
+        if(commentValue.length < 25){
+            valid = false;
+            
+        }
+
         values.forEach(val=>{
             if(val == ''|| !val){
                 valid = false;
@@ -76,8 +83,9 @@
 
         allAnswered = valid;
     }
-   
-    $: values, CheckAllAnswered()
+   //This is not good
+    $: values, CheckAllAnswered();
+    $: commentValue, CheckAllAnswered();
 
 </script>
 <a class="backButton" href="/Community/RateMyLandlord/Search?address={data.address}"><span class="fas fa-chevron-left"></span>back</a>
@@ -123,14 +131,14 @@
             </div>
             <label for="reviewBody">Comments (optional)</label>
             <div class="commentWrapper">
-                <textarea bind:value={commentValue} maxlength=250 name="comments" id="reviewBody" cols="30" rows="6" ></textarea>
+                <textarea bind:value={commentValue} placeholder="Minimum 25 words" maxlength=250 name="comments" id="reviewBody" cols="30" rows="6" ></textarea>
                 <div class="commentOverlay">
                     <p class="commentCount {commentValue.length > 235? "commentCountWarning": ""}" >{commentValue.length}/250</p>
                 </div>
             </div>
             <div class="reference">
                 <input type="checkbox" name="willingToReference" id="ref">
-                <label class="smallLabel" for="ref">I would like to be a part of the Rental Referal Program <span style="color:var(--color-theme-2)" class="fa fa-info-circle"></span></label>
+                <label class="smallLabel" for="ref">I would like to be a part of the Rental Referal Program <a href="/Community/RentalReferal"><span style="color:var(--color-theme-2)" class="fa fa-info-circle"></span></a></label>
             </div>
             <button disabled={!allAnswered}>submit</button>
         </div>
@@ -188,6 +196,9 @@
         background-color: rgba(255, 255, 255, 0.558);
         border:none;
         outline:none;
+    }
+    textarea::placeholder{
+        color:rgba(0, 0, 0, 0.411);
     }
     .customDate{
         display: flex;
@@ -276,6 +287,7 @@
         margin:.5rem;
         color:rgba(0, 0, 0, 0.411);
     }
+    
     .commentCountWarning{
         color:rgb(176, 115, 2);
     }
