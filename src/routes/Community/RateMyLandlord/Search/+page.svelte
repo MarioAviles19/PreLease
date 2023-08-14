@@ -19,22 +19,22 @@
 
 <section>
     <div id="results" class="roundedContainer">
-        <div id="heading">
+        <div class="heading">
             
             <h1 class="textColorAccent">{data.address}</h1>
-            <p>2 reviews</p>
+            <a href="/Community/RateMyLandlord/{data.address}" class="reviewCount {data.property.reviewCount? "": "linkDisabled"}">{data.property.reviewCount || 0} reviews</a>
         
 
             <h2>Overall: {data.property.overallRatings || "N/A"}</h2>
-            <h2>Management: {data.property.managementRating || "N/A"}</h2>
-            <h2>Responsiveness: {data.property.responsivenessRating || "N/A"}</h2>
+            <h3>Management: {data.property.managementRating || "N/A"}</h3>
+            <h3>Responsiveness: {data.property.responsivenessRating || "N/A"}</h3>
 
         </div>
     </div>
     <div id="sidePanel">
         
         {#if Object.keys(data.reviews).length == 0}
-        <div class="card roundedContainer">
+        <div class="card roundedContainer noResult">
             <h1>No Results</h1>
             <p>It looks like no one has left a review yet!</p>
             <a href="/Community/RateMyLandlord/Create?address={data.address}">Be The First!</a>
@@ -60,6 +60,28 @@
 
         height:75vh;
 
+    }
+    .linkDisabled{
+        pointer-events: none;
+    }
+    .heading h1{
+        
+        font-size: 2rem;
+    }
+    .heading h2{
+        
+        font-size: 2rem;
+    }
+    .heading h3{
+        font-weight: normal;
+        font-size: 1.4rem;
+    }
+    .heading a{
+        color:white;
+        text-decoration: underline;
+    }
+    .heading a:hover{
+        color:lightgreen;
     }
     .backButton{
         display: block;
@@ -101,7 +123,8 @@
 
     }
     .card p{
-        max-height: 40%;
+        height: 40%;
+        margin-bottom: 0;
     }
 
     .card{
@@ -110,6 +133,9 @@
         width:100%;
         height:10rem;
         margin-bottom: 1rem;
+    }
+    .noResult h1{
+        margin:0;
     }
     .card.review h1{
         margin:0;

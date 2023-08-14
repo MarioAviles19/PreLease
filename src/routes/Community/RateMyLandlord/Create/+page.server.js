@@ -12,8 +12,9 @@ export const load = async ({locals, request, cookies, url})=>{
         throw redirect(302, `/SignIn?redirect=${pathname + "?address=" + address}`);
     }
     //Check if the user already made a review
-    const userReview = await getFirestore(app).collection('LandlordRatings').where("author", "==",user.uid).get();
+    const userReview = await getFirestore(app).collection('LandlordRatings').where("address","==", address).where("author", "==",user.uid).get();
 
+    //May need to validate that there are no reviews from a given user on the form action as well.
     if(!userReview.empty){
         throw redirect(302, `/Community/RateMyLandlord/Search?address=${address}`)
     }
@@ -106,7 +107,7 @@ export const actions = {
 
         const propertySnapshot = await firestore.collection("Properties").doc(address).get();
         const updatedProperty = await firestore.collection("Properties").doc(address).set({
-            reviews: FieldValue.increment(1),
+            reviewCount: FieldValue.increment(1),
             overallRatings: ((parseInt(propertySnapshot.data()?.overallRating) || 0) + parseInt(overall)) / (propertySnapshot.data()?.reviews + 1 || 1)
             
             },{merge:true});
