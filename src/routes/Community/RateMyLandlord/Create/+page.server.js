@@ -50,11 +50,11 @@ export const actions = {
         const data = await request.formData();
 
      
-        const overall = parseInt(data.get('overall'));
-        const responsiveness = parseInt(data.get('responsiveness'));
-        const management = parseInt(data.get('management'));
+        const overallRating = parseInt(data.get('overall'));
+        const responsivenessRating = parseInt(data.get('responsiveness'));
+        const managementRating = parseInt(data.get('management'));
         /**@type {string} */
-        const comments = data.get('comments');
+        const comment = data.get('comments');
 
 
         const startMonth = data.get('startMonth');

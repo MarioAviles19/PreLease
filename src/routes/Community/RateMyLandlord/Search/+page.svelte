@@ -42,7 +42,7 @@
         <div class="roundedContainer heading">
             
             <h1 class="textColorAccent">{data.address}</h1>
-            <a href="/Community/RateMyLandlord/{data.address}" class="reviewCount {data.property.reviewCount? "": "linkDisabled"}">{data.property.reviewCount || 0} reviews</a>
+            <a href="/Community/RateMyLandlord/Reviews?address={data.address}" class="reviewCount {data.property.reviewCount? "": "linkDisabled"}">{data.property.reviewCount || 0} reviews</a>
         
 
             <h2>Overall: {data.property.overallRatings || "N/A"}</h2>
@@ -86,7 +86,7 @@
             <h1>{new Date(review.startDate).getMonth()}/{new Date(review.startDate).getFullYear()} - {new Date(review.endDate).getMonth()}/{new Date(review.endDate).getFullYear()}</h1>
             </div>
             <p use:TruncateCommentPreview>{review.comments}</p>
-            <a href="/Community/RateMyLandlord/Review/{review.id}"><span class="overlay"></span></a>
+            <a href="/Community/RateMyLandlord/Reviews/{review.id}"><span class="overlay"></span></a>
         </div>
         {/each}
     </div>

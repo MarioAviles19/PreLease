@@ -87,6 +87,8 @@
     $: values, CheckAllAnswered();
     $: commentValue, CheckAllAnswered();
 
+    //TODO: Add type of housing 1br apt, studio apt, basement unit, etc.
+
 </script>
 <a class="backButton" href="/Community/RateMyLandlord/Search?address={data.address}"><span class="fas fa-chevron-left"></span>back</a>
 <section>
