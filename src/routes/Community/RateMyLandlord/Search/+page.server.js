@@ -5,6 +5,7 @@ const {getFirestore, Timestamp} = adminFirestore;
 
 export const load = async ({locals, url,cookies})=>{
     //TODO: Rework this to utilize dependency Injection;
+    
 
     const {user, app} = await locals.GetUserFromSession(cookies.get('session'));
 
@@ -57,7 +58,7 @@ export const load = async ({locals, url,cookies})=>{
 
     
  
-
+    //TODO: Replace the 'author' field with an 'isOwnedByUser' field for strengthened anonymity.
     return {property: propertyData , 
     reviews: SerializeNonPOJOs(reviewPayload), 
     address: address, 

@@ -31,6 +31,7 @@
             el.innerHTML = wordArray.join(" ") + " . . . ."
         }
     }
+    console.log(data.userData)
     //TODO: Maybe consider Client Side Rendering for this page in particular
 
 </script>
@@ -51,12 +52,21 @@
         </div>
         {#if data.userReview}
             <div class="myReview roundedContainer">
+                <div class="twoxgrid">
                 <h1>My Review</h1>
+                    <div class="myReviewStats">
+                        <h2>Overall Rating: <span style="color:{RatingToColorString(data.userReview.overall)}">{data.userReview.overall + "/5" || "N/A"}</span></h2>
+                    </div>
+                </div>
                 <p>{data.userReview.comments}</p>
-                <h2>Overall: {data.userReview.overall || "N/A"}</h2>
-                <h3>Management: {data.userReview.management || "N/A"}</h3>
-                <h3>Responsiveness: {data.userReview.responsiveness || "N/A"}</h3>
+                <a class="createButton" href="/Community/RateMyLandlord/Update?address={data.address}">Update</a>
             </div>
+        {:else}
+        <div class="myReview roundedContainer">
+            <h1>Did you rent here?</h1>
+            <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Leave a Review</a>
+        </div>
+
         {/if}
     </div>
     <div id="sidePanel">
@@ -65,15 +75,18 @@
         <div class="card roundedContainer noResult">
             <h1>No Results</h1>
             <p>It looks like no one has left a review yet!</p>
-            <a href="/Community/RateMyLandlord/Create?address={data.address}">Be The First!</a>
+            <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Be The First!</a>
         </div>
         {/if}
         
         {#each data.reviews as review}
-        <div class="card review roundedContainer">
-            <h1>{new Date(review.startDate).getMonth()}/{new Date(review.startDate).getFullYear()} - {new Date(review.endDate).getMonth()}/{new Date(review.endDate).getFullYear()}</h1>
-            <p use:TruncateCommentPreview>{review.comments}</p>
+        <div class="card review roundedContainer {review.author == data.userData.uid? "userReview": ""}">
+            <div class="reviewHeader">
             <h2>Overall Rating: <span style="color:{RatingToColorString(review.overall)}">{review.overall}/5</span></h2>
+            <h1>{new Date(review.startDate).getMonth()}/{new Date(review.startDate).getFullYear()} - {new Date(review.endDate).getMonth()}/{new Date(review.endDate).getFullYear()}</h1>
+            </div>
+            <p use:TruncateCommentPreview>{review.comments}</p>
+            <a href="/Community/RateMyLandlord/Review/{review.id}"><span class="overlay"></span></a>
         </div>
         {/each}
     </div>
@@ -84,17 +97,48 @@
     section{
         display: grid;
         grid-template-columns: 1.25fr .75fr;
-        gap:1.5rem;
+        gap:1rem;
 
         height:75vh;
 
+    }
+    .reviewHeader{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .reviewHeader h2{
+        margin:0;
+        display: inline-block;
+        
+    }
+    .reviewHeader h1{
+        display: inline-block;
+    }
+    .myReviewStats h2{
+        margin:0;
+        font-size: 2rem;
+        text-align: right;
+    }
+    .myReviewStats h3{
+        margin:0;
+        font-size: 1.2rem;
+    }
+    .twoxgrid{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        
     }
     .myReview{
         margin-top:.5rem;
         padding:1rem;
     }
+    .myReview .createButton{
+        margin-right: 0;
+    }
     .myReview h1{
         margin:0;
+        font-size: 2rem;
     }
     .linkDisabled{
         pointer-events: none;
@@ -110,7 +154,8 @@
         
         font-size: 2rem;
     }
-    .heading h3{
+    .stat{
+        margin:0;
         font-weight: normal;
         font-size: 1.4rem;
     }
@@ -118,7 +163,7 @@
         color:white;
         text-decoration: underline;
     }
-    a:hover{
+    .heading a:hover{
         color:lightgreen;
     }
     .backButton{
@@ -149,7 +194,7 @@
         max-height: 100%;
        
     }
-    .card a{
+    .createButton{
         display: block;
         margin:.5rem auto;
 
@@ -170,11 +215,17 @@
     }
 
     .card{
-
+        position: relative;
         padding:1rem;
         width:100%;
         height:10rem;
         margin-bottom: 1rem;
+
+        transition: all 150ms ease-out;
+    }
+    .card:hover{
+        background-color: rgba(238, 238, 238, 0.257);
+        transform: translateY(-3px);
     }
     .noResult h1{
         margin:0;
@@ -185,7 +236,7 @@
         color:var(--color-trim)
     }
     .card.review h2{
-        margin:0;
+
         font-size: 1.2rem;
         
     }
