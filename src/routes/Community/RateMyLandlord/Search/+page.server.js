@@ -26,7 +26,7 @@ export const load = async ({locals, url,cookies})=>{
     let propertyPayload = {};
 
     reviews.forEach((doc)=>{
-        console.log("1");
+
         const data = doc.data();
 
         console.log(new Date(data.startDate.toDate()))
@@ -40,7 +40,7 @@ export const load = async ({locals, url,cookies})=>{
 
 
     if(!userRating.empty){
-        console.log(2);
+
         userDataPayload = {...userRating.docs[0].data() || {}, 
         id: userRating.docs[0]?.id,
         startDate: new Date(userRating.docs[0].data().startDate.toDate()) || null, 
@@ -51,7 +51,7 @@ export const load = async ({locals, url,cookies})=>{
     let propertyData = {};
 
     if(property.exists){
-        console.log(3);
+
         propertyData = {...property.data(), id: property.id}
     }
 

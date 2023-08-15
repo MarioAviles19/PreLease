@@ -12,6 +12,25 @@
             return "lightgreen";
         }
     }
+    function TruncateCommentPreview(el){
+        console.log(el)
+
+        //TODO: change this to innerText
+        //Get the innerHTML 
+        /**@type {string}*/
+        let value = el.innerHTML;
+        //Truncate it at character 150
+        let truncated = value.slice(0,150);
+
+        //Split the array by spaces
+        let wordArray = truncated.split(" ")
+        //Remove the last bit
+        wordArray.pop()
+
+        if(value.length > 150){
+            el.innerHTML = wordArray.join(" ") + " . . . ."
+        }
+    }
     //TODO: Maybe consider Client Side Rendering for this page in particular
 
 </script>
@@ -53,7 +72,7 @@
         {#each data.reviews as review}
         <div class="card review roundedContainer">
             <h1>{new Date(review.startDate).getMonth()}/{new Date(review.startDate).getFullYear()} - {new Date(review.endDate).getMonth()}/{new Date(review.endDate).getFullYear()}</h1>
-            <p>{review.comments}</p>
+            <p use:TruncateCommentPreview>{review.comments}</p>
             <h2>Overall Rating: <span style="color:{RatingToColorString(review.overall)}">{review.overall}/5</span></h2>
         </div>
         {/each}
@@ -144,7 +163,9 @@
 
     }
     .card p{
-        height: 40%;
+        min-height: 40%;
+        overflow:hidden;
+        
         margin-bottom: 0;
     }
 
