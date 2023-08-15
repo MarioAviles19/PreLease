@@ -16,22 +16,53 @@
 </script>
 
 <section>
+    <h1>{data.address}</h1>
     <div class="reviewList">
         {#each data.reviews as review}
-        <div class="card glassContainer">
-            <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
-            <h2>{review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</h2>
-            <h1>Overall: {review.overallRating}</h1>
-            <h1>Management: {review.managementRating}</h1>
-            <h1>Responsiveness: {review.responsivenessRating}</h1>
-            <p>{review.comment}</p>
 
-        </div>
+        {#each {length: 5} as _}
+            <div class="card glassContainer">
+                <div class="reviewHeader">
+                <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
+                <h2 class="date">{review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</h2>
+                </div>
+                <div class="stars">
+                    {#each {length: 5} as _, i}
+                    <span class="star {review.overallRating >= i + 1? "filled": "unfilled"} fas fa-star "></span>
+                    {/each}
+                </div>
+                <p>{review.comment}</p>
+
+            </div>
+            {/each}
         {/each}
     </div>
 </section>
 
 <style>
+    .reviewList{
+        display: grid;
+        grid-template-columns:  1fr 1fr 1fr;
+        gap:.5rem;
+        width: clamp(10rem, 95%, 60rem)
+    }
+    .date{
+        margin:0;
+    }
+    .reviewHeader{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .star.filled{
+        color: var(--color-theme-2);
+    }
+    .star.unfilled{
+        color:grey;
+    }
+    .stars{
+        font-size: 1.2rem;
+    }
     .ratingIndicator{
         aspect-ratio: 1/1;
         width:1rem;
@@ -39,6 +70,8 @@
     }
     .card{
         padding:1rem;
+        color: white;
+        width:100%;
     }
     .glassContainer{
         background-color: rgba(238, 238, 238, 0.164);
