@@ -20,7 +20,7 @@
     <div class="reviewList">
         {#each data.reviews as review}
 
-        {#each {length: 5} as _}
+        {#each {length: 1} as _}
             <div class="card glassContainer">
                 <div class="reviewHeader">
                 <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
@@ -48,11 +48,13 @@
     }
     .date{
         margin:0;
+        font-size: 1rem;
     }
     .reviewHeader{
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: .5rem;
     }
     .star.filled{
         color: var(--color-theme-2);

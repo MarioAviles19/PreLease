@@ -18,20 +18,32 @@ export const load = async ({locals, url,cookies})=>{
 
     
     //TODO: orderby end date after index finishes
-    const reviews = await getFirestore(app).collection('LandlordRatings').where('address', '==', address).limit(3).get();
+    const reviewsQuery = await getFirestore(app).collection('LandlordRatings').where('address', '==', address).limit(3).get();
     const property = await getFirestore(app).collection('Properties').doc(address).get();
     //TODO: check if user's review came up in the initial read
     const userRating =  await getFirestore(app).collection('LandlordRatings').where("address", "==", address).where("author", "==", user.uid).limit(1).get();
 
-    let reviewPayload = [];
+    /**@type {Array<import("$lib/Interfaces/databaseTypes.js").LandlordReview>} */
+    let reviews = [];
     let propertyPayload = {};
 
-    reviews.forEach((doc)=>{
+    let userHasMadeReview = false;
+    reviewsQuery.forEach((doc)=>{
 
+        /**@type {import("$lib/Interfaces/databaseTypes.js").LandlordReview} */
         const data = doc.data();
-
-        console.log(new Date(data.startDate.toDate()))
-        reviewPayload.push({...doc.data(), startDate: new Date(data.startDate.toDate()), endDate: new Date(data.endDate.toDate()),  id: doc.id});
+        reviews.push({
+            ...data, 
+            id: doc.id,
+            startDate: new Date(doc.data().startDate.toDate()) || null, 
+            endDate: new Date(doc.data().endDate.toDate()) || null,
+            timestamp: SerializeNonPOJOs(doc.data().timestamp) || null,
+            author: ""
+            });
+        
+        if(data.author == user.uid){
+            userHasMadeReview = true;
+        }
 
 
     })
@@ -46,7 +58,9 @@ export const load = async ({locals, url,cookies})=>{
         id: userRating.docs[0]?.id,
         startDate: new Date(userRating.docs[0].data().startDate.toDate()) || null, 
         endDate: new Date(userRating.docs[0].data().endDate.toDate()) || null,
-        timestamp: SerializeNonPOJOs(userRating.docs[0].data().timestamp) || null}
+        timestamp: SerializeNonPOJOs(userRating.docs[0].data().timestamp) || null
+    }
+        
     }
 
     let propertyData = {};
@@ -56,11 +70,13 @@ export const load = async ({locals, url,cookies})=>{
         propertyData = {...property.data(), id: property.id}
     }
 
-    
+    console.log("user" + userHasMadeReview)
  
     //TODO: Replace the 'author' field with an 'isOwnedByUser' field for strengthened anonymity.
-    return {property: propertyData , 
-    reviews: SerializeNonPOJOs(reviewPayload), 
+    return {property: propertyData, 
+    reviews:reviews, 
     address: address, 
-    userReview: userDataPayload}
+    userReview: userDataPayload,
+    userHasMadeReview
+}
 }

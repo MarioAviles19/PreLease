@@ -1,6 +1,67 @@
 <script>
+    import {Chart} from "chart.js/auto"
+	import { onMount } from "svelte";
     export let data
+    
 
+    const reviewCommentBreakpoint = 250;
+
+    /**@type {Element}*/
+    let rentChart;
+
+    onMount(()=>{
+        CreateChart()
+    })
+
+    function CreateChart(){
+        new Chart("rentOverTime",{
+            type:"line",
+            data:{
+                
+                labels:[2000,2005,2010,2015, 2020],
+                
+                datasets:[{
+                
+                backgroundColor:"#90ee90",
+                borderColor: "#90ee90",
+                borderWidth:1,
+                data:[500, 700, 820, 900, 1100]
+                }]
+            },
+            options: {
+                scales:{
+                    
+                    y:{
+                        ticks:{
+                            color:"rgba(255,255,255,1)"
+                        },
+                        grid:{
+                            color:"rgba(255,255,255,.4)"
+
+                            
+                        }
+                        
+                    },
+                    x:{
+                        ticks:{
+                            color:"rgba(255,255,255,1)"
+                        },
+                        grid:{
+                            color:"rgba(255,255,255,.4)"
+                        }
+                    }
+                    
+                },
+                plugins:{
+                    legend:{
+                        display:false
+                    }
+                }
+        }
+        })
+    }
+
+    /**@param num {number}*/
     function RatingToColorString(num){
         if(num <= 2){
             return "red";
@@ -12,6 +73,7 @@
             return "lightgreen";
         }
     }
+    /**@param el {Element}*/
     function TruncateCommentPreview(el){
         console.log(el)
 
@@ -20,14 +82,14 @@
         /**@type {string}*/
         let value = el.innerHTML;
         //Truncate it at character 150
-        let truncated = value.slice(0,150);
+        let truncated = value.slice(0,reviewCommentBreakpoint);
 
         //Split the array by spaces
         let wordArray = truncated.split(" ")
         //Remove the last bit
         wordArray.pop()
 
-        if(value.length > 150){
+        if(value.length > reviewCommentBreakpoint){
             el.innerHTML = wordArray.join(" ") + " . . . ."
         }
     }
@@ -37,7 +99,7 @@
 </script>
 <a href="/Community/RateMyLandlord" class="backButton"><span class="fas fa-chevron-left"></span>Back</a>
 
-<section>
+<section id="overview">
     <div id="results" class="">
         <div class="roundedContainer heading">
             
@@ -50,24 +112,14 @@
             <h3>Responsiveness: {data.property.responsivenessRating || "N/A"}</h3>
 
         </div>
-        {#if data.userReview}
-            <div class="myReview roundedContainer">
-                <div class="twoxgrid">
-                <h1>My Review</h1>
-                    <div class="myReviewStats">
-                        <h2>Overall Rating: <span style="color:{RatingToColorString(data.userReview.overall)}">{data.userReview.overall + "/5" || "N/A"}</span></h2>
-                    </div>
-                </div>
-                <p>{data.userReview.comments}</p>
-                <a class="createButton" href="/Community/RateMyLandlord/Update?address={data.address}">Update</a>
-            </div>
-        {:else}
+        {#if !data.userHasMadeReview}
         <div class="myReview roundedContainer">
             <h1>Did you rent here?</h1>
             <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Leave a Review</a>
         </div>
-
         {/if}
+
+    
     </div>
     <div id="sidePanel">
         
@@ -79,28 +131,105 @@
         </div>
         {/if}
         
-        {#each data.reviews as review}
-        <div class="card review roundedContainer {review.author == data.userData.uid? "userReview": ""}">
-            <div class="reviewHeader">
-            <h2>Overall Rating: <span style="color:{RatingToColorString(review.overall)}">{review.overall}/5</span></h2>
-            <h1>{new Date(review.startDate).getMonth()}/{new Date(review.startDate).getFullYear()} - {new Date(review.endDate).getMonth()}/{new Date(review.endDate).getFullYear()}</h1>
-            </div>
-            <p use:TruncateCommentPreview>{review.comments}</p>
-            <a href="/Community/RateMyLandlord/Reviews/{review.id}"><span class="overlay"></span></a>
+        <div class="rentGraphContainer glassContainer">
+            <h2>Rent Over Time</h2>
+            <canvas bind:this={rentChart} id="rentOverTime"></canvas>
         </div>
+    </div>
+</section>
+
+<section id="reviews">
+    <div class="reviewList">
+        {#each data.reviews as review}
+
+        {#each {length: 1} as _}
+            <div class="reviewCard glassContainer">
+                <div class="reviewHeader">
+                <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
+                <h2 class="date">{review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</h2>
+                </div>
+                <div class="stars">
+                    {#each {length: 5} as _, i}
+                    <span class="star {review.overallRating >= i + 1? "filled": "unfilled"} fas fa-star "></span>
+                    {/each}
+                </div>
+                <p>{review.comment}</p>
+
+            </div>
+            {/each}
         {/each}
     </div>
 </section>
 
-
 <style>
-    section{
+    #overview{
         display: grid;
         grid-template-columns: 1.25fr .75fr;
         gap:1rem;
 
-        height:75vh;
+        margin-bottom: 1rem;
 
+    }
+    #reviews{
+
+    }
+    #rentOverTime{
+        width:100%;
+        background-color: rgba(0, 0, 0, 0.531);
+
+    }
+
+    .rentGraphContainer h2{
+        margin:0;
+        text-align: center;
+
+    }
+    .rentGraphContainer{
+        padding:.5rem;
+        background-color: rgba(0, 0, 0, 0.531);
+    }
+    
+    .reviewList{
+        display: grid;
+        grid-template-columns:  1fr 1fr 1fr;
+        gap:.5rem;
+        width: clamp(10rem, 95%, 60rem)
+    }
+    .date{
+        margin:0;
+        font-size: 1rem;
+    }
+    .reviewHeader{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: .5rem;
+    }
+    .star.filled{
+        color: var(--color-theme-2);
+    }
+    .star.unfilled{
+        color:grey;
+    }
+    .stars{
+        font-size: 1.2rem;
+    }
+    .ratingIndicator{
+        aspect-ratio: 1/1;
+        width:1rem;
+        border-radius: 99rem;
+    }
+    .reviewCard{
+        padding:1rem;
+        color: white;
+        width:100%;
+    }
+    .glassContainer{
+        background-color: rgba(238, 238, 238, 0.164);
+        border-radius: 0px;
+
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.346);
+        color: var(--color-light-text)
     }
     .reviewHeader{
         display: flex;
@@ -164,7 +293,7 @@
         text-decoration: underline;
     }
     .heading a:hover{
-        color:lightgreen;
+        color:#90ee90;
     }
     .backButton{
         display: block;
