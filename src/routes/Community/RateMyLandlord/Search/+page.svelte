@@ -1,5 +1,6 @@
 <script>
-    import {Chart} from "chart.js/auto"
+    import LandlordReviewModal from "$lib/Components/LandlordReviewModal.svelte";
+import {Chart} from "chart.js/auto"
 	import { onMount } from "svelte";
     export let data
     
@@ -160,7 +161,7 @@
         {/each}
     </div>
 </section>
-
+<LandlordReviewModal review={data.reviews[0]}></LandlordReviewModal>
 <style>
     #overview{
         display: grid;
