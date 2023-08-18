@@ -4,7 +4,7 @@
     /**@param num {number}*/
     function RatingToColorString(num){
         if(num <= 2){
-            return "red";
+            return "var(--color-rating-poor)";
         }
         else if(num <= 3){
             return "orange";

@@ -32,11 +32,14 @@ export const load = async ({locals, url,cookies})=>{
 
         /**@type {import("$lib/Interfaces/databaseTypes.js").LandlordReview} */
         const data = doc.data();
+
+
+
         reviews.push({
             ...data, 
             id: doc.id,
-            startDate: new Date(doc.data().startDate.toDate()) || null, 
-            endDate: new Date(doc.data().endDate.toDate()) || null,
+            startDate: data.startDate?.toDate(), 
+            endDate: data.endDate?.toDate(),
             timestamp: SerializeNonPOJOs(doc.data().timestamp) || null,
             author: ""
             });

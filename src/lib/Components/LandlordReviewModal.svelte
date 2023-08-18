@@ -14,7 +14,7 @@
 
 {#if modalOpen}
 <section class="modalWrapper">
-
+    <div class="modalUnderlay" role="button" tabindex="-1" on:keyup={event=>{if(event.key == "Escape") ToggleModal}} on:click={ToggleModal}></div>
     <div class="modal tint">
         <div class="header">
             <h2>Review</h2>
@@ -22,7 +22,7 @@
         </div>
         <div class="info">
             <div class="leftSide">
-                <p class="rentalPeriod">Rental Period - {review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</p>
+                <p class="rentalPeriod">Rental Period - {review.startDate?.getMonth()}/{review.startDate?.getFullYear()} - {review.endDate?.getMonth()}/{review.endDate?.getFullYear()}</p>
             </div>
             <div class="rightSide">
                 <p class="housingType">Type - 1 bedroom Apartment</p>
@@ -58,6 +58,13 @@
     h2{
         font-size: 2rem;
         margin-top: 0;
+    }
+    .modalUnderlay{
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
     }
     .header{
         display: flex;

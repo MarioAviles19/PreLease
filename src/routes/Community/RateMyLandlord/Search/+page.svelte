@@ -86,7 +86,7 @@ import {Chart} from "chart.js/auto"
     /**@param num {number}*/
     function RatingToColorString(num){
         if(num <= 2){
-            return "red";
+            return "var(--color-rating-poor)";
         }
         else if(num <= 3){
             return "orange";
@@ -165,15 +165,15 @@ import {Chart} from "chart.js/auto"
     <div class="reviewList">
         {#each data.reviews as review}
 
-        {#each {length: 20} as _}
+        {#each {length: 1} as _}
             <div class="reviewCard glassContainer">
                 <div class="reviewHeader">
                 <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
-                <h3 class="date">{review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</h3>
+                <h3 class="date">{review.startDate?.getMonth()}/{review.startDate?.getFullYear()} - {review.endDate?.getMonth()}/{review.endDate?.getFullYear()}</h3>
                 </div>
                 <div class="stars">
                     {#each {length: 5} as _, i}
-                    <span class="star {review.overallRating >= i + 1? "filled": "unfilled"} fas fa-star "></span>
+                    <span class="star fas fa-star " style={review.overallRating >= i + 1? `color:${RatingToColorString(review.overallRating)}`: "color:grey"}></span>
                     {/each}
                 </div>
                 <p>{review.comment}</p>
@@ -246,7 +246,7 @@ import {Chart} from "chart.js/auto"
         margin-bottom: .5rem;
     }
     .star.filled{
-        color: var(--color-theme-2);
+        color: lightgreen;
     }
     .star.unfilled{
         color:grey;
