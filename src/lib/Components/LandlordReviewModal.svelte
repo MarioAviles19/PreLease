@@ -4,57 +4,95 @@
     export let review;
     export let modalOpen = true;
 
+    
+    function ToggleModal(){
+        modalOpen = !modalOpen;
+    }
+
 
 </script>
 
 {#if modalOpen}
-<section class="modalWrapper ">
+<section class="modalWrapper">
 
     <div class="modal tint">
-        <h1>Review</h1>
-        <h2>{review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</h2>
-
+        <div class="header">
+            <h2>Review</h2>
+            <button on:click={ToggleModal} class="closeButton" type="button"><span class="fas fa-close"></span></button>
+        </div>
+        <div class="info">
+            <div class="leftSide">
+                <p class="rentalPeriod">Rental Period - {review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</p>
+            </div>
+            <div class="rightSide">
+                <p class="housingType">Type - 1 bedroom Apartment</p>
+                <p class="rent">Average Rent - {review.price ?? "$600"}</p>
+            </div>
+        </div>
         <div class="ratings">
             <div class="rating">
                 <h3>Management</h3>
                 <StarRating value={review.managementRating}/>
             </div>
+            <div class="rating overallRating">
+                <h3>Overall</h3>
+                <StarRating value={review.overallRating}/>
+            </div>
             <div class="rating">
                 <h3>Responsiveness</h3>
                 <StarRating value={review.responsivenessRating}/>
             </div>
-            <div class="rating">
-                <h3>Overall</h3>
-                <StarRating value={review.overallRating}/>
-            </div>
         </div>
-        <h2>Comment</h2>
+        <h3>Comment</h3>
         <p>{review.comment}</p>
 
-        <button class="closeButton" type="button"><span class="fas fa-close"></span></button>
+
     </div>
-
-
 </section>
 {/if}
 
 <style>
-    h1,h2,h3{
+    h2,h3{
         margin: 0;
     }
+    h2{
+        font-size: 2rem;
+        margin-top: 0;
+    }
+    .header{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .info p{
+        margin-top:0;
+        text-align: right;
+    }
+    .info{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .rentalPeriod{
+        font-size: 1rem;
+        margin-bottom:1rem;
+
+    }
+
     .closeButton{
         background: none;
         border:none;
         color:white;
-        font-size: 2rem;
-        position: absolute;
-        top:0;
-        right:0;
-        margin:1rem;
+        font-size: 2.5rem;
+        margin-top: -.2rem;
         
     }
     .closeButton:hover{
         color:lightgreen;
+    }
+    .overallRating{
+        font-size: 1.6rem;
+        margin-top: -1rem;
     }
     .rating{
         display:flex;
@@ -65,6 +103,7 @@
     .ratings{
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
+        margin-bottom: 1.5rem;
     }
     .modalWrapper{
         position: fixed;
@@ -76,14 +115,20 @@
         width:100%;
         height: 100%;
 
+        backdrop-filter: blur(2px);
+        background-color: rgba(0, 0, 0, 0.271);
+
     }
     .tint{
-        background-color: rgba(0, 0, 0, 0.38);
-        backdrop-filter: blur(6px);
+        background-color: rgba(0, 0, 0, 0.685);
+        backdrop-filter: blur(7px);
+
     }
     .modal{
         width:clamp(15rem, 95%, 50rem);
         color:white;
         padding: 1rem;
+        margin-top:-3rem;
+        padding-bottom: 2rem;
     }
 </style>

@@ -14,7 +14,7 @@
 
 	export let data;
 	
-
+	/**@type {number}*/
 	let headerHeight;
 
 
@@ -36,7 +36,7 @@
 
 	onMount(()=>{
 
-		console.log(data.userData)
+
 		InitLogging()
 
 
@@ -90,7 +90,7 @@
 		left:0;
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		background-color: var(--color-theme-1);
+		background-color: var(--color-gunmetal);
 		min-height: 4rem;
 		height: fit-content;
 		padding: 0.5rem;

@@ -4,6 +4,9 @@ import {Chart} from "chart.js/auto"
 	import { onMount } from "svelte";
     export let data
     
+    /**@type {import("$lib/Interfaces/databaseTypes.js").LandlordReview}*/
+    let currentReviewInModal;
+    let reviewModalOpen = false;
 
     const reviewCommentBreakpoint = 250;
 
@@ -13,6 +16,7 @@ import {Chart} from "chart.js/auto"
     onMount(()=>{
         CreateChart()
     })
+    
 
     function CreateChart(){
         new Chart("rentOverTime",{
@@ -33,8 +37,10 @@ import {Chart} from "chart.js/auto"
                 scales:{
                     
                     y:{
+                        beginAtZero:true,
                         ticks:{
-                            color:"rgba(255,255,255,1)"
+                            color:"rgba(255,255,255,1)",
+                            
                         },
                         grid:{
                             color:"rgba(255,255,255,.4)"
@@ -44,6 +50,7 @@ import {Chart} from "chart.js/auto"
                         
                     },
                     x:{
+                        //TODO: Look into timeseries adapter for chartjs
                         ticks:{
                             color:"rgba(255,255,255,1)"
                         },
@@ -53,13 +60,27 @@ import {Chart} from "chart.js/auto"
                     }
                     
                 },
+                
                 plugins:{
+                    tooltip:{
+                        displayColors:false,
+                        callbacks:{
+                            label: function(tooltipItem){
+                                return "$" + tooltipItem.formattedValue;
+                            }
+                        },
+                    },
                     legend:{
                         display:false
                     }
                 }
         }
         })
+    }
+    /**@param review {import("$lib/Interfaces/databaseTypes.js").LandlordReview}*/
+    function OpenReviewModal(review){
+        currentReviewInModal = review;
+        reviewModalOpen = true;
     }
 
     /**@param num {number}*/
@@ -115,7 +136,7 @@ import {Chart} from "chart.js/auto"
         </div>
         {#if !data.userHasMadeReview}
         <div class="myReview roundedContainer">
-            <h1>Did you rent here?</h1>
+            <h2>Did you rent here?</h2>
             <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Leave a Review</a>
         </div>
         {/if}
@@ -126,7 +147,7 @@ import {Chart} from "chart.js/auto"
         
         {#if Object.keys(data.reviews).length == 0}
         <div class="card roundedContainer noResult">
-            <h1>No Results</h1>
+            <h2>No Results</h2>
             <p>It looks like no one has left a review yet!</p>
             <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Be The First!</a>
         </div>
@@ -134,20 +155,21 @@ import {Chart} from "chart.js/auto"
         
         <div class="rentGraphContainer glassContainer">
             <h2>Rent Over Time</h2>
-            <canvas bind:this={rentChart} id="rentOverTime"></canvas>
+            <canvas bind:this={rentChart} style="width:100% !important" id="rentOverTime"></canvas>
         </div>
     </div>
 </section>
 
 <section id="reviews">
+    <h2>Reviews</h2>
     <div class="reviewList">
         {#each data.reviews as review}
 
-        {#each {length: 1} as _}
+        {#each {length: 20} as _}
             <div class="reviewCard glassContainer">
                 <div class="reviewHeader">
                 <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
-                <h2 class="date">{review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</h2>
+                <h3 class="date">{review.startDate.getMonth()}/{review.startDate.getFullYear()} - {review.endDate.getMonth()}/{review.endDate.getFullYear()}</h3>
                 </div>
                 <div class="stars">
                     {#each {length: 5} as _, i}
@@ -155,34 +177,49 @@ import {Chart} from "chart.js/auto"
                     {/each}
                 </div>
                 <p>{review.comment}</p>
+                <button on:click={()=>{OpenReviewModal(review)}} class="overlay modalToggleButton" type="button"></button>
 
             </div>
             {/each}
         {/each}
     </div>
 </section>
-<LandlordReviewModal review={data.reviews[0]}></LandlordReviewModal>
+<LandlordReviewModal bind:modalOpen={reviewModalOpen} review={currentReviewInModal}></LandlordReviewModal>
 <style>
     #overview{
         display: grid;
-        grid-template-columns: 1.25fr .75fr;
+        grid-template-columns: 1.2fr .8fr;
         gap:1rem;
 
+        margin:auto;
         margin-bottom: 1rem;
-
+        width:clamp(15rem, 100%, 75rem);
+        
     }
     #reviews{
-
+        width:clamp(15rem, 100%, 75rem);
+        margin:auto;
+    }
+    #reviews h2{
+        color:white;
+        font-size: 2rem;
+        margin-bottom: .5rem;
     }
     #rentOverTime{
-        width:100%;
+        /*overrides the chartjs styling which was breaking the css*/
+        width:100% !important;
         background-color: rgba(0, 0, 0, 0.531);
 
     }
-
+    .modalToggleButton{
+        background:none;
+        border:none;
+        outline:none;
+    }
     .rentGraphContainer h2{
         margin:0;
         text-align: center;
+        margin-bottom: 1rem;
 
     }
     .rentGraphContainer{
@@ -190,11 +227,13 @@ import {Chart} from "chart.js/auto"
         background-color: rgba(0, 0, 0, 0.531);
     }
     
+    
     .reviewList{
         display: grid;
-        grid-template-columns:  1fr 1fr 1fr;
-        gap:.5rem;
-        width: clamp(10rem, 95%, 60rem)
+        grid-template-columns: repeat(3, 1fr);
+        gap:3rem;
+        width:100%;
+        margin:auto;
     }
     .date{
         margin:0;
@@ -221,9 +260,15 @@ import {Chart} from "chart.js/auto"
         border-radius: 99rem;
     }
     .reviewCard{
+        position: relative;
         padding:1rem;
         color: white;
         width:100%;
+        transition: all 100ms ease-out;
+    }
+    .reviewCard:hover{
+        background-color: rgba(238, 238, 238, 0.257);
+        transform: translateY(-3px);
     }
     .glassContainer{
         background-color: rgba(238, 238, 238, 0.164);
@@ -242,23 +287,7 @@ import {Chart} from "chart.js/auto"
         display: inline-block;
         
     }
-    .reviewHeader h1{
-        display: inline-block;
-    }
-    .myReviewStats h2{
-        margin:0;
-        font-size: 2rem;
-        text-align: right;
-    }
-    .myReviewStats h3{
-        margin:0;
-        font-size: 1.2rem;
-    }
-    .twoxgrid{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        
-    }
+
     .myReview{
         margin-top:.5rem;
         padding:1rem;
@@ -321,7 +350,8 @@ import {Chart} from "chart.js/auto"
         height: 100%;
     }
     #sidePanel{
-        max-height: 100%;
+        height: 100%;
+        
        
     }
     .createButton{
@@ -373,6 +403,21 @@ import {Chart} from "chart.js/auto"
     @media (prefers-color-scheme: dark) {
 
 }
+
+@media only screen and (max-width: 900px){
+        .reviewList{
+            grid-template-columns: 1fr 1fr;
+            gap:.5rem
+        }
+        #overview{
+            grid-template-columns: 1fr;
+        }
+    }
+    @media only screen and (max-width: 520px){
+        .reviewList{
+            grid-template-columns: 1fr;
+        }
+    }
 
 
 </style>
