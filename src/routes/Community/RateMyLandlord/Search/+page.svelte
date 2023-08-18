@@ -134,12 +134,7 @@ import {Chart} from "chart.js/auto"
             <h3>Responsiveness: {data.property.responsivenessRating || "N/A"}</h3>
 
         </div>
-        {#if !data.userHasMadeReview}
-        <div class="myReview roundedContainer">
-            <h2>Did you rent here?</h2>
-            <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Leave a Review</a>
-        </div>
-        {/if}
+
 
     
     </div>
@@ -158,6 +153,19 @@ import {Chart} from "chart.js/auto"
             <canvas bind:this={rentChart} style="width:100% !important" id="rentOverTime"></canvas>
         </div>
     </div>
+
+    {#if !data.userHasMadeReview}
+    <div class="leaveReview roundedContainer">
+        <h2>Did you rent here?</h2>
+        <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Leave a Review</a>
+    </div>
+
+    <div class="landlordQuestion roundedContainer">
+        <h2>Own This Property?</h2>
+        <a class="createButton" href="">I'm a landlord</a>
+    </div>
+    {/if}
+
 </section>
 
 <section id="reviews">
@@ -245,12 +253,7 @@ import {Chart} from "chart.js/auto"
         justify-content: space-between;
         margin-bottom: .5rem;
     }
-    .star.filled{
-        color: lightgreen;
-    }
-    .star.unfilled{
-        color:grey;
-    }
+
     .stars{
         font-size: 1.2rem;
     }
@@ -282,22 +285,27 @@ import {Chart} from "chart.js/auto"
         align-items: center;
         justify-content: space-between;
     }
-    .reviewHeader h2{
-        margin:0;
-        display: inline-block;
-        
-    }
 
-    .myReview{
-        margin-top:.5rem;
+    .landlordQuestion h2{
+        margin-top:0;
+        font-size: 1.8rem;
+    }
+    .landlordQuestion a{
+        margin-right:0;
+        font-size: 1.5rem;
+    }
+    .leaveReview{
+
         padding:1rem;
+        grid-column: 1/2;
     }
-    .myReview .createButton{
+    .leaveReview h2{
+        font-size: 1.8rem;
+        margin-top:0;
+    }
+    .leaveReview .createButton{
         margin-right: 0;
-    }
-    .myReview h1{
-        margin:0;
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     .linkDisabled{
         pointer-events: none;
@@ -338,7 +346,7 @@ import {Chart} from "chart.js/auto"
         color:lightgreen;
     }
     .roundedContainer {
-
+        padding:1rem;
         background-color: rgba(238, 238, 238, 0.164);
         border-radius: 0px;
 
@@ -361,7 +369,7 @@ import {Chart} from "chart.js/auto"
         padding: .2rem 1rem;
         color:var(--color-light-text);
         background-color: var(--color-theme-2);
-        border-radius: 1rem;
+        border-radius: 99rem;
         width:fit-content;
 
         font-size: 1.2rem;

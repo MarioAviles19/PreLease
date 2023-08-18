@@ -33,20 +33,7 @@
     })
 
 
-    function StartDate(event){
-        const val = parseInt(event.target.value + event.key);
-
-
-
-
-    }
-    function monthInput(event){
-        const val = parseInt(event.target.value + event.key);
-
-        if(val > 12){
-            event.preventDefault();
-        }
-    }
+    /**@param {Event} event*/
     function YearFormat(event){
         if(event.target.value > currentDate.getFullYear()){
             event.target.value = currentDate.getFullYear();
@@ -262,7 +249,7 @@
     .address{
         margin-top:0;
         color: lightgreen;
-        font-size: 2rem;
+        font-size: 2.5rem;
         text-align: center;
     }
     
