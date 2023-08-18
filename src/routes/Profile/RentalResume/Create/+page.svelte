@@ -1,6 +1,7 @@
 <script>
     import FormCarousel from "$lib/Components/FormCarousel.svelte";
-    import { FormatPhoneNumberInput } from "$lib/helpers.js";
+    import {FormatPhoneNumberInput } from "$lib/helpers.js";
+  
 
     export let data;
 
@@ -8,7 +9,9 @@
     let rentalHistoryCount = 1
     let referenceCount = 1;
 
+    /**@type {Array<Element>}*/
     let questions;
+    /**@type {number}*/
     let currentQuestionIndex;
 
 
@@ -17,24 +20,26 @@
     let email = '';
     let phoneNumber = '';
 
+    /**@param {Element} el*/
     function PhoneNumber(el){
         el.addEventListener('keydown', FormatPhoneNumberInput)
     }
 
+    /**@param {number} i The amount to increment the index by*/
     function AddWorkHistory(i){
         if(workHistoryCount + i < 1){
             return
         }
         workHistoryCount = workHistoryCount + i;
     }
-
+    /**@param {number} i The amount to increment the index by*/
     function AddRentalHistory(i){
         if(rentalHistoryCount + i < 1){
             return
         }
         rentalHistoryCount = rentalHistoryCount + i;
     }
-
+    /**@param {number} i The amount to increment the index by*/
     function AddReferenceCount(i){
         if(referenceCount + i < 1){
             return
@@ -73,19 +78,19 @@
 
         </fieldset>
 
-        <fieldset class="">
+        <fieldset class="medium">
             <label for="objective" class="centered">Objective</label>
             <p class="note">Tell us a little bit about what you're looking for in your next residence</p>
             <textarea name="objective" id="objective" cols="35" rows="10"></textarea>
         </fieldset>
 
-        <fieldset class="">
+        <fieldset class="medium">
             <label for="background" class="centered">Background</label>
             <p class="note">Tell us about your background. Where you grew up, where you've worked, hobbies, and interests. That sort of thing</p>
             <textarea name="background" id="background" cols="35" rows="10"></textarea>
         </fieldset>
 
-        <fieldset class="">
+        <fieldset class="large">
             <legend>Work History</legend>
 
             <label for="income">Annual Income</label>
@@ -93,7 +98,7 @@
 
             {#each {length : workHistoryCount} as _, i}
             <div class="entry">
-                <h1>Job {i + 1}</h1>
+                <h2 class="multifieldEntry">Job {i + 1}</h2>
                 <div class="workHistoryEntryGrid">
                     <div class="responseContainer">
                         <label for="workTitle">Title</label>
@@ -105,15 +110,15 @@
                     </div>
                         <div class="responseContainer">
                             <label for="workStartDate">Start Date</label>
-                            <input id="workStartDate" name="workStartDate"type="text">
+                            <input id="workStartDate" name="workStartDate"type="date">
                         </div>
                         <div class="responseContainer">
                             <label for="workEndDate">End Date</label>
-                            <input id="workEndDate" name="workEndDate"type="text">
+                            <input id="workEndDate" name="workEndDate"type="date">
                         </div>
                 </div>
                 
-                <h2>Contact</h2>
+                <h2 class="multifieldEntry">Contact</h2>
                 <div class="contactGrid">
                     <div class="responseContainer">
                         <label for="rentalHistoryContactName">Name</label>
@@ -125,7 +130,7 @@
                     </div>
                     <div class="responseContainer">
                         <label for="rentalHistoryContactPhoneNumber">Phone Number</label>
-                        <input id="rentalHistoryContactPhoneNumber" type="text">
+                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" type="text">
                     </div>
 
                 </div>
@@ -143,11 +148,11 @@
 
         </fieldset>
 
-        <fieldset class="glassContainer ">
+        <fieldset class="large">
             <legend>Rental History</legend>
 
             {#each {length : rentalHistoryCount} as _, i}
-            <h1>Entry {i + 1}</h1>
+            <h2 class="multifieldEntry">Entry {i + 1}</h2>
             <div class="entry">
                 <div class="rentalHistoryGrid">
                     <div class="responseContainer">
@@ -161,16 +166,16 @@
 
                     <div class="responseContainer">
                         <label for="rentalHistoryStartDate">Start Date</label>
-                        <input id="rentalHistoryStartDate" name="rentalHistoryStartDate"type="text">
+                        <input id="rentalHistoryStartDate" name="rentalHistoryStartDate"type="date">
                     </div>
                     <div class="responseContainer">
                         <label for="rentalHistoryEndDate">End Date</label>
-                        <input id="rentalHistoryEndDate" name="rentalHistoryEndDate"type="text">
+                        <input id="rentalHistoryEndDate" name="rentalHistoryEndDate"type="date">
 
                     </div>
                 </div>
 
-                <h2>Landlord / Property Manager</h2>
+                <h2 class="multifieldEntry">Landlord / Property Manager</h2>
                 <div class="contactGrid">
                     <div class="responseContainer">
                         <label for="rentalHistoryContactName">Name</label>
@@ -184,7 +189,7 @@
 
                     <div class="responseContainer">
                         <label for="rentalHistoryContactPhoneNumber">Phone Number</label>
-                        <input id="rentalHistoryContactPhoneNumber" type="text">
+                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" type="text">
                     </div>
                 </div>
                 <h2>Reason for Leaving</h2>
@@ -201,10 +206,12 @@
             </div>
         </fieldset>
 
-        <fieldset class="">
+        <fieldset class="small">
             <legend>References</legend>
 
+            {#each {length: referenceCount} as _, i}
             <div class="entry">
+                <h2>Reference {i + 1}</h2>
                 <div class="contactGrid">
                     <div class="responseContainer">
                         <label for="rentalHistoryContactName">Name</label>
@@ -216,7 +223,7 @@
                     </div>
                     <div class="responseContainer">
                         <label for="rentalHistoryContactPhoneNumber">Phone Number</label>
-                        <input id="rentalHistoryContactPhoneNumber" type="text">
+                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" type="text">
                     </div>
                     <div class="responseContainer doubleLengthInGrid">
                         <label for="referenceRelationship">Relationship</label>
@@ -225,6 +232,7 @@
                 </div>
 
             </div>
+            {/each}
 
             <div class="additionButtonsContainer">
                 <div class="additionButtons">
@@ -237,7 +245,7 @@
 
         </fieldset>
 
-        <fieldset class="">
+        <fieldset class="medium">
             <label for="extraInfo" class="centered">Extra Info</label>
             <p class="note">Anything that hasn't been covered that you'd like to include</p>
             <textarea name="extraInfo" id="extraInfo" cols="35" rows="10"></textarea>
@@ -261,8 +269,24 @@
     }
     section.form{
         height: 100%;
-        width: clamp(15rem, 95%, 40rem);
+        width: fit-content;
         margin:auto;
+    }
+    fieldset.small{
+        width:clamp(15rem, 95vw, 40rem)
+    }
+    fieldset.medium{
+        width:clamp(15rem, 95vw, 60rem)
+    }
+    fieldset.large{
+        width:clamp(15rem, 95vw, 65rem)
+    }
+    input[type=date]{
+        font-family: lexend;
+        font-size: 1.2rem;
+        border-radius: 3px;
+        border:none;
+        outline: solid 2px rgb(96, 96, 96);
     }
     input[type=text]{
         
@@ -278,6 +302,7 @@
 
     fieldset{
         margin:1rem;
+        margin:auto;
         border:none;
 
         
@@ -341,10 +366,16 @@
         justify-content: center;
     }
     .address{
-        grid-column: 1/4;
+        grid-column: 1/3;
     }
     :global(.big){
         max-width: 55rem;
+    }
+    .multifieldEntry{
+        margin-bottom: 0;
+    }
+    .entry.label{
+        font-size: 1.2rem;
     }
     .resume{
         background-color: white;
@@ -386,7 +417,7 @@
         width:100%;
     }
     .doubleLengthInGrid{
-        grid-column: 1 / 3;
+        grid-column: 1 / 4;
     }
     .entry{
         border-bottom: dotted 1px var(--color-trim);
@@ -403,12 +434,12 @@
     }
     .workHistoryEntryGrid{
         display: grid;
-        grid-template-columns: 1fr 2fr .5fr .5fr;
+        grid-template-columns: 1fr 1.8fr .6fr .6fr;
         gap:1.2rem;
     }
     .contactGrid{
         width:100%;
-        margin-top:1rem;
+        margin-top:0;
         display: grid;
         grid-template-columns: 1.5fr 1.5fr 1fr;
         gap:1rem;

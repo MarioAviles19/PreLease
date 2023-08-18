@@ -1,3 +1,4 @@
+/**@param {Object} obj */
 export const SerializeNonPOJOs = (obj) =>{
 
     if(!obj){
@@ -7,10 +8,16 @@ export const SerializeNonPOJOs = (obj) =>{
 
     return JSON.parse(JSON.stringify(obj));
 }
-<<<<<<< HEAD
+
+/**@type {EventListener} */
 export const FormatPhoneNumberInput = (event)=>{
     const maxLength = 13;
-    const numReg = RegExp('([0-9]|Enter|Backspace)')
+    const whitelistReg = RegExp('(Enter|Backspace|Tab)')
+    const numReg = RegExp('([0-9])')
+
+    if(event.key.match(whitelistReg)){
+        return;
+    }
 
 
     if(!event.key.match(numReg)){
@@ -39,9 +46,8 @@ export const FormatPhoneNumberInput = (event)=>{
 
     
 }
-=======
 
-
+/**@param {Event} event */
 export const FormatDate = (event)=>{
     const whitelistRegex = RegExp("Backspace|Tab");
     const dateRegex =  RegExp("[0-9]")
@@ -85,4 +91,3 @@ export const FormatDate = (event)=>{
 //Extremely basic filter
 //TODO: Improve this
 export const bannedWordsRegex =  RegExp("(fuck|shit|bitch)")
->>>>>>> main
