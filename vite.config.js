@@ -10,4 +10,5 @@ export default defineConfig({
 	ssr: {
 		//noExternal: Object.keys(pkg.dependencies || {})
 	  },
+	 
 });

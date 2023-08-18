@@ -14,7 +14,7 @@
 
 	export let data;
 	
-
+	/**@type {number}*/
 	let headerHeight;
 
 
@@ -36,7 +36,7 @@
 
 	onMount(()=>{
 
-		console.log(data.userData)
+
 		InitLogging()
 
 
@@ -90,12 +90,12 @@
 		left:0;
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		background-color: var(--color-theme-1);
+		background-color: white;
 		min-height: 4rem;
 		height: fit-content;
 		padding: 0.5rem;
 		text-align: center;
-		color: var(--color-light-text);
+		color: var(--color-theme-2);
 
 		z-index: 5;
 
@@ -105,7 +105,7 @@
 		
 	}
 	a{
-		color:var(--color-light-text);
+		color:var(--color-theme-2);
 	}
 	h1{
 		margin:0;
@@ -121,9 +121,10 @@
 	#navIcon {
 		background-color: rgba(0, 0, 0, 0);
 		border: none;
-		color: var(--color-light-text);
-		font-size: large;
+		color: var(--color-theme-2);
+		font-size: 1.5rem;
 		margin-left: 2.5%;
+		font-weight: bolder;
 		
 		cursor: pointer;
 	}
