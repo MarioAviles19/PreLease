@@ -45,7 +45,7 @@ export const handle = async ({event, resolve})=>{
 
         } catch (error) {
             if(error.errorInfo.code = 'app/no-app'){
-                console.log(admin.credential)
+
                 app = initializeApp({credential: cert(key)})
             }
         }
@@ -61,16 +61,18 @@ export const handle = async ({event, resolve})=>{
             return user
         }).catch(err=>{
             if(err.errorInfo.code = 'auth/session-cookie-expired'){
-                console.log("Session Expired")
+
             }
-            console.log(err); return null
+            console.log(err); 
+            return null
         });
 
         return {user: user, app : app}
 
     }
     //Function for creating session cookie used in .server.js files
-    event.locals.createSessionCookie = async (token)=>{
+    //TODO: Clean this up
+    event.locals.CreateSessionCookie = async (token)=>{
         let app;
 
         try {

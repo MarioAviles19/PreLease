@@ -9,11 +9,12 @@ export const SerializeNonPOJOs = (obj) =>{
     return JSON.parse(JSON.stringify(obj));
 }
 
-/**@type {EventListener} */
+/**@param {KeyboardEvent} event */
 export const FormatPhoneNumberInput = (event)=>{
     const maxLength = 13;
     const whitelistReg = RegExp('(Enter|Backspace|Tab|ArrowLeft|ArrowRight|ArrowUp|ArrowDown)')
     const numReg = RegExp('([0-9])')
+    const target = /**@type {HTMLInputElement} */(event.target);
 
     if(!event.key){
         return;
@@ -32,17 +33,17 @@ export const FormatPhoneNumberInput = (event)=>{
         if(event.key == "Backspace"){
             return;
         }
-        if(event.target.value == ''){
-            event.target.value = '('
+        if(target.value == ''){
+            target.value = '('
         }
-        else if(event.target.value.length == 4 ){
-            event.target.value = event.target.value + ")"
+        else if(target.value.length == 4 ){
+            target.value = target.value + ")"
         }
-        else if(event.target.value.length == 8){
-            event.target.value = event.target.value + "-"
+        else if(target.value.length == 8){
+            target.value = target.value + "-"
 
         }
-        else if(event.target.value.length == maxLength){
+        else if(target.value.length == maxLength){
             event.preventDefault();
         }
     }
@@ -54,24 +55,34 @@ export const PhoneNumberAutoComplete = (event)=>{
 
     //Make sure the autocomplete happened correctly
     const digitsReg = new RegExp("[0-9]+")
+    const target = /**@type {HTMLInputElement} */(event.target);
+    if(!target){
+        return;
+    }
 
     //Ensure that the the autocomplete did what we expect
-    if(event.target.value.match(digitsReg) && event.target.value.length == 10){
-        const value = event.target.value;
+    if(target.value.match(digitsReg) && target.value.length == 10){
+        const value = target.value;
         //Split the value into the digits we need
         const areaCode = value.substring(0,3);
         const firstThree = value.substring(3,6);
         const lastFour = value.substring(6,10)
 
 
-        event.target.value = `(${areaCode})${firstThree}-${lastFour}`
+        target.value = `(${areaCode})${firstThree}-${lastFour}`
     }
 }
 
-/**@param {Event} event */
+/**@param {KeyboardEvent} event */
 export const FormatDate = (event)=>{
     const whitelistRegex = RegExp("Backspace|Tab");
     const dateRegex =  RegExp("[0-9]")
+
+
+    const target = /**@type {HTMLInputElement} */(event.target);
+    if(!target){
+        return
+    }
 
     if(whitelistRegex.exec(event.key)){
         return;
@@ -82,25 +93,27 @@ export const FormatDate = (event)=>{
         return;
     }
 
-    if(event.target.dataset.form == "month"){
+    
+
+    if(target.dataset.form == "month"){
         const keyAsInt = parseInt(event.key);
-        const valueAsInt = parseInt(event.target.value);
+        const valueAsInt = parseInt(target.value);
 
         if(keyAsInt && valueAsInt){
             if(valueAsInt * 10 + keyAsInt > 12){
-                console.log("Prevent")
+
                 event.preventDefault();
                 return;
             }
         }
-        console.log(event.target.value.length)
 
-        if(event.target.value.length == 2 && event.target.value == "01"){
 
-            event.target.value = `1${event.key}`
+        if(target.value.length == 2 && target.value == "01"){
+
+            target.value = `1${event.key}`
         }
-        if(event.target.value.length == 0){
-            event.target.value = `0${event.key}`;
+        if(target.value.length == 0){
+            target.value = `0${event.key}`;
         }
 
     }

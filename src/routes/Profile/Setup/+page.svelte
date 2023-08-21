@@ -1,9 +1,10 @@
 <script>
     import { onMount } from "svelte";
     let currentQuestionIndex = 0;
-    /**@type {Element}*/
+    /**@type {HTMLElement}*/
     let form;
 
+    /**@type {NodeListOf<HTMLFieldSetElement>}*/
     let questions;
 
     let nextDisabled = true;
@@ -24,12 +25,14 @@
     })
 
     //use:action for enableing the 'next' button when the fieldset has an answer
+    /**@param {Element} element*/
     function CheckFieldCompleted(element){
         element.addEventListener("input", ev => {CheckInputValue(ev)})
         element.addEventListener("click", ev => {CheckClickValue(ev)})
     }
     //Function to check if an input of a particular type (In this case 'type' and 'date')
     //has a value, and if so, enable the 'next' button by changing the value of 'nextDisabled' to false
+    /**@param {Event} event*/
     function CheckInputValue(event){
         if(event.target.type == "text" || event.target.type == "date"){
             if(event.target.value != ""){
@@ -43,6 +46,7 @@
     }
     //Function to check if a fieldset with clickable input has been clicked
     //And to enable the 'next' button
+    /**@param {Event} event*/
     function CheckClickValue(event){
         if(event.target.type == "radio"){
 
@@ -63,6 +67,7 @@
     }
 
     //Advance the form through the questions
+    /**@param {number} index*/
     function AdvanceForm(index){
         if(currentQuestionIndex + index < 0){
             return
@@ -79,9 +84,7 @@
         }
         //If the question has been answered, enable the 'next' button
         if(questions[currentQuestionIndex].dataset.answered){
-            console.log(questions[currentQuestionIndex])
-            console.log(questions[currentQuestionIndex].dataset)
-            console.log(currentQuestionIndex)
+
 
             
             nextDisabled = false;
@@ -96,7 +99,7 @@
             return;
         }
         questions[currentQuestionIndex].dataset.answered = !nextDisabled;
-        console.log(currentQuestionIndex + " " + questions[currentQuestionIndex].dataset.answered)
+
     }
 
 </script>

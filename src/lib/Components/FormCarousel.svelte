@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import { fly } from "svelte/transition";
     export let currentQuestionIndex = 0;
-    /**@type {NodeList}*/
+    /**@type {NodeListOf<HTMLFieldSetElement>}*/
     export let questions;
 
     let animate = false;
@@ -37,7 +37,7 @@
         loaded = true;
         currentQuestion = questions[0];
 
-        console.log(currentQuestion);
+
 
     })
 
@@ -51,7 +51,7 @@
     //has a value, and if so, enable the 'next' button by changing the value of 'nextDisabled' to false
     /**@type {EventListener}*/
     function CheckInputValue(event){
-        console.log("run")
+
 
         let fields = questions[currentQuestionIndex].querySelectorAll("input");
 
@@ -60,7 +60,7 @@
 
             if(el.value == '' ){
                 allValuesAnswered = false;
-                console.log("Value was blank")
+
                 el.style = "";
                 return;
             }
@@ -104,7 +104,7 @@
     //Function to check if a fieldset with clickable input has been clicked
     //And to enable the 'next' button
     function CheckClickValue(event){
-        console.log(event.original)
+
         if(event.target.type == "radio"){
 
             nextDisabled = false;
