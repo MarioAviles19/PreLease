@@ -1,6 +1,6 @@
 
 <script>
-    import { authHandler, authState } from "../../stores/authStore";
+    import { authHandler, authState } from "$lib/stores/authStore";
     import { updateProfile } from "firebase/auth"
 	import { collection, doc, setDoc } from "firebase/firestore";
 	import { firestore } from "$lib/firebase/firebase.client";

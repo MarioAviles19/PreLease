@@ -1,6 +1,6 @@
 <script>
     import FormCarousel from "$lib/Components/FormCarousel.svelte";
-    import {FormatPhoneNumberInput } from "$lib/helpers.js";
+    import {FormatPhoneNumberInput, PhoneNumberAutoComplete} from "$lib/helpers.js";
   
 
     export let data;
@@ -22,7 +22,10 @@
 
     /**@param {Element} el*/
     function PhoneNumber(el){
-        el.addEventListener('keydown', FormatPhoneNumberInput)
+        el.addEventListener('keydown', FormatPhoneNumberInput);
+        el.addEventListener('change', PhoneNumberAutoComplete);
+        el.dataset.minlength = 13;
+        el.dataset.phone = true;
     }
 
     /**@param {number} i The amount to increment the index by*/
@@ -48,14 +51,13 @@
     }
 
 </script>
-
+<div id="progressContainer">
+    <label for="progress">Progress:</label>
+    <progress id='Progress' value={currentQuestionIndex ?? 0} max={questions?.length - 1 ?? 0}></progress>
+</div>
     
 <section class="form">
-    <div id="progressContainer">
-        <label for="progress">Progress:</label>
-        <progress id='Progress' value={currentQuestionIndex ?? 0} max={questions?.length - 1 ?? 0}></progress>
-    </div>
-    <FormCarousel action="/api/getResume" bind:questions bind:currentQuestionIndex>
+    <FormCarousel action="?/Upload" bind:questions bind:currentQuestionIndex>
 
         <fieldset class="small">
             <legend>Personal Info</legend>
@@ -72,7 +74,7 @@
 
                 <div class="responseContainer">
                     <label for="phoneNumber">Phone</label>
-                    <input use:PhoneNumber bind:value={phoneNumber} id="phoneNumber" name="userPhone" placeholder="Phone" type="text">
+                    <input use:PhoneNumber bind:value={phoneNumber} data-minlength="4" id="phoneNumber" name="userPhone" placeholder="Phone" type="text">
                 </div>
 
 
@@ -223,7 +225,7 @@
                     </div>
                     <div class="responseContainer">
                         <label for="rentalHistoryContactPhoneNumber">Phone Number</label>
-                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" type="text">
+                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" data-minLength=10 type="text">
                     </div>
                     <div class="responseContainer doubleLengthInGrid">
                         <label for="referenceRelationship">Relationship</label>
@@ -271,6 +273,7 @@
         height: 100%;
         width: fit-content;
         margin:auto;
+        background-color: white;
     }
     fieldset.small{
         width:clamp(15rem, 95vw, 40rem)
@@ -310,6 +313,7 @@
     label[for=progress]{
         color:white;
         display:block;
+
     }
     progress {
     border-radius: 7px; 
@@ -364,6 +368,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+
+        margin-top: 2rem;;
     }
     .address{
         grid-column: 1/3;

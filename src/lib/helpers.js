@@ -12,11 +12,14 @@ export const SerializeNonPOJOs = (obj) =>{
 /**@type {EventListener} */
 export const FormatPhoneNumberInput = (event)=>{
     const maxLength = 13;
-    const whitelistReg = RegExp('(Enter|Backspace|Tab)')
+    const whitelistReg = RegExp('(Enter|Backspace|Tab|ArrowLeft|ArrowRight|ArrowUp|ArrowDown)')
     const numReg = RegExp('([0-9])')
 
-    if(event.key.match(whitelistReg)){
+    if(!event.key){
         return;
+    }
+    if(event.key?.match(whitelistReg)){
+        return
     }
 
 
@@ -45,6 +48,24 @@ export const FormatPhoneNumberInput = (event)=>{
     }
 
     
+}
+/**@param {Event} event */
+export const PhoneNumberAutoComplete = (event)=>{
+
+    //Make sure the autocomplete happened correctly
+    const digitsReg = new RegExp("[0-9]+")
+
+    //Ensure that the the autocomplete did what we expect
+    if(event.target.value.match(digitsReg) && event.target.value.length == 10){
+        const value = event.target.value;
+        //Split the value into the digits we need
+        const areaCode = value.substring(0,3);
+        const firstThree = value.substring(3,6);
+        const lastFour = value.substring(6,10)
+
+
+        event.target.value = `(${areaCode})${firstThree}-${lastFour}`
+    }
 }
 
 /**@param {Event} event */

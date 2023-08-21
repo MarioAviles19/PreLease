@@ -2,7 +2,8 @@
     import { onMount } from "svelte";
     import { fly } from "svelte/transition";
     export let currentQuestionIndex = 0;
-    export let questions = null;
+    /**@type {NodeList}*/
+    export let questions;
 
     let animate = false;
     let loaded = false;
@@ -11,7 +12,7 @@
     let currentQuestion;
     /**@type {Element}*/
     let form;
-
+    /**@type {string}*/
     export let action;
 
     let nextDisabled = true;
@@ -41,6 +42,7 @@
     })
 
     //use:action for enableing the 'next' button when the fieldset has an answer
+    /**@param {Element} element*/
     function CheckFieldCompleted(element){
         element.addEventListener("input", ev => {CheckInputValue(ev)})
         element.addEventListener("click", ev => {CheckClickValue(ev)})
@@ -49,18 +51,49 @@
     //has a value, and if so, enable the 'next' button by changing the value of 'nextDisabled' to false
     /**@type {EventListener}*/
     function CheckInputValue(event){
+        console.log("run")
 
-        let fields = questions[currentQuestionIndex].querySelectorAll("input[type=text");
+        let fields = questions[currentQuestionIndex].querySelectorAll("input");
 
         let allValuesAnswered = true;
         fields.forEach(el=>{
-            if(el.value == ''){
+
+            if(el.value == '' ){
                 allValuesAnswered = false;
+                console.log("Value was blank")
+                el.style = "";
+                return;
             }
+            //Check if the element has a data-minlength attribute
+            
+            if(el.dataset.minlength){
+                
+                if( el.value.length >= el.dataset.minlength ){
+                //Set the style to change the outline
+                    el.style = "outline-color:var(--color-theme-2)";
+                }
+                else if(el.dataset.phone && el.value.match("[0-9]+") && el.value.length == 10){
+                    //Account for an unformatted phone number in autoComplete
+                    //TODO:Fix this
+                    el.style = "outline-color:var(--color-theme-2)";
+
+                }
+                //If not, reset the style attribute
+                else{
+                    el.style = "";
+                    allValuesAnswered = false;
+
+                }
+            }
+            else{
+               el.style = "outline-color:var(--color-theme-2)"
+            }
+
         })
 
         if(allValuesAnswered){
             nextDisabled = false;
+
         }
         else{
             nextDisabled = true;
@@ -75,7 +108,7 @@
         if(event.target.type == "radio"){
 
             nextDisabled = false;
-            event.target.dataset.answered = true
+            event.target.dataset.answered = true;
 
             AddAnsweredAttr()
         }
@@ -99,6 +132,11 @@
         questions[currentQuestionIndex].style = "display:none";
         currentQuestionIndex += index;
         questions[currentQuestionIndex].style = "";
+
+        //TODO: Get rid of this
+        if(questions[currentQuestionIndex].dataset.big){
+            form.style = ""
+        }
 
         //If the fieldset does not have the data-skippable attribute
         //disable the 'next' button
@@ -128,8 +166,9 @@
 
     }
 
-    function AdvanceOnEnter(key){
-        console.log(key)
+    /**@type {EventListener}*/
+    function AdvanceOnEnter(event){
+        let key = event.key
         if(key == "Enter" && !nextDisabled){
             AdvanceForm(1);
         }
@@ -139,7 +178,7 @@
 
 {#key animate}
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<form bind:this={form} on:keyup={(event)=>{AdvanceOnEnter(event.key)}}  use:CheckFieldCompleted method="POST" class="glassContainer" action={action ?? ''} style={loaded? "": "display:none"}>
+<form bind:this={form} on:keyup={AdvanceOnEnter}  use:CheckFieldCompleted method="POST" class="" action={action ?? ''} style={loaded? "": "display:none"}>
 	
 
 
@@ -211,7 +250,7 @@
 		flex-direction: column;
 
 		margin:auto;
-		margin-top:2rem;
+
 
 		width: 100%;
 		font-size: 1.5rem;
@@ -256,8 +295,8 @@
     }
     button:disabled{
         background: none;
-        color:lightgrey;
-        outline: 3px solid lightgrey;
+        color:rgb(121, 121, 121);
+        outline: 3px solid rgb(121, 121, 121);
     }
 
     @media only screen and (max-width: 520px){

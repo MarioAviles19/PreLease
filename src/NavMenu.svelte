@@ -74,9 +74,13 @@
 		text-align: left;
 		color: var(--color-theme-2);
 		font-size:2rem;
+
 	}
-	#closeButton:hover {
-		box-shadow: 1px 0 var(--color-theme-1), -1px 0 var(--color-theme-1), 0 1px var(--color-theme-1),
-			0 -1px var(--color-theme-1);
+	#closeButton span{
+		transition:all 500ms ease-out;
+	}
+	#closeButton:hover span{
+
+		transform:rotateZ(180deg);
 	}
 </style>
