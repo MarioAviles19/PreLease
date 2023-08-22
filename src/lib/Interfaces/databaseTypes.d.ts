@@ -1,3 +1,5 @@
+import type { FieldValue } from "firebase-admin/firestore";
+
 export interface LandlordReview{
     /**The `id` of the review document */
     id:string;
@@ -32,6 +34,10 @@ export interface ContactInfo{
     phone: string;
 
 }
+export interface FirebaseDate extends Date{
+    _nanoseconds: number,
+    _seconds: number
+}
 export interface RentalResume{
     /**The `id` of the document */
     id?:string;
@@ -52,15 +58,15 @@ export interface RentalResume{
     userPhone:string;
 
     /**Array containing rental history objects */
-    rentalHistory : Array<{address : string, rent: number, startDate: Date, endDate : Date, reasonForLeaving: string}>;
+    rentalHistory : Array<{address : string, rent: number, startDate: Date, endDate : Date , reasonForLeaving: string}>;
 
     /**Array containing work history objects*/
-    workHistory : Array<{employer:string, title:string, startDate:Date, endDate:Date, contact: ContactInfo}>;
+    workHistory : Array<{employer:string, title:string, startDate:Date , endDate:Date , contact: ContactInfo}>;
 
     /**Array containing the extra reference contact info */
     extraReferences : Array<ContactInfo>;
 
-    timestamp : Date
+    timestamp : Date | FieldValue
 
     /**Extra info to be included in the document by the user */
     extraInfo?: string;

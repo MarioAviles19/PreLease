@@ -58,7 +58,7 @@ export const actions = {
         try{
         let user = await signInWithEmailAndPassword(_auth, email, password)
         let token = await getIdToken(_auth.currentUser)
-        let cookie = await locals.createSessionCookie(token)
+        let cookie = await locals.CreateSessionCookie(token)
         
             cookies.set('session', cookie, {maxAge: 1000 * 60 * 60 * 24 * 5})
 
@@ -66,7 +66,7 @@ export const actions = {
 
            
         
-            
+            console.log(err)
             return fail(401, {message: "invalid username or password", email});
         }
         throw redirect(302, redirectPath || '/');
