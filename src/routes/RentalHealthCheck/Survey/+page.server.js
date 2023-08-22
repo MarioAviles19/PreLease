@@ -9,12 +9,15 @@ import * as admin from 'firebase-admin';
 
 
 import { Interface } from 'readline'
+import { fail } from 'assert';
 
 
-
+/**@type {import('./$types').PageServerLoad} */
 export const load = async({locals, cookies})=>{
+
+    const sessionCookie = cookies.get('session')
     
-    const {user, app} = await locals.GetUserFromSession(cookies.get('session'))
+    const {user, app} = await locals.GetUserFromSession(sessionCookie || "")
     //If there is no user data, redirect to sign in
     if(!user){
         throw redirect(302, '/SignIn?redirect=RentalHealthCheck/Survey')
@@ -23,21 +26,27 @@ export const load = async({locals, cookies})=>{
     //const token = auth(app).createCustomToken(user.uid);
     return {userData: SerializeNonPOJOs(user)}
 }
-
+/**@type {import('./$types').Actions} */
 export const actions = {
     default : async ({locals, request, cookies})=>{
         const data = await request.formData()
+        const sessionCookie = cookies.get('session')
 
         //Get the user from the session cookie and destructure it into the user and the app
-        const {user, app} = await locals.GetUserFromSession(cookies.get('session'));
+        const {user, app} = await locals.GetUserFromSession(sessionCookie || "");
+        if(!user){
+            //Handle this;
+            return;
+        }
 
-        let obj = {};
+        /**@type {{[key: string] : any}} */
+        let obj;
 
         //TODO: solve the 'Other' radio button issue where there is a value for the "other" option even if it isn't pressed
 
         //If the "Other" text input has been filled out and the city field is set to 'Other, set the city property to that
         if(data.get('cityOther') && data.get('city') == "Other"){
-            data.set('city', data.get('cityOther'))
+            data.set('city', /**@type {string}*/(data.get('cityOther')))
             data.delete('cityOther')
         }
         //Add the form data to an intermediary object before adding it to the 'RentalHealthChecks' collection
@@ -50,19 +59,18 @@ export const actions = {
                 obj[key] = data.get(key)
             }
 
-            console.log('Key: ' + key + ' Value: ' + value)
+
         })
         //Add the userID to the owner field so you can retrieve the user data later
         obj = {owner: user.uid, Timestamp: Timestamp.now(), ...obj}
-        console.log(obj)
+
 
         //Add the document
         await getFirestore(app).collection('RentalHealthChecks').add(obj);
         
         //TODO: Add rate limiting by checking the timestamp of the last report associated with each user
 
-        //Can Delete
-        console.log(data)
+
 
         //Redirect to success page
 

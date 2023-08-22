@@ -10,7 +10,7 @@
 
     //TODO: Name this something better
     let currentQuestion;
-    /**@type {Element}*/
+    /**@type {HTMLFormElement}*/
     let form;
     /**@type {string}*/
     export let action;
@@ -33,7 +33,7 @@
         })
 
         HideOtherElements();
-        form.style = '';
+        form.style.display = '';
         loaded = true;
         currentQuestion = questions[0];
 
@@ -42,14 +42,14 @@
     })
 
     //use:action for enableing the 'next' button when the fieldset has an answer
-    /**@param {Element} element*/
+    /**@param {HTMLElement} element*/
     function CheckFieldCompleted(element){
         element.addEventListener("input", ev => {CheckInputValue(ev)})
         element.addEventListener("click", ev => {CheckClickValue(ev)})
     }
     //Function to check if an input of a particular type (In this case 'type' and 'date')
     //has a value, and if so, enable the 'next' button by changing the value of 'nextDisabled' to false
-    /**@type {EventListener}*/
+    /**@param {Event} event*/
     function CheckInputValue(event){
 
 
@@ -59,34 +59,35 @@
         fields.forEach(el=>{
 
             if(el.value == '' ){
-                allValuesAnswered = false;
 
-                el.style = "";
+                allValuesAnswered = false;
+                //Reset outline color
+                el.style.outlineColor = "";
                 return;
             }
             //Check if the element has a data-minlength attribute
             
             if(el.dataset.minlength){
                 
-                if( el.value.length >= el.dataset.minlength ){
+                if( el.value.length >= parseInt(el.dataset.minlength)){
                 //Set the style to change the outline
-                    el.style = "outline-color:var(--color-theme-2)";
+                    el.style.outlineColor = "var(--color-theme-2)";
                 }
                 else if(el.dataset.phone && el.value.match("[0-9]+") && el.value.length == 10){
                     //Account for an unformatted phone number in autoComplete
                     //TODO:Fix this
-                    el.style = "outline-color:var(--color-theme-2)";
+                    el.style.outlineColor = "var(--color-theme-2)";
 
                 }
                 //If not, reset the style attribute
                 else{
-                    el.style = "";
+                    el.style.outlineColor = "";
                     allValuesAnswered = false;
 
                 }
             }
             else{
-               el.style = "outline-color:var(--color-theme-2)"
+               el.style.outlineColor = "var(--color-theme-2)"
             }
 
         })
@@ -103,12 +104,17 @@
     }
     //Function to check if a fieldset with clickable input has been clicked
     //And to enable the 'next' button
+    /**@param {MouseEvent} event*/
     function CheckClickValue(event){
+        const target = /**@type {HTMLInputElement}*/ (event.target);
+        if(!target){
+            return;
+        }
 
-        if(event.target.type == "radio"){
+        if(target.type == "radio"){
 
             nextDisabled = false;
-            event.target.dataset.answered = true;
+            target.dataset.answered = "true";
 
             AddAnsweredAttr()
         }
@@ -118,25 +124,23 @@
 
         for(let i = 1; i < questions.length; i++){
 
-            questions[i].style = "display:none";
+            questions[i].style.display = "none";
 
         }
     }
 
     //Advance the form through the questions
+    /**@param {number} index*/
     function AdvanceForm(index){
         if(currentQuestionIndex + index < 0){
             return
         }
 
-        questions[currentQuestionIndex].style = "display:none";
+        questions[currentQuestionIndex].style.display = "none";
         currentQuestionIndex += index;
-        questions[currentQuestionIndex].style = "";
+        questions[currentQuestionIndex].style.display = "";
 
-        //TODO: Get rid of this
-        if(questions[currentQuestionIndex].dataset.big){
-            form.style = ""
-        }
+    
 
         //If the fieldset does not have the data-skippable attribute
         //disable the 'next' button
@@ -162,11 +166,11 @@
         if(!questions){
             return;
         }
-        questions[currentQuestionIndex].dataset.answered = !nextDisabled;
+        questions[currentQuestionIndex].dataset.answered = `${!nextDisabled}`;
 
     }
 
-    /**@type {EventListener}*/
+    /**@param {KeyboardEvent} event*/
     function AdvanceOnEnter(event){
         let key = event.key
         if(key == "Enter" && !nextDisabled){
@@ -199,52 +203,7 @@
 </form>
 {/key}
 <style>
-    h1{
-        display: block;
-        color:var(--color-light-text);
-        text-align: center;
-        margin-bottom:0;
-    }
-    label[for='progress']{
-        cursor: auto;
-        margin:auto;
-        font-size: 1rem;
-    }
-    label{
-        cursor: pointer;
-    }
-    progress {
-    border-radius: 7px; 
-    width: 15rem;
-    margin:auto;
-    margin-bottom:1rem;
-    height:.5rem;
-    box-shadow: 1px 1px 4px rgba( 0, 0, 0, 0.2 );
 
-
-    }
-    progress[value]::-webkit-progress-value {
-    transition: width 0.5s;
-    background: var(--color-theme-2);
-}
-    progress::-webkit-progress-bar {
-    
-    border-radius: 7px;
-    background-color: lightgrey;
-    }
-    progress::-webkit-progress-value {
-    background-color: var(--color-theme-2);
-    border-radius: 10px; 
-    }
-
-	legend {
-		font-size: 1.7rem;
-		width: 100%;
-		text-align: center;
-	}
-    fieldset{
-        overflow: hidden;
-    }
 	form {
 		display: flex;
 		flex-direction: column;
@@ -304,13 +263,6 @@
             min-width:0;
             padding: 1rem .2rem;
             width:95%;
-        }
-        fieldset legend{
-            font-size: 1.4rem;
-        }
-        fieldset.sideBySide{
-            display: flex;
-            flex-direction: column;
         }
         #buttons{
             padding:0 .5rem;

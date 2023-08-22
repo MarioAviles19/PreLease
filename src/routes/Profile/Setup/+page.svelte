@@ -20,12 +20,12 @@
         
         questions = form.querySelectorAll('fieldset');
         HideOtherElements();
-        form.style = '';
+        form.style.display = '';
 
     })
 
     //use:action for enableing the 'next' button when the fieldset has an answer
-    /**@param {Element} element*/
+    /**@param {HTMLElement} element*/
     function CheckFieldCompleted(element){
         element.addEventListener("input", ev => {CheckInputValue(ev)})
         element.addEventListener("click", ev => {CheckClickValue(ev)})
@@ -34,8 +34,13 @@
     //has a value, and if so, enable the 'next' button by changing the value of 'nextDisabled' to false
     /**@param {Event} event*/
     function CheckInputValue(event){
-        if(event.target.type == "text" || event.target.type == "date"){
-            if(event.target.value != ""){
+        const target = /**@type {HTMLInputElement}*/(event.target);
+        if(!target){
+            return;
+        }
+
+        if(target.type == "text" || target.type == "date"){
+            if(target.value != ""){
                 nextDisabled = false;
             }
             else{
@@ -46,12 +51,16 @@
     }
     //Function to check if a fieldset with clickable input has been clicked
     //And to enable the 'next' button
-    /**@param {Event} event*/
+    /**@param {MouseEvent} event*/
     function CheckClickValue(event){
-        if(event.target.type == "radio"){
+        const target = /**@type {HTMLInputElement}*/(event.target);
+        if(!target){
+            return;
+        }
+        if(target.type == "radio"){
 
             nextDisabled = false;
-            event.target.dataset.answered = true
+            target.dataset.answered = "true"
 
             AddAnsweredAttr()
         }
@@ -61,7 +70,7 @@
 
         for(let i = 1; i < questions.length; i++){
 
-            questions[i].style = "display:none";
+            questions[i].style.display = "none";
 
         }
     }
@@ -72,9 +81,9 @@
         if(currentQuestionIndex + index < 0){
             return
         }
-        questions[currentQuestionIndex].style = "display:none";
+        questions[currentQuestionIndex].style.display = "none";
         currentQuestionIndex += index;
-        questions[currentQuestionIndex].style = "";
+        questions[currentQuestionIndex].style.display = "";
 
         //If the fieldset does not have the data-skippable attribute
         //disable the 'next' button
@@ -98,7 +107,7 @@
         if(!questions){
             return;
         }
-        questions[currentQuestionIndex].dataset.answered = !nextDisabled;
+        questions[currentQuestionIndex].dataset.answered = `${!nextDisabled}`;
 
     }
 

@@ -2,9 +2,11 @@
 
 import * as admin from 'firebase-admin'; 
 import * as adminApp from 'firebase-admin/app'
+import * as adminFirestore from "firebase-admin/firestore"
 import * as auth from 'firebase-admin/auth'
 const {cert, initializeApp} = adminApp;
 const {getAuth} = auth;
+const {getFirestore, initializeFirestore} = adminFirestore;
 
 
 
@@ -47,6 +49,7 @@ export const handle = async ({event, resolve})=>{
             if(error.errorInfo.code = 'app/no-app'){
 
                 app = initializeApp({credential: cert(key)})
+
             }
         }
 

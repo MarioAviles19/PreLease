@@ -96,7 +96,7 @@
             <legend>Work History</legend>
 
             <label for="income">Annual Income</label>
-            <input id="income" type="text">
+            <input id="income" name="income" type="text">
 
             {#each {length : workHistoryCount} as _, i}
             <div class="entry">
@@ -104,35 +104,35 @@
                 <div class="workHistoryEntryGrid">
                     <div class="responseContainer">
                         <label for="workTitle">Title</label>
-                        <input id="workTitle" name="workTitle" type="text">
+                        <input id="workTitle" name="workHistoryTitle" type="text">
                     </div>
                     <div class="responseContainer">
                         <label for="employer">Employer</label>
-                        <input id="employer" name="employer" type="text">
+                        <input id="employer" name="workHistoryEmployer" type="text">
                     </div>
                         <div class="responseContainer">
                             <label for="workStartDate">Start Date</label>
-                            <input id="workStartDate" name="workStartDate"type="date">
+                            <input id="workStartDate" name="workHistoryStartDate"type="date">
                         </div>
                         <div class="responseContainer">
                             <label for="workEndDate">End Date</label>
-                            <input id="workEndDate" name="workEndDate"type="date">
+                            <input id="workEndDate" name="workHistoryEndDate"type="date">
                         </div>
                 </div>
                 
                 <h2 class="multifieldEntry">Contact</h2>
                 <div class="contactGrid">
                     <div class="responseContainer">
-                        <label for="rentalHistoryContactName">Name</label>
-                        <input id="rentalHistoryContactName" type="text">
+                        <label for="workHistoryContactName">Name</label>
+                        <input id="workHistoryContactName" name="workHistoryContactName" type="text">
                     </div>
                     <div class="responseContainer">
-                        <label for="rentalHistoryContactTitle">Title</label>
-                        <input id="rentalHistoryContactTitle" type="text">
+                        <label for="workHistoryContactTitle">Title</label>
+                        <input id="workHistoryContactTitle" name="workHistoryContactTitle" type="text">
                     </div>
                     <div class="responseContainer">
-                        <label for="rentalHistoryContactPhoneNumber">Phone Number</label>
-                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" type="text">
+                        <label for="workHistoryContactPhoneNumber">Phone Number</label>
+                        <input use:PhoneNumber id="workHistoryContactPhoneNumber" name="workHistoryContactPhone" type="text">
                     </div>
 
                 </div>
@@ -163,12 +163,12 @@
                     </div>
                     <div class="responseContainer">
                         <label for="rentalHistoryRent">Rent</label>
-                        <input id="rentalHistoryRent"type="text">
+                        <input id="rentalHistoryRent" name="rentalHistoryRent" type="text">
                     </div>
 
                     <div class="responseContainer">
                         <label for="rentalHistoryStartDate">Start Date</label>
-                        <input id="rentalHistoryStartDate" name="rentalHistoryStartDate"type="date">
+                        <input id="rentalHistoryStartDate" name="rentalHistoryStartDate" type="date">
                     </div>
                     <div class="responseContainer">
                         <label for="rentalHistoryEndDate">End Date</label>
@@ -181,21 +181,21 @@
                 <div class="contactGrid">
                     <div class="responseContainer">
                         <label for="rentalHistoryContactName">Name</label>
-                        <input id="rentalHistoryContactName" type="text">
+                        <input id="rentalHistoryContactName" name="rentalHistoryContactName" type="text">
                     </div>
                     <div class="responseContainer">
 
                         <label for="rentalHistoryContactTitle">Title</label>
-                        <input id="rentalHistoryContactTitle" type="text">
+                        <input id="rentalHistoryContactTitle" name="rentalHistoryContactTitle" type="text">
                     </div>
 
                     <div class="responseContainer">
                         <label for="rentalHistoryContactPhoneNumber">Phone Number</label>
-                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" type="text">
+                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" name="rentalHistoryContactPhone" type="text">
                     </div>
                 </div>
                 <h2>Reason for Leaving</h2>
-                <textarea></textarea>
+                <textarea name="rentalHistoryReasonForLeaving"></textarea>
             </div>
             {/each}
             <div class="additionButtonsContainer">
@@ -216,20 +216,20 @@
                 <h2>Reference {i + 1}</h2>
                 <div class="contactGrid">
                     <div class="responseContainer">
-                        <label for="rentalHistoryContactName">Name</label>
-                        <input id="rentalHistoryContactName" type="text">
+                        <label for="extraReferenceName">Name</label>
+                        <input id="extraReferenceName" name="extraReferenceName" type="text">
                     </div>
                     <div class="responseContainer">
-                        <label for="rentalHistoryContactTitle">Title</label>
-                        <input id="rentalHistoryContactTitle" type="text">
+                        <label for="extraReferenceTitle">Title</label>
+                        <input id="extraReferenceTitle" name="extraReferenceTitle" type="text">
                     </div>
                     <div class="responseContainer">
-                        <label for="rentalHistoryContactPhoneNumber">Phone Number</label>
-                        <input use:PhoneNumber id="rentalHistoryContactPhoneNumber" data-minLength=10 type="text">
+                        <label for="extraReferencePhone">Phone Number</label>
+                        <input use:PhoneNumber id="extraReferenceNamePhone" name="extraReferencePhone" data-minLength=10 type="text">
                     </div>
                     <div class="responseContainer doubleLengthInGrid">
-                        <label for="referenceRelationship">Relationship</label>
-                        <input id="referenceRelationship" type="text">
+                        <label for="extraReferenceRelationship">Relationship</label>
+                        <input id="extraReferenceRelationship" type="text">
                     </div>
                 </div>
 
