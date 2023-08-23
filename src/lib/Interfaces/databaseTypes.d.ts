@@ -38,6 +38,16 @@ export interface FirebaseDate extends Date{
     _nanoseconds: number,
     _seconds: number
 }
+
+export interface PropertyInfo{
+    id?:string
+    address: string;
+    overallRating: number;
+    managementRating: number;
+    responsivenessRating: number;
+    reviewCount: number;
+
+}
 export interface RentalResume{
     /**The `id` of the document */
     id?:string;

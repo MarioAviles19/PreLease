@@ -66,14 +66,18 @@ export const load = async ({locals, url,cookies})=>{
         
     }
 
-    let propertyData = {};
+    /**@type {import("$lib/Interfaces/databaseTypes.js").PropertyInfo} */
+    let propertyData;
 
     if(property.exists){
 
-        propertyData = {...property.data(), id: property.id}
+        
+        propertyData = /**@type {import("$lib/Interfaces/databaseTypes.js").PropertyInfo} */({...property.data(), id: property.id})
+    } else{
+        propertyData = /**@type {import("$lib/Interfaces/databaseTypes.js").PropertyInfo} */({});
     }
 
-    console.log("user" + userHasMadeReview)
+
  
     //TODO: Replace the 'author' field with an 'isOwnedByUser' field for strengthened anonymity.
     return {property: propertyData, 

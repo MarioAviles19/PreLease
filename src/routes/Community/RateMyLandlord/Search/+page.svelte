@@ -1,8 +1,8 @@
 <script>
     import FivePointRating from "$lib/Components/FivePointRating.svelte";
-import LandlordReviewModal from "$lib/Components/LandlordReviewModal.svelte";
+    import LandlordReviewModal from "$lib/Components/LandlordReviewModal.svelte";
 	import StarRating from "$lib/Components/StarRating.svelte";
-import {Chart} from "chart.js/auto"
+    import {Chart} from "chart.js/auto"
 	import { onMount } from "svelte";
     export let data
     
@@ -16,7 +16,8 @@ import {Chart} from "chart.js/auto"
     let rentChart;
 
     onMount(()=>{
-        CreateChart()
+        CreateChart();
+        console.log(data.property)
     })
     
 
@@ -133,9 +134,9 @@ import {Chart} from "chart.js/auto"
 
             <h2>Overall: 
                 <span>
-                {#if data.property.overallRatings}
+                {#if data.property.overallRating}
 
-                    <StarRating value={data.property.overallRatings}/>
+                    <StarRating value={data.property.overallRating}/>
                 {:else}
                 N/A
                 {/if}
