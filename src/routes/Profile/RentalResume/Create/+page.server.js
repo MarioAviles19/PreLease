@@ -91,6 +91,7 @@ export const actions = {
             userAddress : userAddress,
             userEmail : userEmail,
             userPhone : userPhone,
+            userIncome : parseInt(userIncome),
             objectiveStatement : objectiveStatement,
             backgroundStatement : backgroundStatement,
             rentalHistory : rentalHistory,

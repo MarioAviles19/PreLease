@@ -57,6 +57,9 @@ export interface RentalResume{
     /**User's Phone Number */
     userPhone:string;
 
+    /**User's annual income */
+    userIncome:number
+
     /**Array containing rental history objects */
     rentalHistory : Array<{address : string, rent: number, startDate: Date, endDate : Date , reasonForLeaving: string}>;
 

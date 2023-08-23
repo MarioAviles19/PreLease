@@ -1,5 +1,7 @@
 <script>
-    import LandlordReviewModal from "$lib/Components/LandlordReviewModal.svelte";
+    import FivePointRating from "$lib/Components/FivePointRating.svelte";
+import LandlordReviewModal from "$lib/Components/LandlordReviewModal.svelte";
+	import StarRating from "$lib/Components/StarRating.svelte";
 import {Chart} from "chart.js/auto"
 	import { onMount } from "svelte";
     export let data
@@ -97,7 +99,7 @@ import {Chart} from "chart.js/auto"
     }
     /**@param el {Element}*/
     function TruncateCommentPreview(el){
-        console.log(el)
+
 
         //TODO: change this to innerText
         //Get the innerHTML 
@@ -115,7 +117,7 @@ import {Chart} from "chart.js/auto"
             el.innerHTML = wordArray.join(" ") + " . . . ."
         }
     }
-    console.log(data.userData)
+
     //TODO: Maybe consider Client Side Rendering for this page in particular
 
 </script>
@@ -129,9 +131,36 @@ import {Chart} from "chart.js/auto"
             <a href="/Community/RateMyLandlord/Reviews?address={data.address}" class="reviewCount {data.property.reviewCount? "": "linkDisabled"}">{data.property.reviewCount || 0} reviews</a>
         
 
-            <h2>Overall: {data.property.overallRatings || "N/A"}</h2>
-            <h3>Management: {data.property.managementRating || "N/A"}</h3>
-            <h3>Responsiveness: {data.property.responsivenessRating || "N/A"}</h3>
+            <h2>Overall: 
+                <span>
+                {#if data.property.overallRatings}
+
+                    <StarRating value={data.property.overallRatings}/>
+                {:else}
+                N/A
+                {/if}
+                </span>
+            </h2>
+            <h3>Management:                 
+                <span>
+                {#if data.property.managementRating}
+
+                    <StarRating value={data.property.managementRating}/>
+                {:else}
+                N/A
+                {/if}
+                </span>
+            </h3>
+            <h3>Responsiveness: 
+                <span>
+                    {#if data.property.responsivenessRating}
+    
+                        <StarRating value={data.property.responsivenessRating}/>
+                    {:else}
+                    N/A
+                    {/if}
+                    </span>
+            </h3>
 
         </div>
 
