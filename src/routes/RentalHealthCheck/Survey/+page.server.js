@@ -15,7 +15,7 @@ import { fail } from 'assert';
 /**@type {import('./$types').PageServerLoad} */
 export const load = async({locals, cookies})=>{
 
-    const sessionCookie = cookies.get('session')
+    const sessionCookie = cookies.get('__session')
     
     const {user, app} = await locals.GetUserFromSession(sessionCookie || "")
     //If there is no user data, redirect to sign in
@@ -30,7 +30,7 @@ export const load = async({locals, cookies})=>{
 export const actions = {
     default : async ({locals, request, cookies})=>{
         const data = await request.formData()
-        const sessionCookie = cookies.get('session')
+        const sessionCookie = cookies.get('__session')
 
         //Get the user from the session cookie and destructure it into the user and the app
         const {user, app} = await locals.GetUserFromSession(sessionCookie || "");

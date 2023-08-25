@@ -24,6 +24,7 @@ declare global {
 			 * @returns a response which contains the JWT to be used as a session cookie
 			*/
 			CreateSessionCookie(token : string) : Promise<string>;
+			sessionCookie : string;
 		}
 		// interface PageData {}
 		// interface Platform {}

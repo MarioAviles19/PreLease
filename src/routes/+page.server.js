@@ -6,7 +6,7 @@ const {getFirestore} = adminFirestore;
 
 export const load = async({locals, cookies})=>{
 
-    const {user, app} = await locals.GetUserFromSession(cookies.get('session'));
+    const {user, app} = await locals.GetUserFromSession(cookies.get('__session'));
     
     if(user){
         const userDoc = await getFirestore(app).doc(`Users/${user.uid}`).get();

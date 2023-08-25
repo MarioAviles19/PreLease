@@ -1,11 +1,12 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { SerializeNonPOJOs, bannedWordsRegex } from '$lib/helpers.js';
 import * as adminFirestore from "firebase-admin/firestore";
+import { updatePassword } from 'firebase/auth';
 
 const {getFirestore, FieldValue, Timestamp} = adminFirestore;
 
 export const load = async ({locals, request, cookies, url})=>{
-    const {user, app} = await locals.GetUserFromSession(cookies.get('session'));
+    const {user, app} = await locals.GetUserFromSession(cookies.get('__session'));
     const pathname = url.pathname;
     const address = url.searchParams.get('address');
     if(!user){
@@ -24,7 +25,7 @@ export const load = async ({locals, request, cookies, url})=>{
 export const actions = {
     upload : async({locals, cookies, request, url})=>{
 
-        const {user, app} = await locals.GetUserFromSession(cookies.get('session'));
+        const {user, app} = await locals.GetUserFromSession(cookies.get('__session'));
 
         const address = url.searchParams.get("address")
         const pathname = url.pathname;
@@ -75,18 +76,18 @@ export const actions = {
 
         const reg = new RegExp(bannedWordsRegex)
 
-        if(bannedWordsRegex.exec(comments)){
+        if(bannedWordsRegex.exec(comment)){
             //No swear words
 
-            return fail(400, {comments, message: "Please do not use profanity"});
+            return fail(400, {comment, message: "Please do not use profanity"});
         }
-        if(comments.length > maxComment){
+        if(comment.length > maxComment){
             //Not longer than max-length
-            return fail(400, {comments, message:"Comment too long"})
+            return fail(400, {comment, message:"Comment too long"})
         }
         if(startDate > endDate){
             //The end date cannot be before the start date
-            return fail(400, {comments, message: "Please ensure that start date is before end date"});
+            return fail(400, {comment, message: "Please ensure that start date is before end date"});
         }
 
 
@@ -94,12 +95,12 @@ export const actions = {
         //TODO: Add address validation
         //TODO: Look into promise.all();
         //TODO: Look into firestore Transactions
-        const snapshot = await firestore.collection("LandlordRatings").add(
+        const snapshot = await firestore.collection("LandlordRatings").doc(user.uid).set(
             {address, 
-            comments, 
-            overall, 
-            responsiveness, 
-            management, 
+            comments : comment, 
+            overallRating, 
+            responsivenessRating, 
+            managementRating, 
             startDate, 
             endDate, 
             timestamp: FieldValue.serverTimestamp(),
@@ -107,11 +108,14 @@ export const actions = {
         })
 
         const propertySnapshot = await firestore.collection("Properties").doc(address).get();
+
         const updatedProperty = await firestore.collection("Properties").doc(address).set({
             reviewCount: FieldValue.increment(1),
-            overallRatings: ((parseInt(propertySnapshot.data()?.overallRating) || 0) + overall) / (propertySnapshot.data()?.reviews + 1 || 1)
+            overallRatings: ((parseInt(propertySnapshot.data()?.overallRating) || 0) + overallRating || 0) / (propertySnapshot.data()?.reviews + 1 || 1)
             
             },{merge:true});
+        
+    
 
 
         throw redirect(302,`/Community/RateMyLandlord/Search?address=${address}`)

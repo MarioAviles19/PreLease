@@ -10,13 +10,13 @@ import {getAuth, setPersistence, inMemoryPersistence} from "firebase/auth"
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDcTQSTUEFxfAHV66vUOIK7fGgCx0Nv-c8",
-  authDomain: "prelease-de6cf.firebaseapp.com",
-  projectId: "prelease-de6cf",
-  storageBucket: "prelease-de6cf.appspot.com",
-  messagingSenderId: "890274296307",
-  appId: "1:890274296307:web:d4e608ff11ab8d3418a286",
-  measurementId: "G-RCKRT6Y9FB"
+  apiKey: "AIzaSyD4h3h71nGHXhJcdd7BI7CTPPd2JIvMnyg",
+  authDomain: "pl-rhc-data.firebaseapp.com",
+  projectId: "pl-rhc-data",
+  storageBucket: "pl-rhc-data.appspot.com",
+  messagingSenderId: "464747479294",
+  appId: "1:464747479294:web:c71cb642fd7e036fbe65af",
+  measurementId: "G-WH8NV1E5LR"
 };
 
 let firebaseApp;

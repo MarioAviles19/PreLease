@@ -1,3 +1,5 @@
-export const load = async({url})=>{
+export const load = async({url, locals, cookies})=>{
+    
+
     return {url: url.pathname}
 }

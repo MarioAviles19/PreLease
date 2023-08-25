@@ -22,7 +22,7 @@
         </div>
         <div class="info">
             <div class="leftSide">
-                <p class="rentalPeriod">Rental Period - {review.startDate?.getMonth()}/{review.startDate?.getFullYear()} - {review.endDate?.getMonth()}/{review.endDate?.getFullYear()}</p>
+                <p class="rentalPeriod">Rental Period - {review.startDate?.getMonth() + 1}/{review.startDate?.getFullYear()} - {review.endDate?.getMonth() + 1}/{review.endDate?.getFullYear()}</p>
             </div>
             <div class="rightSide">
                 <p class="housingType">Type - 1 bedroom Apartment</p>

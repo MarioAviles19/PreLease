@@ -18,6 +18,8 @@
     onMount(()=>{
         CreateChart();
         console.log(data.property)
+        console.log("search")
+        console.log(data);
     })
     
 
@@ -132,36 +134,9 @@
             <a href="/Community/RateMyLandlord/Reviews?address={data.address}" class="reviewCount {data.property.reviewCount? "": "linkDisabled"}">{data.property.reviewCount || 0} reviews</a>
         
 
-            <h2>Overall: 
-                <span>
-                {#if data.property.overallRating}
-
-                    <StarRating value={data.property.overallRating}/>
-                {:else}
-                N/A
-                {/if}
-                </span>
-            </h2>
-            <h3>Management:                 
-                <span>
-                {#if data.property.managementRating}
-
-                    <StarRating value={data.property.managementRating}/>
-                {:else}
-                N/A
-                {/if}
-                </span>
-            </h3>
-            <h3>Responsiveness: 
-                <span>
-                    {#if data.property.responsivenessRating}
-    
-                        <StarRating value={data.property.responsivenessRating}/>
-                    {:else}
-                    N/A
-                    {/if}
-                    </span>
-            </h3>
+            <h2>Overall: {data.property.overallRatings || "N/A"}</h2>
+            <h3>Management: {data.property.managementRating || "N/A"}</h3>
+            <h3>Responsiveness: {data.property.responsivenessRating || "N/A"}</h3>
 
         </div>
 
@@ -169,14 +144,6 @@
     
     </div>
     <div id="sidePanel">
-        
-        {#if Object.keys(data.reviews).length == 0}
-        <div class="card roundedContainer noResult">
-            <h2>No Results</h2>
-            <p>It looks like no one has left a review yet!</p>
-            <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Be The First!</a>
-        </div>
-        {/if}
         
         <div class="rentGraphContainer glassContainer">
             <h2>Rent Over Time</h2>
@@ -207,14 +174,14 @@
             <div class="reviewCard glassContainer">
                 <div class="reviewHeader">
                 <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
-                <h3 class="date">{review.startDate?.getMonth()}/{review.startDate?.getFullYear()} - {review.endDate?.getMonth()}/{review.endDate?.getFullYear()}</h3>
+                <h3 class="date">{review.startDate?.getMonth() + 1}/{review.startDate?.getFullYear()} - {review.endDate?.getMonth() + 1}/{review.endDate?.getFullYear()}</h3>
                 </div>
                 <div class="stars">
                     {#each {length: 5} as _, i}
                     <span class="star fas fa-star " style={review.overallRating >= i + 1? `color:${RatingToColorString(review.overallRating)}`: "color:grey"}></span>
                     {/each}
                 </div>
-                <p>{review.comment}</p>
+                <p>{review.comments}</p>
                 <button on:click={()=>{OpenReviewModal(review)}} class="overlay modalToggleButton" type="button"></button>
 
             </div>

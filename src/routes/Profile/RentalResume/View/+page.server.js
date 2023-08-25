@@ -5,7 +5,7 @@ const {getFirestore} = adminFirestore
 
 /**@type {import("./$types").PageServerLoad} */
 export const load = async({locals, cookies})=>{
-    const sessionCookie = cookies.get('session')
+    const sessionCookie = cookies.get('__session')
 
     const {user, app} = await locals.GetUserFromSession(sessionCookie || "");
 

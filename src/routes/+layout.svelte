@@ -39,7 +39,7 @@
 
 		InitLogging()
 
-
+		console.log(data)
 	})
 </script>
 
