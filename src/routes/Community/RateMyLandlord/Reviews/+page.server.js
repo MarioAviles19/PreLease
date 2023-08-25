@@ -15,7 +15,7 @@ export const load = async ({cookies, locals, url})=>{
     }
 
 
-    const {user, app} = await locals.GetUserFromSession(cookies.get('session'));
+    const {user, app} = await locals.GetUserFromSession(cookies.get('__session'));
 
     //Get the reviews for the supplied address
     //TODO: Paginate query

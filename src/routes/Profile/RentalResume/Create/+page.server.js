@@ -4,7 +4,7 @@ const {getFirestore, FieldValue} = adminFirestore;
 export const actions = {
     Upload : async ({locals,request, cookies})=>{
 
-        const sessionCookie = cookies.get("session")
+        const sessionCookie = cookies.get("__session")
         const data = await request.formData()
 
         const {user, app} = await locals.GetUserFromSession(sessionCookie || "");

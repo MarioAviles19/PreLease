@@ -15,6 +15,8 @@ import {Chart} from "chart.js/auto"
 
     onMount(()=>{
         CreateChart()
+        console.log("search")
+        console.log(data);
     })
     
 
@@ -130,7 +132,7 @@ import {Chart} from "chart.js/auto"
         
 
             <h2>Overall: {data.property.overallRatings || "N/A"}</h2>
-            <h3>Management: {data.property.managementRating || "N/A"}</h3>
+            <h3>Management: {data.property.managementRatings || "N/A"}</h3>
             <h3>Responsiveness: {data.property.responsivenessRating || "N/A"}</h3>
 
         </div>
@@ -139,14 +141,6 @@ import {Chart} from "chart.js/auto"
     
     </div>
     <div id="sidePanel">
-        
-        {#if Object.keys(data.reviews).length == 0}
-        <div class="card roundedContainer noResult">
-            <h2>No Results</h2>
-            <p>It looks like no one has left a review yet!</p>
-            <a class="createButton" href="/Community/RateMyLandlord/Create?address={data.address}">Be The First!</a>
-        </div>
-        {/if}
         
         <div class="rentGraphContainer glassContainer">
             <h2>Rent Over Time</h2>
@@ -177,14 +171,14 @@ import {Chart} from "chart.js/auto"
             <div class="reviewCard glassContainer">
                 <div class="reviewHeader">
                 <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
-                <h3 class="date">{review.startDate?.getMonth()}/{review.startDate?.getFullYear()} - {review.endDate?.getMonth()}/{review.endDate?.getFullYear()}</h3>
+                <h3 class="date">{review.startDate?.getMonth() + 1}/{review.startDate?.getFullYear()} - {review.endDate?.getMonth() + 1}/{review.endDate?.getFullYear()}</h3>
                 </div>
                 <div class="stars">
                     {#each {length: 5} as _, i}
                     <span class="star fas fa-star " style={review.overallRating >= i + 1? `color:${RatingToColorString(review.overallRating)}`: "color:grey"}></span>
                     {/each}
                 </div>
-                <p>{review.comment}</p>
+                <p>{review.comments}</p>
                 <button on:click={()=>{OpenReviewModal(review)}} class="overlay modalToggleButton" type="button"></button>
 
             </div>

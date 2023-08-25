@@ -5,6 +5,10 @@
     export let data;
 
     let emailSent = false;
+
+    onMount(()=>{
+        console.log(data.url)
+    })
     async function SendEmail(){
         
             signInWithCustomToken(auth, data.userToken).then((res)=>{

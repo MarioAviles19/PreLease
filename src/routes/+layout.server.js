@@ -1,6 +1,7 @@
 
 import * as admin from 'firebase-admin';
 import * as adminAuth from 'firebase-admin/auth';
+
 const {getAuth} = adminAuth;
 import * as adminFirestore from 'firebase-admin/firestore';
 const {getFirestore} = adminFirestore;
@@ -9,17 +10,18 @@ import { redirect } from '@sveltejs/kit';
 
 
 
+
 export const load = async ({locals, cookies, url})=>{
-    console.log(import.meta.env.MODE);
-    if(!cookies.get('session')){
-        console.log('no session')
-        return {userData : null}
+    if(!cookies.get("__session")){
+    
+        
+        return {userData : null, cookie: cookies.get("__session")}
     }
-    const {user, app}  = await locals.GetUserFromSession(cookies.get('session'))
+    const {user, app}  = await locals.GetUserFromSession(cookies.get('__session'))
     
 
     if(!user){
-        cookies.delete('session')
+        cookies.delete('__session')
         return {userData : null}
      }
     let extraData = await getFirestore(app).doc(`Users/${user.uid}`).get()

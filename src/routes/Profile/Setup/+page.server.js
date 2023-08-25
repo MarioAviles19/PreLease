@@ -7,7 +7,7 @@ export const actions = {
     default: async({request, locals, cookies})=>{
         const data = await request.formData();
 
-        const {user, app} = await locals.GetUserFromSession(cookies.get('session'));
+        const {user, app} = await locals.GetUserFromSession(cookies.get('__session'));
 
         const gender = data.getAll('gender');
         const birthDate = data.get('birthDate');

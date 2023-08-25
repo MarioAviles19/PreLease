@@ -5,7 +5,7 @@ import { SerializeNonPOJOs } from '$lib/helpers.js';
 /**@type {import('./$types').PageServerLoad} */
 export const load = async ({locals, params, cookies})=>{
 
-    const sessionCookie = cookies.get('session');
+    const sessionCookie = cookies.get('__session');
 
 
     const {user, app} =  await locals.GetUserFromSession(sessionCookie || "")

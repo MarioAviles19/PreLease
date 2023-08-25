@@ -8,13 +8,13 @@ const auth = adminAuth.getAuth;
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDcTQSTUEFxfAHV66vUOIK7fGgCx0Nv-c8",
-    authDomain: "prelease-de6cf.firebaseapp.com",
-    projectId: "prelease-de6cf",
-    storageBucket: "prelease-de6cf.appspot.com",
-    messagingSenderId: "890274296307",
-    appId: "1:890274296307:web:d4e608ff11ab8d3418a286",
-    measurementId: "G-RCKRT6Y9FB"
+    apiKey: "AIzaSyD4h3h71nGHXhJcdd7BI7CTPPd2JIvMnyg",
+    authDomain: "pl-rhc-data.firebaseapp.com",
+    projectId: "pl-rhc-data",
+    storageBucket: "pl-rhc-data.appspot.com",
+    messagingSenderId: "464747479294",
+    appId: "1:464747479294:web:c71cb642fd7e036fbe65af",
+    measurementId: "G-WH8NV1E5LR"
 };
 
 export const load = async ({locals, url, request})=> {
@@ -60,7 +60,7 @@ export const actions = {
         let token = await getIdToken(_auth.currentUser)
         let cookie = await locals.CreateSessionCookie(token)
         
-            cookies.set('session', cookie, {maxAge: 1000 * 60 * 60 * 24 * 5})
+            cookies.set('__session', cookie, {maxAge: 1000 * 60 * 60 * 24 * 5, path:'/', secure:true})
 
         } catch (err) {
 

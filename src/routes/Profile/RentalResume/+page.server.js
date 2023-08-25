@@ -5,7 +5,7 @@ const {getFirestore} = adminFirebase
 
 
 export const load = async ({locals, cookies})=>{
-    const {user, app} = await locals.GetUserFromSession(cookies.get('session')|| "")
+    const {user, app} = await locals.GetUserFromSession(cookies.get('__session')|| "")
 
     if(!user){
         throw redirect(302, "/SignIn?redirect/Profile/RentalResume")
