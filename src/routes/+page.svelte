@@ -76,58 +76,28 @@
 		showAdvanced = !showAdvanced;
 	}
 </script>
+<svelte:head>
+	<title>Home</title>
+	
+	<meta name="description" content="PreLease SBC builds a mutual partnership between landlords and their tenants. We offer renter support services, tenant placement, and Rental Health Assurance™ to landlords where we assist their tenants BEFORE a rental emergency. Renters can join our renter pool to match with responsive landlords "/>
+</svelte:head>
 
 <div id="banner">
-	<img src="brownstone2.jpg" />
-
+	<img src="brownstone2.jpg" alt="Brownstone background" />
 	<div id="photoOverlay"><TextCarousel textObjects={previews} /></div>
 </div>
 
-<section id="posts">
-	<h1>Resources</h1>
-	<form name="region" id="searchForm" on:submit|preventDefault>
-		<input id="searchBar" placeholder="Search" bind:value={searchBar} />
-		<button id="searchButton" class="chunkyButton" on:click={ExecuteSearch}>Search</button>
-		<button id="advancedToggle" on:click={toggleAdvanced}
-			>Advanced <i class="fas {showAdvanced ? 'fa-chevron-up' : 'fa-chevron-down'} fa-sm" /></button
-		>
+<section id="">
+	<h2>Rental Health Check</h2>
+	<p>Our Rental Health Check is a diagnostic tool that allows you to assess your rental health 
+		and helps us connect you with the resources you need.
+	</p>
+	<h2>Rate My Landlord</h2>
+	<p>Help keep landlords and property managers accountable by leaving a review of the places you've rented</p>
 
-		{#if showAdvanced}
-			<div id="advancedOptions" transition:slide={{}}>
-				<h3>Advanced Options</h3>
-				<select class="optionSelector" bind:value={region}>
-					<option value="">Region</option>
-					{#each regions as region}
-						<option value={region}>{region}</option>
-					{/each}
-				</select>
-				<select class="optionSelector" bind:value={type}>
-					<option value="">Type</option>
-					{#each types as type}
-						<option value={type}>{type}</option>
-					{/each}
-				</select>
-			</div>
-		{/if}
-	</form>
-	{#each currentResults as post}
-		<div class="card">
-			<div class="infoContainer">
-				<h1 class="type">{post.type}</h1>
-				<p class="phoneNumber">{post.phoneNumber}</p>
-			</div>
-			<h2 class="region">{post.region}</h2>
 
-			<p class="description">{post.description}</p>
-			<h3 class="name">{post.name}</h3>
-		</div>
-	{/each}
-	{#if currentResults.length == 0}
-		<div class="card">
-			<h2>No Results found</h2>
-		</div>
-	{/if}
-	</section>
+	
+</section>
 
 <style>
 
