@@ -285,7 +285,7 @@
         width:clamp(15rem, 95vw, 65rem)
     }
     input[type=date]{
-        font-family: lexend;
+        font-family: lexend, sans-serif;
         font-size: 1.2rem;
         border-radius: 3px;
         border:none;

@@ -44,7 +44,7 @@
             </div>
         </div>
         <h3>Comment</h3>
-        <p>{review.comment}</p>
+        <p>{review.comments}</p>
 
 
     </div>

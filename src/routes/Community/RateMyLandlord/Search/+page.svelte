@@ -134,9 +134,33 @@
             <a href="/Community/RateMyLandlord/Reviews?address={data.address}" class="reviewCount {data.property.reviewCount? "": "linkDisabled"}">{data.property.reviewCount || 0} reviews</a>
         
 
-            <h2>Overall: {data.property.overallRatings || "N/A"}</h2>
-            <h3>Management: {data.property.managementRating || "N/A"}</h3>
-            <h3>Responsiveness: {data.property.responsivenessRating || "N/A"}</h3>
+            <h2>Overall: 
+                <span>
+                {#if data.property.overallRatings}
+                <StarRating value= {data.property.overallRatings}/>
+                {:else}
+                N/A
+                {/if}
+                </span>
+            </h2>
+            <h3>Management: 
+                <span>
+                    {#if data.property.managementRating}
+                    <StarRating value= {data.property.managementRating}/>
+                    {:else}
+                    N/A
+                    {/if}
+                    </span>
+            </h3>
+            <h3>Responsiveness: 
+                <span>
+                    {#if data.property.responsivenessRating}
+                    <StarRating value= {data.property.responsivenessRating}/>
+                    {:else}
+                    N/A
+                    {/if}
+                    </span>
+            </h3>
 
         </div>
 

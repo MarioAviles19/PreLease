@@ -133,7 +133,7 @@
 		margin-right:1rem;
 		background-color: white;
 
-		max-width:45px;
+		width:clamp(2rem, 50%, 45px);
 	
 		
 	}
