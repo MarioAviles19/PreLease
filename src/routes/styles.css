@@ -25,7 +25,7 @@
 body {
 	min-height: 100vh;
 	margin: 0;
-	font-family: lexend;
+	font-family: lexend, sans-serif;
 
 	
 	
@@ -35,11 +35,11 @@ body {
 	overflow-x: hidden;
 }
 textarea{
-	font-family: lexend;
+	font-family: lexend, sans-serif;
 }
 input[type='text'],
 input[type='password']{
-	font-family: lexend;
+	font-family: lexend, sans-serif;
 	outline: none;
 	border:none;
 	background-color: white;

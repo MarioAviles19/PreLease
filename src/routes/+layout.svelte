@@ -132,7 +132,7 @@
 
 		margin-right:1rem;
 		background-color: white;
-
+		aspect-ratio: 1/1;
 		width:clamp(2rem, 50%, 45px);
 	
 		

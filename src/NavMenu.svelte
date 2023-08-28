@@ -15,7 +15,7 @@
 	<a on:click={toggleMenu} href="/">Home</a>
 	<a on:click={toggleMenu} href="/Community/RateMyLandlord">Rate Your Landlord</a>
 	<a on:click={toggleMenu} href="/RentalHealthCheck">Rental Health Check</a>
-	<a on:click={toggleMenu} href="/About">About</a>
+	<a on:click={toggleMenu} href="/About">About Us</a>
 </nav>
 
 <style>
