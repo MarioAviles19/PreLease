@@ -26,12 +26,14 @@
 		{
 			name: 'Our Mission',
 			text: 'Housing Support: Renters have access to the Rental Health Check, a diagnostic tool that connects tenants to public resources, improves screening health, and comes with a free consultation. For Rental Health Insurance, we assist tenants with early emergency intervention',
-			link: '/About'
+			link: '/About',
+			linkText: 'About Us'
 		},
 		{
 			name: 'Our Vision',
 			text: 'We want to uplift our surrounding partners and create an alternative. When tenants have a rental emergency, they can reach out to legal assistance such as Homeline, and seek out emergency rental assistance. Sometimes there is insufficient time or inadequate documentation for legal action',
-			link: '/About/Vision'
+			link: '/About/Vision',
+			linkText: 'Our Vision'
 		}
 	];
 
@@ -88,21 +90,46 @@
 </div>
 
 <section id="info">
-	<div class="panel outset">
-		<h2>Rental Health Check</h2>
-		<p>Our Rental Health Check is a diagnostic tool that allows you to assess your rental health
-			and helps us connect you with the resources you need.
-		</p>
+	<div class="panel textWithImage">
+		<div class="textWrapper">
+			<h2>Rental Health Check</h2>
+			<p>The rental market is similar to the job market. It is competitive and landlords will scrutinize your rental resume. Our free, comprehensive survey, Rental Health Check™,  assess renter screening health, address renter current issues, and determine resource savings. It comes with a free consultation, and may lead to referrals from our housing partners! By working with PreLease, we want you to be informed, confident, and match you with responsive landlords.
+			</p>
+			<a class="navigationButton" href="/RentalHealthCheck">Take a Rental Health Check</a>
+		</div>
+		<div class="imageWrapper">
+			<div class="circularBackground"></div>
+			<img src="/front_RHC-ad1.jpg" alt="Prelease chart. It showcases a stylized">
+
+
+		</div>
 	</div>
 
-	<div class="panel inset">
+	<div class="panel ">
 		<h2>Rate My Landlord</h2>
 		<p>Help keep landlords and property managers accountable by leaving a review of the places you've rented</p>
+		<a class="navigationButton" href="/Community/RateMyLandlord">Rate Your landlord</a>
 	</div>
 
-	<div class="panel outset">
-		<h2>Rental Resume</h2>
-		<p>Improve your chances of finding quality housing and distinguish yourself from other applicants by creating a Rental Resume</p>
+	<div class="panel ">
+		<h2>Landlords: Evictions are expensive, time-consuming, and emotionally exhausting</h2>
+		<p>With our Rental Health Assurance™, we regularly check-in with your tenants, collect tenant feedback, and provide them assistance during an emergency. Our service reduces hassle, increases payment stability, and builds friendlier relationships with your tenants.
+		</p>
+		<div class="centerFlex">
+			<div class="imageWrapper rentalHealthInsuranceInfographic">
+				<img  src="/Rental-Health-Insurance-Infographic.jpg" alt="An infographic">
+			</div>
+			<ul class="perklist">
+				<li>✔️ Collect tenant feedback and increase tenant engagement</li>
+				<li>✔️ Reduce rent burden by accessing government resources</li>
+				<li>✔️ Early Emergency Relief for your tenants</li>
+				<li>✔️ Tenant education</li>
+				<li>✔️ Send notifications to your tenants</li>
+			</ul>
+		</div>
+
+		<p>Landlords can access our pre-assured tenant pool to fill vacant rental units with a quality responsive tenant that is supported for the duration of the lease. </p>
+		<a class="navigationButton" href="/">Sign Up as Landlord</a>
 	</div>
 
 	
@@ -130,8 +157,16 @@
 		height: 20rem;
 	}
 	#info{
-		
-
+		background-color: var(--color-darkslate);
+		padding:1rem;
+	}
+	#info h2{
+		color:var(--color-theme-2);
+		font-size: 2rem;
+	}
+	#info p{
+		font-size: 1.2rem;
+		line-height: 2rem;
 	}
 
 	#photoOverlay {
@@ -144,16 +179,75 @@
 		background-color: rgba(0, 0, 0, 0.5);
 		backdrop-filter: blur(3px);
 	}
-	.panel{
-		padding:1rem
+	.textWrapper{
+		padding:1rem;
 	}
-	.panel.outset{
-		background-color: white;
-		color:black;
-		box-shadow: 0px 2px 7px 5px rgba(0, 0, 0, 0.209),0px -2px 7px 5px rgba(0, 0, 0, 0.209)
+	.centerFlex{
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
 	}
-	.panel.inset{
+	.rentalHealthInsuranceInfographic{
+		max-width: 20rem;
+		margin-right: 1rem;
+	}
+	.textWithImage{
+		display:grid;
+		grid-template-columns: 1fr 1fr;
+		gap:1rem;
+	}
+	.imageWrapper{
 
+		position:relative;
+	}
+	.imageWrapper img{
+
+		width:100%;
+		margin: auto;
+	}
+	.imageWrapper .circularBackground{
+		display: none;
+		position: absolute;
+		bottom:0;
+		left:0;
+		z-index: -1;
+		aspect-ratio: 1/1;
+		width:100%;
+		border-radius: 99rem;
+		background-color: grey;
+	}
+	.panel{
+		padding:1rem 3rem;
+		width: clamp(15rem, 100%, 75rem);
+		background-color: white;
+		border-radius: 5px;
+		margin: 1rem auto;
+		
+	}
+	.panel .navigationButton{
+
+	}
+	.navigationButton{
+		display: block;
+		background-color: var(--color-theme-2);
+		color:white;
+		width:fit-content;
+		padding:.8rem 1rem;
+		font-size:1.2rem;
+		border-radius: 12px;
+		text-decoration: underline;
+		font-weight: bold;
+
+
+	}
+	.perklist{
+		padding:0;
+	}
+	.perklist li{
+		list-style: none;
+		font-size: 1.2rem;
+		font-weight: lighter;
+		margin:1.8rem 0;
 	}
 	@media only screen and (max-width: 520px){
 		#posts{

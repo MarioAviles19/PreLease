@@ -39,7 +39,6 @@
 
 		InitLogging()
 
-		console.log(data)
 	})
 </script>
 
@@ -48,7 +47,7 @@
 <header bind:clientHeight={headerHeight}>
 	
 	<div id="navSelector">
-		<button on:click={toggleMenu} id="navIcon"><i class="fas fa-bars fa-xl" /></button>
+		<button on:click={toggleMenu} aria-label="Nav Menu" id="navIcon"><i class="fas fa-bars fa-xl" /></button>
 	</div>
 	<a href="/" id="home">
 		<h1>PreLease</h1>
@@ -58,7 +57,7 @@
 	<a class="cornerLink" href="/SignIn">Sign In</a>
 	{:else}
 	
-	<a class="cornerLink" href="/Profile"><img id='avatar' src="{data.userData.pfp}" alt="avatar"><h3>{data.userData.displayName ?? 'Profile'}</h3></a>
+	<a class="cornerLink" href="/Profile"><img id='avatar' src="{data.userData.pfp}" alt="avatar"><h2>{data.userData.displayName ?? 'Profile'}</h2></a>
 	{/if}
 </header>
 <main>
@@ -157,7 +156,7 @@
 		justify-content: right;
 
 	}
-	.cornerLink h3{
+	.cornerLink h2{
 		margin:0;
 	}
 	@media only screen and (max-width: 520px){

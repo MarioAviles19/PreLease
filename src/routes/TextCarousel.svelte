@@ -2,9 +2,9 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	export let textObjects = [{ name: '', text: '', link: '' }];
+	export let textObjects = [{ name: '', text: '', link: '',  linkText: ''}];
 
-	let currentItem = { name: '', text: '', link: '' };
+	let currentItem = { name: '', text: '', link: '', linkText: ''};
 	let currentIndex = 0;
 
 	let visable = true;
@@ -36,7 +36,7 @@
 	<div transition:fade={{ duration: 750, delay: 100 }} on:outroend={NextItem} id="text">
 		<h1>{currentItem.name}</h1>
 		<p>{currentItem.text}<span id="elipses">...</span></p>
-		<a href={currentItem.link}>Read More</a>
+		<a href={currentItem.link}>{currentItem.linkText}</a>
 	</div>
 {/if}
 
