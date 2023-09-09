@@ -17,9 +17,7 @@
 
     onMount(()=>{
         CreateChart();
-        console.log(data.property)
-        console.log("search")
-        console.log(data);
+
     })
     
 

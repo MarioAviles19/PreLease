@@ -1,4 +1,4 @@
-//TODO: Switch To Environment Variable for security
+
 export const key ={
   "type": import.meta.env.VITE_SERVICE_ACCOUNT_TYPE,
   "project_id": import.meta.env.VITE_SERVICE_ACCOUNT_PROJECT_ID,

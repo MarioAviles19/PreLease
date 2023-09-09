@@ -7,7 +7,7 @@
     let emailSent = false;
 
     onMount(()=>{
-        console.log(data.url)
+   
     })
     async function SendEmail(){
         

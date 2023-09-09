@@ -25,8 +25,7 @@ export const handle = async ({event, resolve})=>{
     //Parse Cookies for use later on
     let rawCookies = event.request.headers.get('cookie') || '';
 
-    console.log("raw");
-    console.log(rawCookies);
+
 
     let cookies = {};
 
@@ -37,8 +36,7 @@ export const handle = async ({event, resolve})=>{
         const value = rest.join("=").trim()
 
         cookies[name] = decodeURIComponent(value);
-        console.log("cookie");
-        console.log(cookie)
+
         
     })
 
@@ -56,16 +54,13 @@ export const handle = async ({event, resolve})=>{
             const value = rest.join("=").trim()
     
             cookies[name] = decodeURIComponent(value);
-            console.log("cookie");
-            console.log(cookie)
+
             
         })
-        console.log("cookie obj")
-        console.log(_cookies)
+
     }
 
-    console.log("local Cookies")
-    console.log(event.locals.cookies)
+
     //Function for getting user from session cookie used in .server.js files
     event.locals.GetUserFromSession = async (cookie)=>{
 

@@ -3,7 +3,7 @@
 
     export let data;
 
-    console.log(data.reports)
+
 
 
 </script>

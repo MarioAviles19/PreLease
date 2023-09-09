@@ -6,6 +6,7 @@ node_modules
 .env
 .env.*
 /functions
+/.firebase
 !.env.example
 firebase.json
 vite.config.js.timestamp-*

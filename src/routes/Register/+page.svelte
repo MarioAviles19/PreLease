@@ -16,7 +16,7 @@
         if(!email || !password){
             return
         }
-        console.log("Running Register")
+
         let user = await $authHandler.signUp(email, password);
 		
 		const response = await setDoc(doc(firestore,'Users', user.user.uid), {firstName: firstName, lastName: lastName, completion:0})

@@ -107,7 +107,7 @@ export const actions = {
 
         const docSnapshot = await firestore.collection("RentalResumes").add({ ...dataPayload})
 
-        console.log(dataPayload)
+
 
     }
 }

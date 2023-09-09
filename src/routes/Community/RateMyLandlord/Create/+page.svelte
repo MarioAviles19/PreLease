@@ -27,8 +27,7 @@
 
 
     onMount(()=>{
-        console.log(form);
-        console.log(currentDate)
+
         
     })
 

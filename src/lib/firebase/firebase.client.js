@@ -28,7 +28,7 @@ if(!getApps().length){
     deleteApp(firebaseApp);
     firebaseApp = initializeApp(firebaseConfig);
 }
-console.log("Firebase Client")
+
 
 export const storage = getStorage(firebaseApp);
 export const firestore = getFirestore(firebaseApp);

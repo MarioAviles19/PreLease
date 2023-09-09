@@ -28,20 +28,14 @@
     
 
     onMount(()=>{
-        console.log("Token")
-        console.log(data);
+
         signInWithCustomToken(auth, data.userToken).then((res)=>{logEvent($analyticsStore, "begin_health_check");})
 
 
 
         
     })
-    async function UploadDocument(){
-        let col = collection(firestore, 'HealthCheckReports')
-        let doc = await addDoc(col, {Test: data.userData.uid, urgency: "Very"})
-        console.log("Success");
 
-    }
 
     $: cityOtherSelected, toggleOtherBox();
 

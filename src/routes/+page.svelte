@@ -3,25 +3,6 @@
 	import TextCarousel from './TextCarousel.svelte';
 	import { slide } from 'svelte/transition';
 
-	let db = [
-		{
-			phoneNumber: '651-555-3254',
-			type: 'Eviction',
-			region: 'Hennepin',
-			description:
-				'Hennepin County Adult Representation Services Department is an independent county organization',
-			name: 'Hennepin County Adult Representation Services Housing'
-		},
-		{
-			phoneNumber: '763-555-4563',
-			type: 'Housing',
-			region: 'Anoka',
-			description:
-				'Judicare of Anoka County is a non-profit legal aid program that provides free legal service to clients',
-			name: 'Anoka Judicare Housing Law'
-		}
-	];
-
 	let previews = [
 		{
 			name: 'Our Mission',
@@ -37,46 +18,6 @@
 		}
 	];
 
-	db = [...db, ...db];
-
-	//Logic for searching
-
-	let showAdvanced = false;
-	let regions = [];
-	let types = [];
-
-	db.forEach((obj) => {
-		if (!regions.includes(obj.region)) {
-			regions.push(obj.region);
-		}
-		if (!types.includes(obj.type)) {
-			types.push(obj.type);
-		}
-	});
-
-	let currentResults = [{ phoneNumber: '', type: '', region: '', description: '', name: '' }];
-	let searchBar = '';
-	let region = '';
-	let type = '';
-
-	function ExecuteSearch() {
-		let textReg = new RegExp(`${searchBar == '' ? '.' : searchBar}`, 'i');
-		let regionReg = new RegExp(`${region == '' ? '.' : region}`, 'i');
-		let typeReg = new RegExp(`${type == '' ? '.' : type}`, 'i');
-		let temp = [];
-		db.forEach((obj) => {
-			if (textReg.exec(obj.name) && regionReg.exec(obj.region) && typeReg.exec(obj.type)) {
-				temp.push(obj);
-			}
-			currentResults = temp;
-		});
-	}
-	onMount(() => {
-		currentResults = db;
-	});
-	function toggleAdvanced() {
-		showAdvanced = !showAdvanced;
-	}
 </script>
 <svelte:head>
 	<title>Home</title>
@@ -137,10 +78,8 @@
 
 <style>
 
-	h1{
-		margin:0;
-		margin-bottom:1rem;
-		font-size: 2rem;
+	.perklist li:first-child{
+		margin-top:0;
 	}
 	#banner {
 		position: relative;
@@ -157,7 +96,6 @@
 		height: 20rem;
 	}
 	#info{
-		background-color: var(--color-darkslate);
 		padding:1rem;
 	}
 	#info h2{
@@ -179,16 +117,17 @@
 		background-color: rgba(0, 0, 0, 0.5);
 		backdrop-filter: blur(3px);
 	}
+
 	.textWrapper{
 		padding:1rem;
 	}
 	.centerFlex{
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-around;
 	}
 	.rentalHealthInsuranceInfographic{
-		max-width: 20rem;
+		width:clamp(15rem, 50%, 30rem);
 		margin-right: 1rem;
 	}
 	.textWithImage{
