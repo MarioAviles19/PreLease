@@ -371,26 +371,26 @@
             </div>
         </fieldset>
 
-        <fieldset class="selection question">
+        <fieldset class="radioSelection question">
             <legend>Please Identify Your Gender</legend>
             
             <div class="response">
-                <input type="checkbox" id="man" value="man" name="gender" >
+                <input type="radio" id="man" value="man" name="gender" >
                 <label for="man">Man</label>
             </div>
 
             <div class="response">
-                <input type="checkbox" id="woman" value="woman" name="gender" >
+                <input type="radio" id="woman" value="woman" name="gender" >
                 <label for="woman">Woman</label>
             </div>
 
             <div class="response">
-                <input type="checkbox" id="nonBinary" value="Non-Binary" name="gender">
+                <input type="radio" id="nonBinary" value="Non-Binary" name="gender">
                 <label for="nonBinary">Non-Binary</label>
             </div>
 
             <div class="response">
-                <input type="checkbox" id="noGender" value="n/a" name="gender">
+                <input type="radio" id="noGender" value="n/a" name="gender">
                 <label for="noGender">Prefer Not To Say</label>
             </div>
         </fieldset>
