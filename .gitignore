@@ -5,7 +5,7 @@ node_modules
 /package
 .env
 .env.*
-/functions
+
 /.firebase
 !.env.example
 firebase.json
