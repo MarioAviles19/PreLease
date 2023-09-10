@@ -182,16 +182,15 @@
 			float:left;
 
 		}
-		.cornerLink{
-			font-size: 1.2rem;
-			height:2.25rem;
-		}
-		.cornerLink img{
+		#avatar{
 			height:100%;
-		}
-		.cornerLink h3{
-			margin:0;
+			margin-right:.5rem;
+			border-radius: 99rem;
 
+		}
+		.cornerLink{
+			font-size: 1rem;
+			height:2.25rem;
 		}
 	}
 

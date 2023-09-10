@@ -36,7 +36,7 @@
 			<h2>Rental Health Check</h2>
 			<p>The rental market is similar to the job market. It is competitive and landlords will scrutinize your rental resume. Our free, comprehensive survey, Rental Health Check™,  assess renter screening health, address renter current issues, and determine resource savings. It comes with a free consultation, and may lead to referrals from our housing partners! By working with PreLease, we want you to be informed, confident, and match you with responsive landlords.
 			</p>
-			<a class="navigationButton" href="/RentalHealthCheck">Take a Rental Health Check</a>
+
 		</div>
 		<div class="imageWrapper">
 			<div class="circularBackground"></div>
@@ -44,16 +44,17 @@
 
 
 		</div>
+		<a class="navigationButton" href="/RentalHealthCheck">Take a Rental Health Check</a>
 	</div>
 
 	<div class="panel ">
 		<h2>Rate My Landlord</h2>
 		<p>Help keep landlords and property managers accountable by leaving a review of the places you've rented</p>
-		<a class="navigationButton" href="/Community/RateMyLandlord">Rate Your landlord</a>
+		<a class="navigationButton" href="/Community/RateMyLandlord">Rate Your Landlord</a>
 	</div>
 
 	<div class="panel ">
-		<h2>Landlords: Evictions are expensive, time-consuming, and emotionally exhausting</h2>
+		<h2 class="smallerText">Landlords: Evictions are expensive, time-consuming, and emotionally exhausting</h2>
 		<p>With our Rental Health Assurance™, we regularly check-in with your tenants, collect tenant feedback, and provide them assistance during an emergency. Our service reduces hassle, increases payment stability, and builds friendlier relationships with your tenants.
 		</p>
 		<div class="centerFlex">
@@ -174,7 +175,6 @@
 		padding:.8rem 1rem;
 		font-size:1.2rem;
 		border-radius: 12px;
-		text-decoration: underline;
 		font-weight: bold;
 
 
@@ -189,8 +189,21 @@
 		margin:1.8rem 0;
 	}
 	@media only screen and (max-width: 520px){
-		#posts{
-			width:100vw;
+		.textWithImage{
+			grid-template-columns: 1fr;
+			
+		}
+		.centerFlex{
+			flex-wrap: wrap;
+		}
+		.panel{
+			padding: 1rem .5rem;
+		}
+		.panel h2{
+			margin-top:0;
+		}
+		#info .panel .smallerText{
+			font-size: 1.5rem;
 		}
 	}
 </style>

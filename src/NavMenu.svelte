@@ -9,7 +9,7 @@
 	}
 </script>
 
-<div transition:fade={{ duration: 200 }} on:keyup={event=>{if(event.key == "Escape") toggleMenu;}} tabindex="0" role="button" on:click={toggleMenu} id="underlay" />
+<div transition:fade={{ duration: 200 }} on:keyup={event=>{if(event.key == "Escape") toggleMenu;}} tabindex="-1" role="button" on:click={toggleMenu} id="underlay" />
 <nav transition:slide={{ axis: 'x', duration: 300, easing:quintOut}} id="navBar">
 	<button on:click={toggleMenu} id="closeButton"><span class="fas fa-close fa-lg" /></button>
 	<a on:click={toggleMenu} href="/">Home</a>
@@ -68,6 +68,7 @@
 
 		height: 2rem;
 		margin: 2rem auto;
+		margin-top:1rem;
 		width: 100%;
 
 		cursor: pointer;
