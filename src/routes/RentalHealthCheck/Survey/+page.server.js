@@ -40,7 +40,7 @@ export const actions = {
         }
 
         /**@type {{[key: string] : any}} */
-        let obj;
+        let obj = {};
 
         //TODO: solve the 'Other' radio button issue where there is a value for the "other" option even if it isn't pressed
 
