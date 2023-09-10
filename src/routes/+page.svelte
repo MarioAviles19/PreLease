@@ -20,7 +20,7 @@
 
 </script>
 <svelte:head>
-	<title>Home</title>
+	<title>PreLease SBC</title>
 	
 	<meta name="description" content="PreLease SBC builds a mutual partnership between landlords and their tenants. We offer renter support services, tenant placement, and Rental Health Assurance™ to landlords where we assist their tenants BEFORE a rental emergency. Renters can join our renter pool to match with responsive landlords "/>
 </svelte:head>
