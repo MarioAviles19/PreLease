@@ -62,7 +62,7 @@ export const actions = {
 
         })
         //Add the userID to the owner field so you can retrieve the user data later
-        obj = {owner: user.uid, Timestamp: Timestamp.now(), ...obj}
+        obj = {owner: user.uid, timestamp: Timestamp.now(), ...obj}
 
 
         //Add the document

@@ -50,7 +50,7 @@ exports.rentalHealthScheduled = onSchedule("every day 00:00", async (event)=>{
 
   const healthCheckInfo = await db.doc('RentalHealthChecks/Info').get();
 
-  const newHealthCheckCount = healthCheckCount - healthCheckInfo.data().count;
+  const newHealthCheckCount = healthCheckCount - healthCheckInfo.data().previousDayCount || 0;
 
   await db.doc('RentalHealthChecks/Info').set({previousDayCount: newHealthCheckCount, healthChecksOverTime: [...(healthCheckInfo.data().healthChecksOverTime || []), {count: newHealthCheckCount, date: FieldValue.serverTimestamp()}]}, {merge:true})
 
