@@ -2,7 +2,8 @@ const functions = require("firebase-functions");
 const { onDocumentCreated, onDocumentWritten } = require("firebase-functions/v2/firestore");
 
 const {initializeApp} = require("firebase-admin/app")
-const {getFirestore,FieldValue} = require("firebase-admin/firestore")
+const {getFirestore,FieldValue} = require("firebase-admin/firestore");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
 
 const app = initializeApp();
 const db = getFirestore()
@@ -41,4 +42,17 @@ exports.updateRentalHealthCheckInfo = onDocumentWritten("RentalHealthChecks/{doc
   await db.doc("Tests/HealtCheck").set({count : FieldValue.increment(1)}, {merge:true})
   return;
 
+})
+
+exports.rentalHealthScheduled = onSchedule("every day 00:00", async (event)=>{
+  
+  const healthCheckCount  = await db.collection('RentalHealthCheks').count().get();
+
+  const healthCheckInfo = await db.doc('RentalHealthChecks/Info').get();
+
+  const newHealthCheckCount = healthCheckCount - healthCheckInfo.data().count;
+
+  await db.doc('RentalHealthChecks/Info').set({previousDayCount: newHealthCheckCount, healthChecksOverTime: [...(healthCheckInfo.data().healthChecksOverTime || []), {count: newHealthCheckCount, date: FieldValue.serverTimestamp()}]}, {merge:true})
+
+  return;
 })
