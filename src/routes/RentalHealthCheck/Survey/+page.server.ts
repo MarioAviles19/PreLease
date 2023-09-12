@@ -39,14 +39,14 @@ export const actions = {
             return;
         }
 
-        /**@type {{[key: string] : any}} */
-        let obj = {};
+
+        let obj : {[key : string] : any} = {};
 
         //TODO: solve the 'Other' radio button issue where there is a value for the "other" option even if it isn't pressed
 
         //If the "Other" text input has been filled out and the city field is set to 'Other, set the city property to that
         if(data.get('cityOther') && data.get('city') == "Other"){
-            data.set('city', /**@type {string}*/(data.get('cityOther')))
+            data.set('city', data.get('cityOther') as string)
             data.delete('cityOther')
         }
         //Add the form data to an intermediary object before adding it to the 'RentalHealthChecks' collection
@@ -62,7 +62,7 @@ export const actions = {
 
         })
         //Add the userID to the owner field so you can retrieve the user data later
-        obj = {owner: user.uid, timestamp: Timestamp.now(), ...obj}
+        obj = {owner: user.uid, timestamp: Timestamp.now(), income : parseInt(data.get("income") as string || ""), ...obj}
 
 
         //Add the document
