@@ -18,6 +18,48 @@ import {key} from "$lib/firebase/ServiceAccountKey"
 import { redirect } from "@sveltejs/kit";
 
 
+async function GetUserAndApp(cookie){
+
+
+    
+
+    let app;
+
+    //if no firebaseApp entitled auth exists, initialize one
+    try {
+        app = getApp();
+
+    } catch (error) {
+        if(error.errorInfo.code = 'app/no-app'){
+
+            app = initializeApp({credential: cert(key)})
+
+        }
+    }
+
+    if(!cookie){
+        return {user: null, app: app}
+    }
+
+
+    let user = await getAuth(app).verifySessionCookie(cookie).then(async (decodedIdToken)=>{
+        let user = await getAuth(app).getUser(decodedIdToken.uid)
+       
+        return user
+    }).catch(err=>{
+        if(err.errorInfo.code = 'auth/session-cookie-expired'){
+            console.log("NO USER");
+            return null;
+        }
+        console.log(err); 
+        return null
+    });
+
+    return {user: user, app : app}
+
+}
+
+
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ({event, resolve})=>{
@@ -98,6 +140,11 @@ export const handle = async ({event, resolve})=>{
         return {user: user, app : app}
 
     }
+
+    const {user, app} = await GetUserAndApp(cookies["__session"]);
+    event.locals.user = user;
+
+    event.locals.app = app;
     //Function for creating session cookie used in .server.js files
     //TODO: Clean this up
     event.locals.CreateSessionCookie = async (token)=>{
@@ -123,9 +170,9 @@ export const handle = async ({event, resolve})=>{
     }
 
     
-    
-
-    return await resolve(event)
+    const response = await resolve(event);
+    response.headers.set("cache-control", "no-cache");
+    return response;
 
     
     

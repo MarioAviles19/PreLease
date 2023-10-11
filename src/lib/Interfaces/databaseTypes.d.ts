@@ -85,3 +85,244 @@ export interface RentalResume{
     extraInfo?: string;
 
 }
+export interface UserInfo{
+    id : string;
+    firstName : string;
+    lastName : string;
+    email : string;
+    organization : string;
+    role : "member" | "Moderator" | "Admin"
+
+}
+
+export interface RentalHealthCheckDB{
+    timestamp : FirebaseDate
+
+    buildingType : string;
+
+    caseManager : "Yes" | "No";
+
+    cosigners : "Yes" | "No";
+
+    gender : "man" | "woman" | "non-binary";
+
+    creditRating : string;
+
+    creditRefundFiled : "Yes" | "No";
+
+    currentLease : string;
+
+    currentTenant : "Yes" | "No";
+
+    demographics : Array<string>;
+
+    emergency : "Yes" | "No";
+
+    evicted : "Yes" | "No";
+
+    followUp : "Yes" | "No";
+
+    income : number;
+
+    city : string;
+
+    landlordRelationShip : string;
+
+    liveInLandlord : "Yes" | "No";
+
+    minorsInHouse : "Yes" | "No";
+
+    moreInfo : Array<string>;
+
+    negativeRelationship : "Yes" | "No";
+
+    owner : string;
+
+    paymentType : string;
+
+    planningToMove : "Yes" | "No";
+
+    pregnancy : "Yes" | "No";
+
+    race : Array<string>;
+
+    transit : string;
+
+    organization : string;
+
+    utilityStruggle : "Yes" | "No";
+}
+export interface RentalHealthCheckClient{
+
+
+    id? : string;
+
+    timestamp : Date
+
+    buildingType : string;
+
+    caseManager : "Yes" | "No";
+
+    cosigners : "Yes" | "No";
+
+    creditRating : string;
+
+    creditRefundFiled : "Yes" | "No";
+
+    currentLease : string;
+
+    currentTenant : "Yes" | "No";
+
+    demographics : Array<string>;
+
+    emergency : "Yes" | "No";
+
+    evicted : "Yes" | "No";
+
+    followUp : "Yes" | "No";
+    /**Todo: Change this from an array to string in the server*/
+    gender : string;
+
+    income : number;
+
+    city : string;
+
+    organization : string;
+
+    landlordRelationShip : string;
+
+    liveInLandlord : "Yes" | "No";
+
+    minorsInHouse : "Yes" | "No";
+
+    moreInfo : Array<string>;
+
+    negativeRelationship : "Yes" | "No";
+
+    owner : {firstName : string, lastName : string, id : string, email : string};
+
+    paymentType : string;
+
+    planningToMove : "Yes" | "No";
+
+    pregnancy : "Yes" | "No";
+
+    race : Array<string>;
+
+    transit : string;
+
+    utilityStruggle : "Yes" | "No";
+}
+
+export interface RentalHealthCheckInfoDB{
+    emergent : number;
+
+    city : Array<{name : string, count : number}>;
+
+    healthChecksOverTime : Array<{count: number, date : FirebaseTimestamp}>
+
+
+    gender : string;
+
+    count : number;
+}
+
+export interface RentalHealthCheckInfoClient{
+    emergent : number;
+
+    city : Array<{name : string, count : number}>;
+
+    healthChecksOverTime : Array<{count: number, date :  Date}>
+
+    gender : string;
+
+    count : number;
+}
+export interface FirebaseTimestamp{
+    _seconds : number;
+
+    _nanoseconds : number;
+}
+
+export interface OrgRequestDB{
+    id : string;
+
+    timestamp : FirebaseDate;
+
+    member : string;
+
+    organization : string;
+
+    type : "addUser";
+
+    status? : "pending" | "accepted" | "rejected";
+}
+
+export interface OrgRequestClient{
+    id : string;
+
+    timestamp : Date;
+
+    member : UserInfo;
+
+    organization : string;
+
+    type : "addUser";
+
+    status? : "pending" | "accepted" | "rejected";
+}
+
+export interface Organization{
+    id : string;
+    name : string;
+    iconRef : string;
+    icon : string;
+    acceptedDomains? : Array<strings>;
+    rejectExternalDomains? : boolean;
+}
+
+export interface Resource{
+    id: string;
+    organization : string;
+    name : string;
+    description : string;
+    link : string;
+    phoneNumber? : number;
+
+    eligable? : boolean;
+
+    requirements : ResourceRequirmentList;
+
+
+
+
+}
+export interface ResourceRequirmentList{
+
+    [key : string] : string | Array<string> | boolean;
+
+    income? : string;
+
+    gpa? : string;
+
+    gender? : Array<"man" | "woman" | "nonBinary">;
+
+    houseHoldSize? : string;
+
+    creditRating? : "poor" | "good" | "excellent";
+
+    criminalBackground? : boolean;
+
+    minorsInHouse? : boolean;
+
+    demographics? : Array<string>;
+}
+
+abstract interface TokenDoc {
+    used: boolean;
+    timestamp : FirebaseTimestamp;
+}
+
+export interface ResetPasswordToken extends TokenDoc{
+    email: string;
+}

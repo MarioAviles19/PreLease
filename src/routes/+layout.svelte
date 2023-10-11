@@ -1,21 +1,19 @@
-<script>
+<script lang=ts>
 	import './styles.css';
 	import NavMenu from '../NavMenu.svelte';
 	import { onMount } from 'svelte';
 	import { getAnalytics, isSupported } from 'firebase/analytics';
-	import {signInWithCustomToken} from 'firebase/auth'
 	import { app, auth } from '$lib/firebase/firebase.client';
 	import { analyticsStore } from '$lib/stores/analytics';
 
 
-
+	let screenWidth : number = 1000;
 
 	let navMenuOpen = false;
 
 	export let data;
-	
-	/**@type {number}*/
-	let headerHeight;
+
+	let headerHeight : number;
 
 
 
@@ -36,29 +34,64 @@
 
 	onMount(()=>{
 
-
-		InitLogging()
+		//InitLogging()
 
 	})
 </script>
 
+<svelte:window bind:innerWidth={screenWidth}/>
 
 <div id="headerBuffer" aria-hidden="true" style="height:{headerHeight - 1}px;"></div>
 <header bind:clientHeight={headerHeight}>
 	
-	<div id="navSelector">
-		<button on:click={toggleMenu} aria-label="Nav Menu" id="navIcon"><i class="fas fa-bars fa-xl" /></button>
-	</div>
-	<a href="/" id="home">
-		<h1>PreLease</h1>
-	</a>
+	{#if screenWidth > 720}
+	<div class="leftCorner">
+		<a class="homeLink" href="/">
+			<img class="orgIcon" src="/favicon.png" alt="icon">
+			PreLease
+		</a>
 
-	{#if  !data.userData}
-	<a class="cornerLink" href="/SignIn">Sign In</a>
+		<nav class="navBar">
+			<ul>
+					{#if data.userData}
+					<li>
+						<a href="/RentalHealthCheck">Rental Health Check</a>
+					</li>
+					<li>
+						<a href="/Community">Community</a>
+					</li>
+					{#if data.userData?.role == "Admin"}
+					<li>
+						<a href="/Organizations/Add">Add Organization</a>
+					</li>
+					{/if}
+					{:else}
+					<li>
+						<a href="/">Become a Partner</a>
+					</li>
+					{/if}
+			</ul>
+		</nav>
+	</div>
+
+
 	{:else}
-	
-	<a class="cornerLink" href="/Profile"><img id='avatar' src="{data.userData.pfp}" alt="avatar"><h2>{data.userData.displayName ?? 'Profile'}</h2></a>
+		<div id="navSelector">
+			<button on:click={toggleMenu} aria-label="Nav Menu" id="navIcon"><i class="fas fa-bars fa-xl" /></button>
+		</div>
+		<a href="/" id="home">
+			<h1>PreLease</h1>
+		</a>
 	{/if}
+
+	<div class="rightCorner">
+		{#if  !data.userData}
+		<a class="cornerLink" href="/SignIn">Sign In</a>
+		{:else}
+		
+		<a class="cornerLink" href="/Profile"><img id='avatar' src="{data.userData.pfp}" alt="avatar"><h2>{data.userData.displayName ?? 'Profile'}</h2></a>
+		{/if}
+	</div>
 </header>
 <main>
 	<slot />
@@ -77,7 +110,7 @@
 		
 		width: 100%;
 		max-width:100%;
-		
+
 
 		
 	}
@@ -87,8 +120,8 @@
 		position: fixed;
 		top:0;
 		left:0;
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
+		display: flex;
+		justify-content: space-between;
 		background-color: white;
 		min-height: 4rem;
 		height: fit-content;
@@ -132,8 +165,9 @@
 		margin-right:1rem;
 		background-color: white;
 		aspect-ratio: 1/1;
-		width:clamp(2rem, 50%, 45px);
-	
+		width:50px;
+		border-radius: 99rem;
+		border: 2px solid var(--color-theme-2);
 		
 	}
 	#home{
@@ -142,22 +176,84 @@
 		justify-content: center;
 		font-size: 1.2rem;
 	}
+	.requestNumber{
+		display: inline-block;
+		background-color: var(--color-theme-2);
+		border-radius: 99rem;
+		color:white;
+		min-width: 1.35rem;
+		height: 1.35rem;
+		
+	}
+	.requestNumber p{
+		margin:0;
+		padding: .2rem;
+		color:white;
+		font-size: .8rem;
+	}
+	.orgIcon{
+		aspect-ratio: 1/1;
+		width:2rem;
+
+		
+	}
+	.leftCorner{
+		display: flex;
+		align-items: center;
+		margin-left:1rem;
+	}
+	.homeLink{
+		font-size: 1.5rem;
+		margin-right:1rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		color:rgb(80, 80, 80);
+	}
+	.navBar ul{
+		display: flex;
+		padding:0;
+		box-shadow: -2px 0 #424242a4;
+	}
+	.navBar ul li{
+		margin:.5rem;
+		list-style: none;
+	}
+	.navBar ul li a{
+		color: #424242;
+	}
+	.navBar ul li a:hover{
+		color: var(--color-theme-2)
+	}
+	.navBar{
+
+	}
+	.rightCorner{
+		display: flex;
+		align-items: center;
+	}
 	.cornerLink {
 		font-size: 1.7rem;
-
-		margin: auto;
-		margin-right: 2%;
 		cursor: pointer;
-
-		width:fit-content;
 
 		display:flex;
 		align-items: center;
-		justify-content: right;
+		justify-content: center;
 
 	}
 	.cornerLink h2{
 		margin:0;
+	}
+	@media only screen and (max-width: 720px){
+		header{
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+		.rightCorner{
+			width: 100%;
+			text-align: right;
+			display: block;
+		}
 	}
 	@media only screen and (max-width: 520px){
 		header{
@@ -180,17 +276,25 @@
 			padding: 0;
 			
 			float:left;
+			
 
 		}
 		#avatar{
 			height:100%;
 			margin-right:.5rem;
 			border-radius: 99rem;
+			width:auto;
 
+		}
+		.rightCorner{
+			justify-content: right;
 		}
 		.cornerLink{
 			font-size: 1rem;
 			height:2.25rem;
+		}
+		.cornerLink h2{
+			font-size: 1.5rem;
 		}
 	}
 

@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "pl-rhc-data"
-  }
+  },
+  "targets": {
+    "pl-rhc-data": {
+      "hosting": {
+        "reg": [
+          "pl-rhc-data"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

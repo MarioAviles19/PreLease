@@ -2,6 +2,7 @@
 	--color-trim: grey;
 	--color-theme-1: #752436;
 	--color-theme-2: #5a8219;
+	--color-theme-2-alt: #5b8f08;
 	--color-theme-1-sub: #882a3f;
 	--color-light-text: white;
 	--color-dark-text: black;
@@ -70,7 +71,21 @@ button{
 	cursor: pointer;
 	font-size: 1.2rem;
 }
+.largeButton{
 
+
+	color:white;
+	background-color: var(--color-theme-2);
+	border-radius: 9px;
+	padding: .5rem;
+	border:none;
+}
+.largeButton:hover{
+	background-color: var(--color-theme-2-alt);
+}
+.largeButton:active{
+	background-color: var(--color-theme-2);
+}
 
 .roundedContainer{
 	background-color: white;

@@ -2,19 +2,65 @@
 <script>
 	import { onMount } from "svelte";
 	import { authHandler } from "$lib/stores/authStore";
+	import { enhance } from "$app/forms";
+	import { signInWithEmailAndPassword, getIdToken } from "firebase/auth";
+	import { auth } from "$lib/firebase/firebase.client.js";
 
 
 	export let data;
 	export let form;
 
+	let message = form?.message;
 
-	onMount(()=>{
-		$authHandler.signOut();
-	})
+	let submitting = false;
+	let submitted = false;
+
+
 </script>
 
+<svelte:head>
+    <title>Sign In</title>
+    <meta name="description" content="Sign into PreLease">
+</svelte:head>
 
-<form id="login" method="POST" action="?/login&redirect={data.redirect}">
+<form id="login" method="POST" action="?/login&redirect={data.redirect}" use:enhance={
+	async ({formData,cancel})=>{
+		submitting = true;
+		
+		const email = formData.get("email");
+		const password = formData.get("password");
+
+		if(!email || !password){
+			cancel();
+			message = "Please enter required fields";
+			submitting = false;
+			return
+		}
+
+		try{
+		const userRecord = await signInWithEmailAndPassword(auth, email.toString(), password.toString());
+
+		const token = await getIdToken(userRecord.user, true)
+
+		formData.set("token", token);
+		} catch (error){
+			message = "Invalid credentials";
+			cancel();
+		}
+		return async({result, update})=>{
+			submitting = false;
+			submitted = true;
+			if(result.type == "redirect"){
+				update();
+			}
+			
+			message = result.data?.message;
+		}
+		
+
+
+	}
+}>
 	<h1>Sign In</h1>
 
 	<div class="field">
@@ -26,16 +72,16 @@
 		<label for="password">Password</label>
 		<input id="password" name="password" type="password" placeholder="Password" />
 	</div>
-	{#if form?.message}
-		<p class="errorText">{form.message}</p>
+	{#if message}
+		<p class="errorText">{message}</p>
 	{/if}
 
 	<div id="links">
-		<a href="/Register">Create Account</a>
-		<a href="/SignIn">Forgot Password?</a>
+		<a href="/Partner">Become A Partner</a>
+		<a href="/SignIn/ResetPassword">Forgot Password?</a>
 	</div>
-	<div>
-		<button type="submit" class='chunkyButton'>Sign In</button>
+	<div class="buttons">
+		<button type="submit">{submitting? "Signing In": "Sign In"}</button>
 	</div>
 </form>
 <div id="background">
@@ -51,6 +97,9 @@
 	}
 	label{
 		display: block;
+	}
+	.buttons{
+		text-align: right;
 	}
 	#login {
 		display: flex;
@@ -74,9 +123,14 @@
 		width:100%;
 		
 	}
-	#login button {
+	form button {
 		font-size: 1.5rem;
-		float:right;
+
+		color:white;
+		background-color: var(--color-theme-2);
+		border-radius: 9px;
+		padding: .5rem;
+		border:none;
 	}
 	#background {
 		z-index: -1;

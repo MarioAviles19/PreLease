@@ -2,11 +2,13 @@ const functions = require("firebase-functions");
 const { onDocumentCreated, onDocumentWritten } = require("firebase-functions/v2/firestore");
 
 const {initializeApp} = require("firebase-admin/app")
-const {getFirestore,FieldValue} = require("firebase-admin/firestore");
+const {getFirestore,FieldValue, Timestamp} = require("firebase-admin/firestore");
+const {getAuth} = require("firebase-admin/auth")
 const { onSchedule } = require("firebase-functions/v2/scheduler");
 
 const app = initializeApp();
 const db = getFirestore()
+const auth = getAuth();
   
 let ssrServerServer;
 exports.ssrServer = functions.region("us-central1").https.onRequest(async (request, response) => {      
@@ -24,8 +26,6 @@ exports.updateRentalHealthCheckInfo = onDocumentWritten("RentalHealthChecks/{doc
   const document = event.data.after;
   const data = document.data();
 
-  const gender = data.gender;
-
   if( document.id == "Info"){
     return;
   }
@@ -35,24 +35,49 @@ exports.updateRentalHealthCheckInfo = onDocumentWritten("RentalHealthChecks/{doc
 
     return;
   }
+
+  const gender = data.gender;
+
  const infoSnapshot = await db.doc('RentalHealthChecks/Info').get();
 
 
   await db.doc("RentalHealthChecks/Info").set({count: FieldValue.increment(1), emergent: data.emergency == "Yes"? FieldValue.increment(1): FieldValue.increment(0), gender: {...infoSnapshot.data().gender, [gender] : FieldValue.increment(1)}}, {merge:true})
-  await db.doc("Tests/HealtCheck").set({count : FieldValue.increment(1)}, {merge:true})
-  return;
+
+  const ownerUserAuth = await auth.getUser(data.owner);
+
+  const ownerUserDoc = (await db.collection("Users").doc(data.owner).get());
+  const ownerUserData = ownerUserDoc.data();
+
+  const res =  await document.ref.set({owner:{id: ownerUserDoc.id,firstName: ownerUserData?.firstName || "", lastName : ownerUserData?.lastName || "", email : ownerUserAuth.email || ""}}, {merge:true});
+  functions.logger.log(res)
+  functions.logger.log("Updated rental health")
+  return res
 
 })
 
 exports.rentalHealthScheduled = onSchedule("every day 00:00", async (event)=>{
   
-  const healthCheckCount  = await db.collection('RentalHealthCheks').count().get();
+  try{
+  const lastHealthCheckOverTimeDoc  = (await db.collection('HealthChecksOverTime').orderBy("date", "desc").limit(1).get()).docs[0];
 
-  const healthCheckInfo = await db.doc('RentalHealthChecks/Info').get();
+  const healthCheckCount = await db.collection('RentalHealthChecks').count().get();
 
-  const newHealthCheckCount = healthCheckCount - healthCheckInfo.data().previousDayCount || 0;
+  const newHealthCheckCount = healthCheckCount.data().count - lastHealthCheckOverTimeDoc.data().count || 0;
 
-  await db.doc('RentalHealthChecks/Info').set({previousDayCount: newHealthCheckCount, healthChecksOverTime: [...(healthCheckInfo.data().healthChecksOverTime || []), {count: newHealthCheckCount, date: FieldValue.serverTimestamp()}]}, {merge:true})
+  functions.logger.log("count:")
+  functions.logger.log(newHealthCheckCount);
+
+
+
+  await db.collection('HealthChecksOverTime').add({count: Math.max(newHealthCheckCount, 0), date: Timestamp.now()})
+
+  functions.logger.log("No Errors")
+  }
+  catch(err){
+    functions.logger.log("Caught Error")
+    functions.logger.error(err);
+  }
+
 
   return;
 })

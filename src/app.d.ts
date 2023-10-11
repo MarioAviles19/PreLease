@@ -25,6 +25,9 @@ declare global {
 			*/
 			CreateSessionCookie(token : string) : Promise<string>;
 			sessionCookie : string;
+
+			user: UserRecord | null;
+			app : App;
 		}
 		// interface PageData {}
 		// interface Platform {}
