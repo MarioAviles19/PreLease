@@ -21,6 +21,7 @@ export const load = async({locals, url})=>{
 
         const healthCheckData : Array<RentalHealthCheckClient> = healthCheckSnap.docs.map(doc=>{return {...doc.data() as RentalHealthCheckClient, id: doc.id, timestamp : new Date(doc.data().timestamp._seconds * 1000)}})
 
+        
 
         return healthCheckData;
     }
