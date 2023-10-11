@@ -1,16 +1,36 @@
-<script>
+<script lang=ts>
+    import CustomSelect from "$lib/Components/CustomSelect.svelte"
+	import type { RentalHealthCheckClient } from "$lib/Interfaces/databaseTypes.js";
     export let data;
 
 
+
+    
+    let rentalHealthchecks : Array<RentalHealthCheckClient> = [];
+    
+    let currentHealthCheck : RentalHealthCheckClient;
+    
+
 </script>
 
-<section>
+<section class="content">
     <h1>Rental Health Check</h1>
 
-    <p>The Rental Health Check is a diagnostic tool that we at PreLease use to connect you with housing resources based upon various factors including rental history, personal information, demographic information and income.</p>
-    <div id="buttons">
-    
-        <a href="/RentalHealthCheck/Survey" class="continueButton chunkyButton">{!data.userData? "Sign In": "Continue"}</a>
+
+    <div id="healthChecks">
+        <h2>Previous Rental Health Checks</h2>
+        {#await data.streamed.healthChecks}
+        waiting...
+        {:then healthChecks}
+        <div class="selectHealthCheck">
+            <CustomSelect on:change={ev=>{currentHealthCheck = rentalHealthchecks[parseInt(ev.detail.value)]; console.log(currentHealthCheck);}} name="currentHealthCheck" options={healthChecks.map((doc, i)=>{ rentalHealthchecks.push(doc);return {name: doc.timestamp.toDateString(), value: i.toString()}})}>
+            --
+            </CustomSelect>
+        </div>
+        
+
+        {/await}
+
 
     </div>
 </section>
@@ -25,8 +45,6 @@
 
 <style>
     section{
-        width:85%;
-        max-width: 50rem;
         margin:auto;
         margin-top:1rem;
         background-color: white;
@@ -35,17 +53,11 @@
         padding:1.5rem;
 
     }
-
-    #buttons{
-        width:100%;
-        display: flex;
-        align-items: center;
-        justify-content: right;
+    .selectHealthCheck{
+        width:10rem;
     }
-    .continueButton{
-        font-size: 1.5rem;
 
-    }
+
     @media screen and (max-width:520px){
         section{
             line-height: 2rem;

@@ -21,39 +21,39 @@ exports.ssrServer = functions.region("us-central1").https.onRequest(async (reque
   return ssrServerServer(request, response);
 });
 
-exports.updateRentalHealthCheckInfo = onDocumentWritten("RentalHealthChecks/{docId}", async (event)=>{
+// exports.updateRentalHealthCheckInfo = onDocumentWritten("RentalHealthChecks/{docId}", async (event)=>{
 
-  const document = event.data.after;
-  const data = document.data();
+//   const document = event.data.after;
+//   const data = document.data();
 
-  if( document.id == "Info"){
-    return;
-  }
+//   if( document.id == "Info"){
+//     return;
+//   }
 
-  if(!document.exists){
-    db.doc("RenatlHealthChecks/Info").set({count: FieldValue.increment(-1)},{merge:true})
+//   if(!document.exists){
+//     db.doc("RenatlHealthChecks/Info").set({count: FieldValue.increment(-1)},{merge:true})
 
-    return;
-  }
+//     return;
+//   }
 
-  const gender = data.gender;
+//   const gender = data.gender;
 
- const infoSnapshot = await db.doc('RentalHealthChecks/Info').get();
+//  const infoSnapshot = await db.doc('RentalHealthChecks/Info').get();
 
 
-  await db.doc("RentalHealthChecks/Info").set({count: FieldValue.increment(1), emergent: data.emergency == "Yes"? FieldValue.increment(1): FieldValue.increment(0), gender: {...infoSnapshot.data().gender, [gender] : FieldValue.increment(1)}}, {merge:true})
+//   await db.doc("RentalHealthChecks/Info").set({count: FieldValue.increment(1), emergent: data.emergency == "Yes"? FieldValue.increment(1): FieldValue.increment(0), gender: {...infoSnapshot.data().gender, [gender] : FieldValue.increment(1)}}, {merge:true})
 
-  const ownerUserAuth = await auth.getUser(data.owner);
+//   const ownerUserAuth = await auth.getUser(data.owner);
 
-  const ownerUserDoc = (await db.collection("Users").doc(data.owner).get());
-  const ownerUserData = ownerUserDoc.data();
+//   const ownerUserDoc = (await db.collection("Users").doc(data.owner).get());
+//   const ownerUserData = ownerUserDoc.data();
 
-  const res =  await document.ref.set({owner:{id: ownerUserDoc.id,firstName: ownerUserData?.firstName || "", lastName : ownerUserData?.lastName || "", email : ownerUserAuth.email || ""}}, {merge:true});
-  functions.logger.log(res)
-  functions.logger.log("Updated rental health")
-  return res
+//   const res =  await document.ref.set({owner:{id: ownerUserDoc.id,firstName: ownerUserData?.firstName || "", lastName : ownerUserData?.lastName || "", email : ownerUserAuth.email || ""}}, {merge:true});
+//   functions.logger.log(res)
+//   functions.logger.log("Updated rental health")
+//   return res
 
-})
+// })
 
 exports.rentalHealthScheduled = onSchedule("every day 00:00", async (event)=>{
   

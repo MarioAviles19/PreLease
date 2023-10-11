@@ -1,5 +1,5 @@
-/**@param {Object} obj */
-export const SerializeNonPOJOs = (obj) =>{
+
+export const SerializeNonPOJOs = (obj : Object) =>{
 
     if(!obj){
         console.log("SerializeNonPOJOs was fed an undefined object");
@@ -9,8 +9,8 @@ export const SerializeNonPOJOs = (obj) =>{
     return JSON.parse(JSON.stringify(obj));
 }
 
-/**@param {KeyboardEvent} event */
-export const FormatPhoneNumberInput = (event)=>{
+
+export const FormatPhoneNumberInput = (event : KeyboardEvent)=>{
     const maxLength = 13;
     const whitelistReg = RegExp('(Enter|Backspace|Tab|ArrowLeft|ArrowRight|ArrowUp|ArrowDown)')
     const numReg = RegExp('([0-9])')
@@ -50,8 +50,8 @@ export const FormatPhoneNumberInput = (event)=>{
 
     
 }
-/**@param {Event} event */
-export const PhoneNumberAutoComplete = (event)=>{
+
+export const PhoneNumberAutoComplete = (event : Event)=>{
 
     //Make sure the autocomplete happened correctly
     const digitsReg = new RegExp("[0-9]+")
@@ -73,8 +73,8 @@ export const PhoneNumberAutoComplete = (event)=>{
     }
 }
 
-/**@param {KeyboardEvent} event */
-export const FormatDate = (event)=>{
+
+export const FormatDate = (event : KeyboardEvent)=>{
     const whitelistRegex = RegExp("Backspace|Tab");
     const dateRegex =  RegExp("[0-9]")
 
@@ -125,3 +125,9 @@ export const FormatDate = (event)=>{
 //Extremely basic filter
 //TODO: Improve this
 export const bannedWordsRegex =  RegExp("(fuck|shit|bitch)")
+
+export function Capitalize(text : string){
+    const firstLetter = text.charAt(0);
+    const headlessString = text.slice(1);
+
+    return firstLetter.toUpperCase() + headlessString;}
