@@ -96,7 +96,10 @@ export interface UserInfo{
 }
 
 export interface RentalHealthCheckDB{
-    timestamp : FirebaseDate
+    
+    timestamp : FirebaseDate;
+
+    seen? : boolean;
 
     buildingType : string;
 
@@ -156,6 +159,8 @@ export interface RentalHealthCheckClient{
 
 
     id? : string;
+
+    seen? : boolean;
 
     timestamp : Date
 
@@ -220,6 +225,7 @@ export interface RentalHealthCheckInfoDB{
     city : Array<{name : string, count : number}>;
 
     healthChecksOverTime : Array<{count: number, date : FirebaseTimestamp}>
+
 
 
     gender : string;

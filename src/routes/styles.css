@@ -140,6 +140,10 @@ input.hiddenInput{
 	top:0;
 	left:0;
 }
+.flavorText{
+	text-align: center;
+	font-style: italic;
+}
 .largeButton{
 
 

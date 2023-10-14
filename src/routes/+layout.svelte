@@ -110,7 +110,7 @@
 		
 		width: 100%;
 		max-width:100%;
-
+		padding-bottom: 1rem;
 
 		
 	}

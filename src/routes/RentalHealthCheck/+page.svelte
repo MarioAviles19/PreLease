@@ -1,5 +1,6 @@
 <script lang=ts>
     import CustomSelect from "$lib/Components/CustomSelect.svelte"
+	import Slider from "$lib/Components/Slider.svelte";
 	import type { RentalHealthCheckClient, ResourceClient, ResourceRequirmentList } from "$lib/Interfaces/databaseTypes.js";
 	import { FormatStringAsPhoneNumber } from "$lib/helpers";
 
@@ -12,6 +13,8 @@
     let rentalHealthchecks : Array<RentalHealthCheckClient> = [];
     
     let currentHealthCheck : RentalHealthCheck;
+
+    let showInEligable = false;
 
 
     //TODO: Sort the resources by eligability before resolving
@@ -45,28 +48,42 @@
                 break;
         }
     }
-    
-    function CheckEligability(healthCheck : RentalHealthCheckClient){
+    async function CheckEligability(resources : Promise<Array<ResourceClient>>, healthCheck : RentalHealthCheck){
 
-        if(!currentHealthCheck){
-            return;
+        if(!healthCheck || !resources){
+            return [];
         }
-        resources.then(val=>{
+        const _resources = await resources;
 
-            val.forEach(rs=>{
-                const list = new RequirementList(rs.requirements);
-                console.log(currentHealthCheck.healthCheck.id);
-                console.log(list.CheckEligability(currentHealthCheck.healthCheck, true))
-            })
+        let eligableResources : Array<ResourceClient> = [];
+        let ineligableResources : Array<ResourceClient> = [];
+
+        _resources.forEach(resourceData=>{
+
+            const requirements = new RequirementList(resourceData.requirements);
+
+            const {eligable} = requirements.CheckEligability(healthCheck.healthCheck);
+
+            if(eligable){
+                eligableResources.push(resourceData);
+            } else{
+                ineligableResources.push(resourceData);
+            }
         })
-
+        return [...eligableResources, ...ineligableResources]
     }
-    $: CheckEligability(currentHealthCheck);
+    
+    $: resources = CheckEligability(data.streamed.resources, currentHealthCheck);
+
 
 </script>
 
 <section class="content">
-    <h1>Rental Health Check</h1>
+    <div class="header">
+        <h1>Rental Health Check</h1>
+        
+        <a href="/RentalHealthCheck/Survey" class="largeButton">New Rental Health Check <span aria-hidden="true" class="fas fa-plus"></span></a>
+    </div>
 
 
     <div class="healthChecks">
@@ -106,43 +123,61 @@
                     <p class="flavorText">No Areas of Concern</p>
                     {/if}
                 </p>
-                <h4>Resources</h4>
-                {#await resources}
-                <p>Loading resources</p>
+                <h4>Resources:</h4>
 
-                {:then resourceList}
-                {#each resourceList as resource, i}
-                <div class="resourceCard">
-                    <div class="headerInfo">
-                        <div class="resourceHead">
-                            <img src={resource.organization.icon} alt="Organization Icon">
-                            <h5>{resource.name}</h5>
-                            <p class="subtleText">{FormatStringAsPhoneNumber(resource.phoneNumber?.toString() || "")}</p>
-                        </div>
-                        {#if resource.link}
-                        <a class="largeButton" target="_blank" href={resource.link}>Apply <span aria-hidden="true" class="fas fa-external-link"></span></a>
-                        {/if}
 
+                <div class="resourceList">
+                    <div class="resourceListControl">
+                        <p>Show Ineligable
+                        <Slider bind:checked={showInEligable}/>
+                        </p>
                     </div>
-                    <h6>Eligability:</h6>
-                    <p style="color:{new RequirementList(resource.requirements).CheckEligability(currentHealthCheck.healthCheck).eligable? "var(--color-rating-good)": "var(--color-rating-poor)"}">{new RequirementList(resource.requirements).CheckEligability(currentHealthCheck.healthCheck).eligable? "Eligable": "Ineligable"}</p>
-                    <p>{resource.description}</p>
+                    {#await resources}
+                    <p>Loading resources</p>
+                    {:then resourceList}
+                        {#each resourceList as resource, i}
+                            {#if new RequirementList(resource.requirements).CheckEligability(currentHealthCheck.healthCheck).eligable || showInEligable}
+                                <div class="resourceCard">
+                                    <div class="headerInfo">
+                                        <div class="resourceHead">
+                                            <img src={resource.organization.icon} alt="Organization Icon">
+                                            <h5>{resource.name}</h5>
+                                        </div>
+                                        {#if resource.link}
+                                        <a class="largeButton" target="_blank" href={resource.link}>Apply <span aria-hidden="true" class="fas fa-external-link"></span></a>
+                                        {/if}
+                                    </div>
+                                    <h6>Eligability:</h6>
+                                    <p class="eligableText" style="color:{new RequirementList(resource.requirements).CheckEligability(currentHealthCheck.healthCheck).eligable? "var(--color-rating-good)": "var(--color-rating-poor)"}">{new RequirementList(resource.requirements).CheckEligability(currentHealthCheck.healthCheck).eligable? "Eligable": "Ineligable"}</p>
+                                    <p>{resource.description}</p>
+                                </div>
+                            {/if}
+                        {/each}
+                    {/await}
                 </div>
-                {/each}
-                {/await}
-                {#if currentHealthCheck.seen}
+                {#if currentHealthCheck.healthCheck.seen}
                 Your health check has been seen
-                {:else if currentHealthCheck.seen === false}
+                {:else if currentHealthCheck.healthCheck.seen === false}
                 <p>Your health check has not yet been viewed by your organization's housing navigator</p>
                 {/if}
+                <div class="consultation">
+                    <h4>Consultation</h4>
+                    {#if currentHealthCheck.healthCheck.requestConsult}
+                        {#if currentHealthCheck.healthCheck.consultation}
+                        [consultation info]
+                        {:else}
+                        <p class="flavorText">You have not yet had a consultation</p>
+                        {/if}
+                        {:else}
+                        <p class="flavorText">You have not requested a consultation</p>
+                        <button class="largeButton requestConsultButton">Request a Consultation</button>
+                    {/if}
+                </div>
             {:else}
             <h3>No Rental Health Checks</h3>
             <p class="flavorText">You have not yet completed a Rental Health Check</p>
             {/if}
         </div>
-
-        <a href="/RentalHealthCheck/Survey" class="largeButton">Take A Rental Health Check</a>
-
         {/await}
 
 
@@ -163,7 +198,12 @@
         border-radius: 10px;
         box-shadow: 1px 1px 3px var(--color-trim);
         padding:1.5rem;
+        max-width: 60rem;
 
+    }
+    h1{
+        margin-top: 0;
+        font-size: 2rem;
     }
     h2{
         font-size: 1.2rem;
@@ -172,12 +212,40 @@
         font-size: 2rem;
         margin:0;
     }
+    h4{
+        font-size: 1.5rem;
+        
+    }
+    h6{
+        font-size: 1rem;
+        margin:0;
+        margin-top: .5rem;
+    }
     p{
         margin-top:.5rem;
         margin-bottom: 1rem;
     }
-    .fullWidth{
-        width:100%;
+    .consultation{
+        padding:1rem;
+    }
+    .requestConsultButton{
+        display: block;
+        margin:auto;
+    }
+    
+    .eligableText{
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    .resourceListControl p{
+        text-align: right;
+    }
+    .header{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
     }
     .score{
         margin-top: .5rem;
@@ -185,13 +253,17 @@
         font-weight: bold;
         margin-bottom: 1rem;
     }
+    .resourceList{
+        padding:1rem;
+        max-width: 60rem;
+        margin:auto;
+    }
     
     h4{
         margin-bottom: 0;
         font-size: 1.2rem;
     }
-    h5,
-    h6{
+    h5{
         margin:0;
     }
     .resourceCard{
@@ -211,14 +283,15 @@
     .resourceHead h5{
         font-size: 1.2rem;
     }
-    .resourceHead p{
-        margin: 0;
-    }
+
     .headerInfo{
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
         flex-wrap: wrap;
+    }
+    .resourceCard .headerInfo{
+        flex-wrap: nowrap;
     }
     .headerInfo p{
         margin:0;
@@ -235,7 +308,7 @@
         display: inline-block;
         border-radius: 99rem;
         color:white;
-        margin: 0 .5rem;
+        margin: .5rem .5rem;
         padding: .2rem .4rem;
         font-size: .8rem;
         white-space: nowrap;

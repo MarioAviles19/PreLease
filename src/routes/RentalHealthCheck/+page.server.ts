@@ -1,5 +1,4 @@
 import type { Organization, RentalHealthCheckClient, RentalHealthCheckDB, Resource, ResourceClient, UserInfo } from '$lib/Interfaces/databaseTypes.js';
-import { SerializeNonPOJOs } from '$lib/helpers.js'
 import { redirect } from '@sveltejs/kit'
 import { getFirestore, Filter} from 'firebase-admin/firestore';
 import { getStorage, getDownloadURL } from 'firebase-admin/storage';
