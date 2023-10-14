@@ -13,7 +13,9 @@
 	--color-isabelline: #EEE5E5;
 	--color-gunmetal: #292F36;
 	
-	--color-rating-poor:rgb(235, 53, 53);
+	--color-rating-poor:rgb(189, 47, 47);
+	--color-rating-medium: rgb(212, 151, 37);
+	--color-rating-good: #5a8219;
 
 	--TEMP-glass-panel: rgba(238, 238, 238, 0.164);
 
@@ -51,6 +53,9 @@ ul{
 }
 li{
 	list-style: none;
+}
+span{
+	color:inherit;
 }
 textarea{
 	font-family: lexend, sans-serif;
@@ -93,8 +98,7 @@ a {
 	cursor: pointer;
 	transition: color 50ms ease;
 }
-a:hover,
-a:hover span{
+a:hover{
 	color:var(--color-theme-2);
 }
 button{
@@ -147,6 +151,7 @@ input.hiddenInput{
 }
 .largeButton:hover{
 	background-color: var(--color-theme-2-alt);
+	color:white;
 }
 .largeButton:active{
 	background-color: var(--color-theme-2);

@@ -297,6 +297,22 @@ export interface Resource{
 
 
 }
+export interface ResourceClient{
+    id: string;
+    organization : Organization;
+    name : string;
+    description : string;
+    link : string;
+    phoneNumber? : number;
+
+    eligable? : boolean;
+
+    requirements : ResourceRequirmentList;
+
+
+
+
+}
 export interface ResourceRequirmentList{
 
     [key : string] : string | Array<string> | boolean;

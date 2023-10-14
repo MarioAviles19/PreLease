@@ -121,6 +121,27 @@ export const FormatDate = (event : KeyboardEvent)=>{
     
 }
 
+export function FormatStringAsPhoneNumber(str : string){
+
+
+    if(str.length == 10){
+        const areaCode = str.slice(0,3);
+        const firstThree = str.slice(3,6);
+        const lastFour = str.slice(6,11);
+
+        return `(${areaCode})${firstThree}-${lastFour}`;
+    }
+    if(str.length == 7){
+        const firstThree = str.slice(0,3);
+        const lastFour = str.slice(3,8);
+
+        return `${firstThree}-${lastFour}`;
+    }
+
+    
+    return str;
+}
+
 
 //Extremely basic filter
 //TODO: Improve this

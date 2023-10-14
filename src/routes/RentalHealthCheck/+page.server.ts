@@ -1,12 +1,14 @@
-import type { RentalHealthCheckClient, RentalHealthCheckDB } from '$lib/Interfaces/databaseTypes.js';
+import type { Organization, RentalHealthCheckClient, RentalHealthCheckDB, Resource, ResourceClient, UserInfo } from '$lib/Interfaces/databaseTypes.js';
 import { SerializeNonPOJOs } from '$lib/helpers.js'
 import { redirect } from '@sveltejs/kit'
-import { getFirestore } from 'firebase-admin/firestore';
+import { getFirestore, Filter} from 'firebase-admin/firestore';
+import { getStorage, getDownloadURL } from 'firebase-admin/storage';
 
 export const load = async({locals, url})=>{
 
     const user = locals.user;
     const firestore = getFirestore(locals.app);
+    const storage = getStorage(locals.app);
     if(!user){
         throw redirect(302, "/SignIn?redirect=" + url.pathname)
     }
@@ -25,8 +27,48 @@ export const load = async({locals, url})=>{
 
         return healthCheckData;
     }
+    const GetResources = async()=>{
+
+        const userData = (await firestore.collection('Users').doc(user.uid).get()).data() as UserInfo
+
+        const resourceSnap = await firestore.collection("Resources")
+        .where(Filter.or(Filter.where("organization", "==", "PreLease"),Filter.where("organization", "==", userData.organization)))
+        .limit(30)
+        .get();
+
+        let organizations : {[key : string] : Organization} = {};
+
+        let resourceData : Array<ResourceClient> = []
+
+        for(const doc of resourceSnap.docs){
+            const data = doc.data() as Resource;
+
+            data.id = doc.id;
 
 
-    return {streamed: {healthChecks: getHealthChecks()}}
+            if(!Object.keys(organizations).includes(data.organization)){
+                const orgSnap = await firestore.collection("Organizations").doc(data.organization).get();
+                const orgData = orgSnap.data() as Organization;
+
+                try{
+                const iconFile = storage.bucket('pl-rhc-data.appspot.com').file(orgData?.iconRef || "null.png");
+
+                const iconURL = await getDownloadURL(iconFile);
+
+                organizations[orgSnap.id] = {...orgSnap.data(), icon: iconURL} as Organization
+
+                } catch{
+
+                }
+            }
+
+            resourceData.push({...data, organization: organizations[data.organization]});
+        }
+        return resourceData;
+       
+    }
+
+
+    return {streamed: {healthChecks: getHealthChecks(), resources: GetResources()}}
 }
 
