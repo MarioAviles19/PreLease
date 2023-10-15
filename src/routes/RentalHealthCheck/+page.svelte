@@ -268,7 +268,7 @@
     }
     .resourceCard{
         padding:1rem;
-        box-shadow: 1px 1px 2px 2px var(--color-soft-black);
+        box-shadow: 1px 1px 3px 2px var(--color-soft-black);
         margin-bottom: 1rem;
         border-radius: 5px;
     }

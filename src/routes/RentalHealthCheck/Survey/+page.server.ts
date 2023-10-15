@@ -1,43 +1,34 @@
 import { SerializeNonPOJOs } from '$lib/helpers.js'
 import { redirect } from '@sveltejs/kit'
-import * as adminAuth from 'firebase-admin/auth'; 
-const {getAuth} = adminAuth;
-import * as adminFirestore from 'firebase-admin/firestore'
-const{ getFirestore,Timestamp} = adminFirestore
-
-import * as admin from 'firebase-admin';
+import { getAuth } from 'firebase-admin/auth'
+import { getFirestore, FieldValue} from 'firebase-admin/firestore'
+import type { PageServerLoad } from './$types.js';
+import type { UserInfo } from '$lib/Interfaces/databaseTypes.js';
 
 
-import { Interface } from 'readline'
-import { fail } from 'assert';
 
 
-/**@type {import('./$types').PageServerLoad} */
-export const load = async({locals, cookies})=>{
+export const load : PageServerLoad = async({locals, cookies})=>{
 
-    const sessionCookie = cookies.get('__session')
-    
-    const {user, app} = await locals.GetUserFromSession(sessionCookie || "")
+    const user = locals.user;
     //If there is no user data, redirect to sign in
     if(!user){
         throw redirect(302, '/SignIn?redirect=RentalHealthCheck/Survey')
     }
     
-    //const token = auth(app).createCustomToken(user.uid);
-    return {userData: SerializeNonPOJOs(user)}
+    
 }
-/**@type {import('./$types').Actions} */
 export const actions = {
-    default : async ({locals, request, cookies})=>{
+    default : async ({locals, request})=>{
         const data = await request.formData()
-        const sessionCookie = cookies.get('__session')
 
-        //Get the user from the session cookie and destructure it into the user and the app
-        const {user, app} = await locals.GetUserFromSession(sessionCookie || "");
+        const user = locals.user;
+        const app = locals.app;
         if(!user){
-            //Handle this;
-            return;
+            throw redirect(302, '/SignIn?redirect=RentalHealthCheck/Survey');
         }
+
+        const userData = (await getFirestore(app).collection("Users").doc(user.uid).get()).data() as UserInfo;
 
 
         let obj : {[key : string] : any} = {};
@@ -62,11 +53,11 @@ export const actions = {
 
         })
         //Add the userID to the owner field so you can retrieve the user data later
-        obj = {owner: user.uid, timestamp: Timestamp.now(), income : parseInt(data.get("income") as string || ""), ...obj}
+        obj = {...obj, owner: user.uid, timestamp: FieldValue.serverTimestamp(), income : parseInt(data.get("income") as string || ""), organization: userData.organization || "PreLease"}
 
 
         //Add the document
-        await getFirestore(app).collection('RentalHealthChecks').add(obj);
+        const doc = await getFirestore(app).collection('RentalHealthChecks').add(obj);
         
         //TODO: Add rate limiting by checking the timestamp of the last report associated with each user
 
@@ -74,6 +65,6 @@ export const actions = {
 
         //Redirect to success page
 
-        throw redirect(302,'/RentalHealthCheck/Success')
+        return{status: 200, message: "Your Rental Health Check was successfully uploaded", healthCheckID: doc.id}
     }
 }

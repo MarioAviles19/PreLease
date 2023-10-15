@@ -1,17 +1,20 @@
-<script>
+<script lang=ts>
     import { auth, firestore } from "$lib/firebase/firebase.client";
     import { signInWithCustomToken } from "firebase/auth";
     import { addDoc, collection} from "firebase/firestore";
 	import { onMount } from "svelte";
     import { logEvent } from "firebase/analytics";
     import { analyticsStore} from "$lib/stores/analytics.js";
+	import Modal from "$lib/Components/Modal.svelte";
+	import { enhance } from "$app/forms";
+	import { Capitalize } from "$lib/helpers.js";
     
 
     export let data;
 
     let cityOtherInput;
 
-    let cityOtherSelected;
+    let cityOtherSelected : string;
 
 
 
@@ -27,15 +30,6 @@
     }
     
 
-    onMount(()=>{
-
-        signInWithCustomToken(auth, data.userToken).then((res)=>{logEvent($analyticsStore, "begin_health_check");})
-
-
-
-        
-    })
-
 
     $: cityOtherSelected, toggleOtherBox();
 
@@ -50,12 +44,33 @@
             cityOtherInput.disabled = true;
         }
     }
+    let confirmBoxOpen = false;
 
+    let formSubmitting = false;
+    let formSubmitted = false;
+
+    let responseType : string;
+    let responseMessage : String;
+    let healthCheckID : string;
 
 </script>
 
 <section>
-    <form id="healthCheckForm" method="POST">
+    <form id="healthCheckForm" method="POST" use:enhance={async()=>{
+        formSubmitting = true;
+
+        return async({result, update})=>{
+            responseType = result.type;
+            responseMessage = result.data.message;
+            healthCheckID = result.data.healthCheckID;
+
+            console.log(result);
+            formSubmitting = false;
+            formSubmitted = true;
+
+
+        }
+    }}>
         <h1>Rental Health Check</h1>
 
         <fieldset class="radioSelection question">
@@ -370,6 +385,13 @@
             <input class="money" type="number" placeholder="(e.g., $15000)" name="income" required>
             </div>
         </fieldset>
+        <fieldset class="question">
+            <legend>Please Indicate Your Household Size</legend>
+            
+            <div class="response">
+            <input class="count" type="number" placeholder="Household Size" name="houseHoldSize" required>
+            </div>
+        </fieldset>
 
         <fieldset class="radioSelection question">
             <legend>Please Identify Your Gender</legend>
@@ -441,12 +463,12 @@
         <fieldset class="radioSelection question">
             <legend>Are you or any household member currently pregnant or planning to be pregnant soon?</legend>
             <div class="response">
-                <input type="radio" id="preganancyYes" value="Yes" name="preganancy"required>
+                <input type="radio" id="preganancyYes" value="Yes" name="preganancy" required>
                 <label for="preganancyYes">Yes</label>
             </div>
 
             <div class="response">
-                <input type="radio" id="preganancyNo" value="No" name="preganancy"required>
+                <input type="radio" id="preganancyNo" value="No" name="preganancy" required>
                 <label for="preganancyNo">No</label>
             </div>
         </fieldset>
@@ -465,7 +487,7 @@
 
             <div class="response">
                 <input type="radio" id="transitYesDiscount" value="no transit" name="transit"required>
-                <label for="transitNo">I Do Not Use Public Transit Regularly</label>
+                <label for="transitNo">I do not use public transit regularly</label>
             </div>
         </fieldset>
 
@@ -535,11 +557,6 @@
             <div class="response">
                 <input type="checkbox" id="foodAssistance" value="Food Asistance" name="supportPrograms">
                 <label for="foodAssistance">Food Assistance (SNAP)</label>
-            </div>
-            
-            <div class="response">
-                <input type="checkbox" id="socialSecurity" value="Social Security Income" name="supportPrograms">
-                <label for="socialSecurity">Social Security Income (SSI)</label>
             </div>
             
             <div class="response">
@@ -623,24 +640,42 @@
 
         </fieldset>
 
-        <fieldset class="radioSelection question">
-            <legend>Would you like us to follow up with your Rental Health Check??</legend>
-            <div class="response">
-                <input type="radio" id="followUpYes" value="Yes" name="followUp" required>
-                <label for="followUpYes">Yes</label>
-            </div>
-            
-            <div class="response">
-                <input type="radio" id="caseManagerNo" value="No" name="followUp" required>
-                <label for="followUpYes">No</label>
-            </div>
 
-        </fieldset>
 
-        <div id="submitionWrapper">
-            <button type="submit">Submit</button>
+        <div class="controls formButtons">
+            <button type="button" class="largeButton" on:click={()=>{confirmBoxOpen = true}}>Submit</button>
         </div>
+        <Modal bind:open={confirmBoxOpen}>
+        <div class="confirmBox">
+            {#if !formSubmitting && !formSubmitted}
+            <h2>Confirm</h2>
+            <p>Are you sure you would like to submit your Rental Health Check?</p>
+            <label class="requestConsult">
+                <input type="checkbox" name="requestConsult" checked>
+                 I would like a consultation
+            </label>
+            <div class="controls">
+                <button type="button" class="secondaryButton" on:click={()=>{confirmBoxOpen = false}}>Cancel</button>
+                <button type="submit" class="largeButton">Submit</button>
+            </div>
+            {:else if formSubmitting}
+            <h2>Submitting <span aria-hidden="true" class="fas fa-spinner fa-spin"></span></h2>
+            <p>Your Rental Health Check is submitting</p>
 
+            {:else if formSubmitted}
+            <h2>{Capitalize(responseType)}!</h2>
+            <p>{responseMessage}</p>
+
+                <div class="controls">
+                    {#if responseType == "success"}
+                    <a href="/RentalHealthCheck?id={healthCheckID}" class="largeButton">View Rental Heath Check</a>
+                    {:else}
+                    <button type="button" class="secondaryButton" on:click={()=>{confirmBoxOpen = false; formSubmitting = false; formSubmitted = false}}>Close</button>
+                    {/if}
+                </div>
+            {/if}
+        </div>
+        </Modal>
 
     </form>
 </section> 
@@ -684,32 +719,17 @@
         font-size:1.2rem;
         max-width:100%;
     }
-    button[type='submit']{
-        display: block;
-        width:fit-content;
-        margin:0;
-        float:right;
-
-        height:2rem;
-
-        font-size: 1.2rem;
-        margin-top:1rem;
+    .formButtons{
+        padding: 1rem 0;
     }
-    #submitionWrapper{
-        width:100%;
-
-    }
-    #submitionWrapper button{
-        background-color: var(--color-theme-1);
-
-        border:none;
-        color: var(--color-light-text);
-        width:fit-content;
-        height:fit-content;
-        font-size: 1.5rem;
-
+    .secondaryButton{
+        border: 2px solid var(--color-soft-black);
         border-radius: 5px;
+        font-weight: bold;
+        padding: .3rem;
+        background-color: white;
     }
+
     #healthCheckForm{
         display:flex;
         flex-direction: column;
@@ -717,6 +737,22 @@
         max-width:800px;
         margin:auto;
     }
+
+    .controls{
+        text-align: right;
+    }
+    .confirmBox{
+        background-color: white;
+        padding: 1rem;
+        border-radius: 5px;
+    }
+    .confirmBox h2{
+        margin: 0;
+    }
+    .confirmBox p{
+        font-size: 1.2rem;
+    }
+
     .moneyWrapper::before {
         content: "$";
         font-size:1.2;

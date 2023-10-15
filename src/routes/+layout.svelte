@@ -98,7 +98,7 @@
 </main>
 
 <footer>
-
+	<p>Copyright 2023</p>
 </footer>
 
 {#if navMenuOpen}
@@ -134,7 +134,10 @@
 		
 	}
 	footer{
-		
+		padding:1rem;
+		text-align: center;
+		font-size: .7rem;
+		color: rgba(0, 0, 0, 0.295);
 	}
 	a{
 		color:var(--color-theme-2);
