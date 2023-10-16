@@ -389,7 +389,7 @@
             <legend>Please Indicate Your Household Size</legend>
             
             <div class="response">
-            <input class="count" type="number" placeholder="Household Size" name="houseHoldSize" required>
+            <input class="count" type="number" placeholder="Household Size" name="householdSize" required>
             </div>
         </fieldset>
 

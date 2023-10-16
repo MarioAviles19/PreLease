@@ -53,7 +53,7 @@ export const actions = {
 
         })
         //Add the userID to the owner field so you can retrieve the user data later
-        obj = {...obj, owner: user.uid, timestamp: FieldValue.serverTimestamp(), income : parseInt(data.get("income") as string || ""), organization: userData.organization || "PreLease", requestConsult : obj.requestConsult == "on"? true : false }
+        obj = {...obj, owner: user.uid, timestamp: FieldValue.serverTimestamp(), income : parseInt(data.get("income") as string || ""), organization: userData.organization || "PreLease", requestConsult : obj.requestConsult == "on"? true : false, seen : false}
 
 
         //Add the document
