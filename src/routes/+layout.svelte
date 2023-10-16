@@ -58,18 +58,18 @@
 						<a href="/RentalHealthCheck">Rental Health Check</a>
 					</li>
 					<li>
-						<a href="/Community">Community</a>
+						<a href="/Community/RateMyLandlord">Landlord Rating</a>
 					</li>
-					{#if data.userData?.role == "Admin"}
-					<li>
-						<a href="/Organizations/Add">Add Organization</a>
-					</li>
-					{/if}
+
+
 					{:else}
 					<li>
-						<a href="/">Become a Partner</a>
+						<a href="/">Home</a>
 					</li>
 					{/if}
+					<li>
+						<a href="/About">About Us</a>
+					</li>
 			</ul>
 		</nav>
 	</div>

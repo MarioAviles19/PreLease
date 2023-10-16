@@ -17,16 +17,15 @@
 </script>
 
 <div class="stars">
-    {#each {length: 5} as _, i}
-    <span class="star fas fa-star" style="color:{value >= i + 1? RatingToColorString(value): "grey"}"></span>
-    {/each}
+    <span>
+        {#each {length: 5} as _, i}
+        <span class="star fas fa-star" style="color:{value >= i + 1? RatingToColorString(value): "grey"}"></span>
+        {/each}
+    </span>
 </div>
 
 <style>
-    .filled{
-        color:lightgreen;
-    }
-    .unfilled{
-        color:grey;
+    span{
+        white-space: nowrap;
     }
 </style>

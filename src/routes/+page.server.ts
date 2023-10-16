@@ -21,5 +21,6 @@ export const load = async({locals, cookies})=>{
             throw redirect(302, "/Profile/Setup")
         }
     }
+    console.log(user?.emailVerified);
 
 }

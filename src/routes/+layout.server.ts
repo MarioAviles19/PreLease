@@ -5,7 +5,7 @@ import * as adminAuth from 'firebase-admin/auth';
 const {getAuth} = adminAuth;
 import * as adminFirestore from 'firebase-admin/firestore';
 const {getFirestore} = adminFirestore;
-import { SerializeNonPOJOs } from "$lib/helpers.js";
+import { SerializeNonPOJOs } from "$lib/helpers";
 import { redirect } from '@sveltejs/kit';
 
 
@@ -28,5 +28,5 @@ export const load = async ({locals, cookies, url})=>{
 
 
 
-    return {userData : {...SerializeNonPOJOs(user), ...SerializeNonPOJOs(extraData.data() ?? null), pfp : `https://api.dicebear.com/6.x/shapes/svg?seed=${user.uid}`}, userToken: token}
+    return {userData : {...SerializeNonPOJOs(user), ...SerializeNonPOJOs(extraData.data() ?? {}), pfp : `https://api.dicebear.com/6.x/shapes/svg?seed=${user.uid}`}, userToken: token}
 }

@@ -63,9 +63,11 @@
 	@media only screen and (max-width: 520px){
 		p{
 			font-size:1.1rem;
+			color:white;
 		}
 		h1{
 			margin-top:1rem;
+			color:white;
 		}
 		#main{
 			padding: 0 1.5rem;

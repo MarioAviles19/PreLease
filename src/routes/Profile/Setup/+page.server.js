@@ -7,7 +7,8 @@ export const actions = {
     default: async({request, locals, cookies})=>{
         const data = await request.formData();
 
-        const {user, app} = await locals.GetUserFromSession(cookies.get('__session'));
+        const user = locals.user;
+        const app = locals.app;
 
         const gender = data.getAll('gender');
         const birthDate = data.get('birthDate');
@@ -17,6 +18,6 @@ export const actions = {
         
         await getFirestore(app).doc(`Users/${user.uid}`).set({setupComplete: true, gender: gender, birthDate : birthDate, demographics: demographics, completion: 1}, {merge:true})
         
-        throw redirect(302, "/Profile/CompletedSetup")
+        throw redirect(302, "/")
     }
 }

@@ -1,6 +1,6 @@
 import * as adminFirestore from 'firebase-admin/firestore'; 
 const {getFirestore} = adminFirestore;
-import { SerializeNonPOJOs } from '$lib/helpers.js';
+import { SerializeNonPOJOs } from '$lib/helpers';
 
 /**@type {import('./$types').PageServerLoad} */
 export const load = async ({locals, params, cookies})=>{

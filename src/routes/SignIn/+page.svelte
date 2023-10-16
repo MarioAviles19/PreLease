@@ -77,7 +77,7 @@
 	{/if}
 
 	<div id="links">
-		<a href="/Partner">Become A Partner</a>
+		<a href="/Register">Create an Account</a>
 		<a href="/SignIn/ResetPassword">Forgot Password?</a>
 	</div>
 	<div class="buttons">

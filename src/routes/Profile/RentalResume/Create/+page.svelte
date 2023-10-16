@@ -1,6 +1,6 @@
 <script>
     import FormCarousel from "$lib/Components/FormCarousel.svelte";
-    import {FormatPhoneNumberInput, PhoneNumberAutoComplete} from "$lib/helpers.js";
+    import {FormatPhoneNumberInput, PhoneNumberAutoComplete} from "$lib/helpers";
   
 
     export let data;

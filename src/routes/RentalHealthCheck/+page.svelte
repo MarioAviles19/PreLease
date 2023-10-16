@@ -16,9 +16,12 @@
 
     let showInEligable = false;
 
+    let numberIneligable = 0;
 
     //TODO: Sort the resources by eligability before resolving
     let resources : Promise<Array<ResourceClient>> = data.streamed.resources;
+
+
     
     function ScoreToRating(score : number){
 
@@ -70,6 +73,7 @@
                 ineligableResources.push(resourceData);
             }
         })
+        numberIneligable = ineligableResources.length;
         return [...eligableResources, ...ineligableResources]
     }
     
@@ -128,6 +132,7 @@
 
                 <div class="resourceList">
                     <div class="resourceListControl">
+                        <p style="font-weight:bold">{numberIneligable} ineligable resource{numberIneligable == 1? "" : "s"}</p>
                         <p>Show Ineligable
                         <Slider bind:checked={showInEligable}/>
                         </p>

@@ -1,51 +1,61 @@
 
-<script>
-    import { authHandler } from "$lib/stores/authStore";
-    import { updateProfile } from "firebase/auth"
-	import { collection, doc, setDoc } from "firebase/firestore";
-	import { firestore } from "$lib/firebase/firebase.client";
+<script lang=ts>
+  	import { enhance} from "$app/forms";
+	import Modal from "$lib/Components/Modal.svelte";
+	import { Capitalize } from "$lib/helpers";
+
+	export let data;
 
     let email = '';
     let password = '';
     let firstName = '';
 	let lastName = '';
+
+	let formBusy = false;
 	
     let photo = '';
-
-    async function register(){
-        if(!email || !password){
-            return
-        }
-
-        let user = await $authHandler.signUp(email, password);
-		
-		const response = await setDoc(doc(firestore,'Users', user.user.uid), {firstName: firstName, lastName: lastName, completion:0})
-			
-
-		await updateProfile(user.user, {displayName: `${firstName}`})
-
-
-		window.location.href = "/SignIn"
-	
-        }
     
+	export let form;
+
+	let message = form?.message ?? "" as string;
+
+	let formResultType : string;
+	let formResultMessage : string;
+	let modalOpen = false;
 
 </script>
 
 
-<form id="register" on:submit|preventDefault>
+<form id="register" method="POST" action="?/register&org={data.orgData?.id || ""}" use:enhance={async()=>{
+	formBusy = true;
+	return async({result, update})=>{
+		if(result.type == "failure"){
+			message = result.data?.message ?? "";
+			
+		}
+		await update({reset: !(result.type == "failure")});
+		formBusy = false;
+		formResultType = result.type;
+		formResultMessage = result.data.message;
+		modalOpen = true;
+
+
+	}
+	}}>
+
+	<img class="orgIcon" src={data.orgData?.icon || "/favicon.png"} alt="Org Icon">
 	<h1>Create Account</h1>
 
 	<div class="sideBySide">
 
 		<div class="field">
 			<label for="firstName">First Name</label>
-			<input bind:value={firstName} id="username" name="firstName" type="text" placeholder="First Name"/>
+			<input bind:value={firstName} id="firstName" name="firstName" type="text" placeholder="First Name"/>
 		</div>
 
 		<div class="field">
 			<label for="lastName">Last Name</label>
-			<input bind:value={lastName} id="username" name="lastName" type="text" placeholder="Last Name"/>
+			<input bind:value={lastName} id="lastName" name="lastName" type="text" placeholder="Last Name"/>
 		</div>
 
 	</div>
@@ -56,14 +66,34 @@
 	<label for="password">Password</label>
 	<input bind:value={password} id="password" name="password" type="password" placeholder="Password"/>
 
+	{#if message}
+		<p class="message">{message}</p>
+	{/if}
+
 	<div id="links">
 		<a href="/SignIn">Already Have An Account?</a>
 	</div>
 
-	<div>
-		<button on:click={register} class="chunkyButton">Sign Up</button>
+	<div class="controls">
+		<button type="submit" class="largeButton" disabled={formBusy}>Sign Up</button>
+		{#if formBusy}
+		<span class="fas fa-spinner fa-spin"></span>
+		{/if}
 	</div>
 </form>
+<Modal bind:open={modalOpen}>
+	<div class="dialog">
+		<h2>{Capitalize(formResultType)}!</h2>
+		<p>{formResultMessage}</p>
+		<div class="controls">
+			{#if formResultType == "success"}
+			<a class="largeButton" href="/SignIn">Return to Sign In</a>
+			{:else}
+			<button class="secondaryButton" type="button">Close</button>
+			{/if}
+		</div>
+	</div>
+</Modal>
 <div id="background">
 	<img src="longBrownstone.jpg" alt="" />
 	<div id="overlay" />
@@ -135,6 +165,27 @@
 		font-size: 1rem;
 		width:100%;
 		margin-top:.2rem;
+	}
+	.dialog{
+		background-color: white;
+		padding:1rem;
+		width: clamp(15rem, 100%, 30rem);
+	}
+	.dialog h2{
+		margin:0;
+	}
+	.orgIcon{
+		display: block;
+		margin:.5rem auto;
+		height:3rem;
+	}
+	.controls{
+		text-align: right;
+	}
+	.message{
+		color:red;
+		font-size: .8rem;
+		margin-top:0;
 	}
 	.field{
 		width:100%;

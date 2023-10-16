@@ -1,4 +1,4 @@
-import { SerializeNonPOJOs } from "$lib/helpers.js";
+import { SerializeNonPOJOs } from "$lib/helpers";
 import { redirect } from "@sveltejs/kit";
 import * as adminFirestore from "firebase-admin/firestore"
 const {getFirestore, Timestamp} = adminFirestore;
@@ -23,7 +23,7 @@ export const load = async ({locals, url,cookies})=>{
 
     
     //TODO: orderby end date after index finishes
-    const reviewsQuery = await getFirestore(app).collection('LandlordRatings').where('address', '==', address).limit(25).get();
+    const reviewsQuery = await getFirestore(app).collection('LandlordRatings').where('address', '==', address).orderBy("endDate", "desc").limit(25).get();
     const property = await getFirestore(app).collection('Properties').doc(address).get();
     //TODO: check if user's review came up in the initial read
     const userRating =  await getFirestore(app).collection('LandlordRatings').where("address", "==", address).where("author", "==", user.uid).limit(1).get();

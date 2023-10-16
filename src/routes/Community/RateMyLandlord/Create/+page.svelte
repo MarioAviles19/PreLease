@@ -1,6 +1,6 @@
 <script>
     import FivePointRating from "$lib/Components/FivePointRating.svelte";
-    import { FormatDate } from "$lib/helpers.js";
+    import { FormatDate } from "$lib/helpers";
 	import { onMount } from "svelte";
 
     export let form;

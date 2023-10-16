@@ -7,7 +7,7 @@
     import { analyticsStore} from "$lib/stores/analytics.js";
 	import Modal from "$lib/Components/Modal.svelte";
 	import { enhance } from "$app/forms";
-	import { Capitalize } from "$lib/helpers.js";
+	import { Capitalize } from "$lib/helpers";
     
 
     export let data;
@@ -185,17 +185,17 @@
         <fieldset class="radioSelection question">
             <legend>What type of rental building do you live in?</legend>
             <div class="response">
-                <input type="radio" id="apartment" value="Apartment" name="buildingType" required>
-                <label class='required' for="apartment">Yes</label>
+                <input type="radio" id="apartment" value="apartment" name="buildingType" required>
+                <label class='required' for="apartment">Apartment</label>
             </div>
 
             <div class="response">
-                <input type="radio" id="home" value='Home' name="buildingType"required>
+                <input type="radio" id="home" value='home' name="buildingType"required>
                 <label class='required' for="home">Townhome | Home</label>
             </div>
 
             <div class="response">
-                <input type="radio" id="plex" value='N-plex' name="buildingType"required>
+                <input type="radio" id="plex" value='n-Plex' name="buildingType"required>
                 <label class='required' for="plex">Duplex | Triplex | Quadplex</label>
             </div>
         </fieldset>
@@ -285,9 +285,9 @@
             <legend>Rate your credit rating</legend>
             <select name="creditRating" required>
                 <option value="" disabled selected hidden>Select</option>
-                <option value="Poor">Poor</option>
-                <option value="Good">Good</option>
-                <option value="Excellent">Excellent</option>
+                <option value="poor">Poor</option>
+                <option value="good">Good</option>
+                <option value="excellent">Excellent</option>
                 <option value="Don't Wish To Disclose">Don't Wish To Disclose</option>
                 <option value="Don't Know">Don't Know</option>
             </select>
@@ -477,7 +477,7 @@
             <legend>Do you take public transit regularly and receive a discount fare?</legend>
             <div class="response">
                 <input type="radio" id="transitYesReg" value="regular rate" name="transit"required>
-                <label for="transitYes">Yes and pay regular price</label>
+                <label for="transitYesReg">Yes and pay regular price</label>
             </div>
 
             <div class="response">
@@ -486,8 +486,8 @@
             </div>
 
             <div class="response">
-                <input type="radio" id="transitYesDiscount" value="no transit" name="transit"required>
-                <label for="transitNo">I do not use public transit regularly</label>
+                <input type="radio" id="transitNoReg" value="no transit" name="transit"required>
+                <label for="transitNoReg">I do not use public transit regularly</label>
             </div>
         </fieldset>
 
@@ -668,7 +668,7 @@
 
                 <div class="controls">
                     {#if responseType == "success"}
-                    <a href="/RentalHealthCheck?id={healthCheckID}" class="largeButton">View Rental Heath Check</a>
+                    <a href="/RentalHealthCheck" class="largeButton">View Rental Heath Check</a>
                     {:else}
                     <button type="button" class="secondaryButton" on:click={()=>{confirmBoxOpen = false; formSubmitting = false; formSubmitted = false}}>Close</button>
                     {/if}

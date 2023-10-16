@@ -140,6 +140,13 @@ input.hiddenInput{
 	top:0;
 	left:0;
 }
+.secondaryButton{
+	border: 2px solid var(--color-soft-black);
+	border-radius: 5px;
+	font-weight: bold;
+	padding: .3rem;
+	background-color: white;
+}
 .flavorText{
 	text-align: center;
 	font-style: italic;

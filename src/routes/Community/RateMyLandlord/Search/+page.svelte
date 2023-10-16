@@ -15,71 +15,71 @@
     /**@type {Element}*/
     let rentChart;
 
-    onMount(()=>{
-        CreateChart();
+    // onMount(()=>{
+    //     CreateChart();
 
-    })
+    // })
     
 
-    function CreateChart(){
-        new Chart("rentOverTime",{
-            type:"line",
-            data:{
+    // function CreateChart(){
+    //     new Chart("rentOverTime",{
+    //         type:"line",
+    //         data:{
                 
-                labels:[2000,2005,2010,2015, 2020],
+    //             labels:[2000,2005,2010,2015, 2020],
                 
-                datasets:[{
+    //             datasets:[{
                 
-                backgroundColor:"#90ee90",
-                borderColor: "#90ee90",
-                borderWidth:1,
-                data:[500, 700, 820, 900, 1100]
-                }]
-            },
-            options: {
-                scales:{
+    //             backgroundColor:"#90ee90",
+    //             borderColor: "#90ee90",
+    //             borderWidth:1,
+    //             data:[500, 700, 820, 900, 1100]
+    //             }]
+    //         },
+    //         options: {
+    //             scales:{
                     
-                    y:{
-                        beginAtZero:true,
-                        ticks:{
-                            color:"rgba(255,255,255,1)",
+    //                 y:{
+    //                     beginAtZero:true,
+    //                     ticks:{
+    //                         color:"rgba(255,255,255,1)",
                             
-                        },
-                        grid:{
-                            color:"rgba(255,255,255,.4)"
+    //                     },
+    //                     grid:{
+    //                         color:"rgba(255,255,255,.4)"
 
                             
-                        }
+    //                     }
                         
-                    },
-                    x:{
-                        //TODO: Look into timeseries adapter for chartjs
-                        ticks:{
-                            color:"rgba(255,255,255,1)"
-                        },
-                        grid:{
-                            color:"rgba(255,255,255,.4)"
-                        }
-                    }
+    //                 },
+    //                 x:{
+    //                     //TODO: Look into timeseries adapter for chartjs
+    //                     ticks:{
+    //                         color:"rgba(255,255,255,1)"
+    //                     },
+    //                     grid:{
+    //                         color:"rgba(255,255,255,.4)"
+    //                     }
+    //                 }
                     
-                },
+    //             },
                 
-                plugins:{
-                    tooltip:{
-                        displayColors:false,
-                        callbacks:{
-                            label: function(tooltipItem){
-                                return "$" + tooltipItem.formattedValue;
-                            }
-                        },
-                    },
-                    legend:{
-                        display:false
-                    }
-                }
-        }
-        })
-    }
+    //             plugins:{
+    //                 tooltip:{
+    //                     displayColors:false,
+    //                     callbacks:{
+    //                         label: function(tooltipItem){
+    //                             return "$" + tooltipItem.formattedValue;
+    //                         }
+    //                     },
+    //                 },
+    //                 legend:{
+    //                     display:false
+    //                 }
+    //             }
+    //     }
+    //     })
+    // }
     /**@param review {import("$lib/Interfaces/databaseTypes.js").LandlordReview}*/
     function OpenReviewModal(review){
         currentReviewInModal = review;
@@ -134,8 +134,8 @@
 
             <h2>Overall: 
                 <span>
-                {#if data.property.overallRatings}
-                <StarRating value= {data.property.overallRatings}/>
+                {#if data.property.overallRating}
+                <StarRating value= {data.property.overallRating}/>
                 {:else}
                 N/A
                 {/if}
@@ -165,12 +165,13 @@
 
     
     </div>
-    <div id="sidePanel">
+    <div id="sidePanel" >
         
-        <div class="rentGraphContainer glassContainer">
-            <h2>Rent Over Time</h2>
-            <canvas bind:this={rentChart} style="width:100% !important" id="rentOverTime"></canvas>
+        <div class="rentGraphContainer glassContainer " style="position:relative">
+            <h3>Coming Soon: <br> Rent Over Time</h3>
+
         </div>
+
     </div>
 
     {#if !data.userHasMadeReview}
@@ -181,7 +182,7 @@
 
     <div class="landlordQuestion roundedContainer">
         <h2>Own This Property?</h2>
-        <a class="createButton" href="">I'm a landlord</a>
+        <a class="createButton" href="/Contact">I'm a landlord</a>
     </div>
     {/if}
 
@@ -192,7 +193,7 @@
     <div class="reviewList">
         {#each data.reviews as review}
 
-        {#each {length: 1} as _}
+
             <div class="reviewCard glassContainer">
                 <div class="reviewHeader">
                 <div class="ratingIndicator" style="background-color:{RatingToColorString(review.overallRating)}"></div>
@@ -207,12 +208,14 @@
                 <button on:click={()=>{OpenReviewModal(review)}} class="overlay modalToggleButton" type="button"></button>
 
             </div>
-            {/each}
         {/each}
     </div>
 </section>
 <LandlordReviewModal bind:modalOpen={reviewModalOpen} review={currentReviewInModal}></LandlordReviewModal>
 <style>
+    *{
+        color:white;
+    }
     #overview{
         display: grid;
         grid-template-columns: 1.2fr .8fr;
@@ -232,26 +235,36 @@
         font-size: 2rem;
         margin-bottom: .5rem;
     }
-    #rentOverTime{
-        /*overrides the chartjs styling which was breaking the css*/
-        width:100% !important;
-        background-color: rgba(0, 0, 0, 0.531);
-
+    .overlay{
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        padding:1rem;
+        text-align: center;
     }
     .modalToggleButton{
         background:none;
         border:none;
         outline:none;
     }
-    .rentGraphContainer h2{
+    .rentGraphContainer h3{
         margin:0;
         text-align: center;
         margin-bottom: 1rem;
+        font-size: 2rem;
 
     }
     .rentGraphContainer{
         padding:.5rem;
         background-color: rgba(0, 0, 0, 0.531);
+        width:100%;
+        height:100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     
@@ -340,11 +353,6 @@
         
         font-size: 2rem;
     }
-    .stat{
-        margin:0;
-        font-weight: normal;
-        font-size: 1.4rem;
-    }
     .heading a{
         color:white;
         text-decoration: underline;
@@ -394,39 +402,7 @@
         font-size: 1.2rem;
 
     }
-    .card p{
-        min-height: 40%;
-        overflow:hidden;
-        
-        margin-bottom: 0;
-    }
 
-    .card{
-        position: relative;
-        padding:1rem;
-        width:100%;
-        height:10rem;
-        margin-bottom: 1rem;
-
-        transition: all 150ms ease-out;
-    }
-    .card:hover{
-        background-color: rgba(238, 238, 238, 0.257);
-        transform: translateY(-3px);
-    }
-    .noResult h1{
-        margin:0;
-    }
-    .card.review h1{
-        margin:0;
-        font-size: 1rem;
-        color:var(--color-trim)
-    }
-    .card.review h2{
-
-        font-size: 1.2rem;
-        
-    }
     @media (prefers-color-scheme: dark) {
 
 }

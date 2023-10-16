@@ -66,6 +66,7 @@
 	}
 	h2{
 		color:var(--color-theme-2);
+		font-size: 1.2rem;
 
 	}
 	p {
@@ -98,6 +99,9 @@
 		}
 	}
 	@media only screen and (max-width: 520px){
+		p{
+			color:white;
+		}
 		#main{
 			grid-template-columns: 1fr;
 			padding:1rem 1.5rem;

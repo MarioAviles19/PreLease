@@ -1,4 +1,4 @@
-import { SerializeNonPOJOs } from '$lib/helpers.js'
+import { SerializeNonPOJOs } from '$lib/helpers'
 import { redirect } from '@sveltejs/kit'
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore, FieldValue} from 'firebase-admin/firestore'
@@ -53,7 +53,7 @@ export const actions = {
 
         })
         //Add the userID to the owner field so you can retrieve the user data later
-        obj = {...obj, owner: user.uid, timestamp: FieldValue.serverTimestamp(), income : parseInt(data.get("income") as string || ""), organization: userData.organization || "PreLease"}
+        obj = {...obj, owner: user.uid, timestamp: FieldValue.serverTimestamp(), income : parseInt(data.get("income") as string || ""), organization: userData.organization || "PreLease", requestConsult : obj.requestConsult == "on"? true : false }
 
 
         //Add the document
@@ -61,7 +61,7 @@ export const actions = {
         
         //TODO: Add rate limiting by checking the timestamp of the last report associated with each user
 
-
+        //TODO: Send an email on completion
 
         //Redirect to success page
 

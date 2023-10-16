@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import * as firestoreAdmin from 'firebase-admin/firestore';
-import { SerializeNonPOJOs } from '$lib/helpers.js';
+import { SerializeNonPOJOs } from '$lib/helpers';
 
 
 const {getFirestore} = firestoreAdmin;

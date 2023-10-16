@@ -1,12 +1,13 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { SerializeNonPOJOs, bannedWordsRegex } from '$lib/helpers.js';
+import { SerializeNonPOJOs, bannedWordsRegex } from '$lib/helpers';
 import * as adminFirestore from "firebase-admin/firestore";
 import { updatePassword } from 'firebase/auth';
 
 const {getFirestore, FieldValue, Timestamp} = adminFirestore;
 
 export const load = async ({locals, request, cookies, url})=>{
-    const {user, app} = await locals.GetUserFromSession(cookies.get('__session'));
+    const user = locals.user;
+    const app = locals.app;
     const pathname = url.pathname;
     const address = url.searchParams.get('address');
     if(!user){
@@ -25,7 +26,8 @@ export const load = async ({locals, request, cookies, url})=>{
 export const actions = {
     upload : async({locals, cookies, request, url})=>{
 
-        const {user, app} = await locals.GetUserFromSession(cookies.get('__session'));
+        const user = locals.user;
+        const app = locals.app;
 
         const address = url.searchParams.get("address")
         const pathname = url.pathname;
@@ -95,7 +97,7 @@ export const actions = {
         //TODO: Add address validation
         //TODO: Look into promise.all();
         //TODO: Look into firestore Transactions
-        const snapshot = await firestore.collection("LandlordRatings").doc(user.uid).set(
+        const snapshot = await firestore.collection("LandlordRatings").add(
             {address, 
             comments : comment, 
             overallRating, 
@@ -109,9 +111,14 @@ export const actions = {
 
         const propertySnapshot = await firestore.collection("Properties").doc(address).get();
 
+        const reviewCount = await firestore.collection("LandlordRatings").where("address", "==", address).count().get();
+
+        console.log(reviewCount);
         const updatedProperty = await firestore.collection("Properties").doc(address).set({
-            reviewCount: FieldValue.increment(1),
-            overallRatings: ((parseInt(propertySnapshot.data()?.overallRating) || 0) + overallRating || 0) / (propertySnapshot.data()?.reviews + 1 || 1)
+            reviewCount: reviewCount,
+            overallRating: ((parseInt(propertySnapshot.data()?.overallRating) || 0) + overallRating || 0) / (reviewCount.data().count || 1),
+            managementRating: ((parseInt(propertySnapshot.data()?.managementRating) || 0) + managementRating || 0) / (reviewCount.data().count || 1),
+            responsivenessRating: ((parseInt(propertySnapshot.data()?.responsivenessRating) || 0) + responsivenessRating || 0) / (reviewCount.data().count + 1 || 1)
             
             },{merge:true});
         

@@ -52,6 +52,9 @@
 {/if}
 
 <style>
+    *{
+        color:white;
+    }
     h2,h3{
         margin: 0;
     }
@@ -137,5 +140,13 @@
         padding: 1rem;
         margin-top:-3rem;
         padding-bottom: 2rem;
+    }
+    @media only screen and (max-width: 520px){
+        .ratings{
+            grid-template-columns: 1fr;
+        }
+        .rating{
+            margin-bottom: 2rem;
+        }
     }
 </style>
