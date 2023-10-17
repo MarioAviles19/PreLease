@@ -122,7 +122,7 @@
 
     <fieldset use:CheckFieldCompleted  class="selection question">
         <legend>What city do you currently live in?</legend>
-        <p class="note">PreLease is currently only serving the Minneapolis, MN metro area</p>
+        <p class="note">PreLease is currently only serving the Twin Cities, MN metro area</p>
         
         <div class="response">
             <input type="text" placeholder="City">

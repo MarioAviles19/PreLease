@@ -115,7 +115,7 @@ export const actions = {
 
         console.log(reviewCount);
         const updatedProperty = await firestore.collection("Properties").doc(address).set({
-            reviewCount: reviewCount,
+            reviewCount: reviewCount.data().count,
             overallRating: ((parseInt(propertySnapshot.data()?.overallRating) || 0) + overallRating || 0) / (reviewCount.data().count || 1),
             managementRating: ((parseInt(propertySnapshot.data()?.managementRating) || 0) + managementRating || 0) / (reviewCount.data().count || 1),
             responsivenessRating: ((parseInt(propertySnapshot.data()?.responsivenessRating) || 0) + responsivenessRating || 0) / (reviewCount.data().count + 1 || 1)

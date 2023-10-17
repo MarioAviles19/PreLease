@@ -2,10 +2,14 @@ import { fail, redirect } from '@sveltejs/kit';
 import * as adminAuth from 'firebase-admin/auth'; 
 import type { PageServerLoad } from './$types.js';
 
-export const load : PageServerLoad = async ({locals, url, request})=> {
+export const load : PageServerLoad = async ({locals, url, request, cookies})=> {
     const redirect = url.searchParams.get('redirect')
+
+    cookies.delete("__session");
     //If there is a 'redirect' searchParam return it
     //If not return home
+
+    
     if(redirect){
         return {redirect: redirect}
     }

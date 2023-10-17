@@ -45,6 +45,7 @@
 		formData.set("token", token);
 		} catch (error){
 			message = "Invalid credentials";
+			submitting = false;
 			cancel();
 		}
 		return async({result, update})=>{
@@ -81,7 +82,12 @@
 		<a href="/SignIn/ResetPassword">Forgot Password?</a>
 	</div>
 	<div class="buttons">
-		<button type="submit">{submitting? "Signing In": "Sign In"}</button>
+		<button type="submit">Signing In
+			{#if submitting}
+			<span aria-hidden="true" class="fas fa-spinner fa-spinn"></span>
+			{/if}
+
+		</button>
 	</div>
 </form>
 <div id="background">

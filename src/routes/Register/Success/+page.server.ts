@@ -12,6 +12,12 @@ export const load : PageServerLoad = async({url, locals})=>{
         try{
             const userRecord = await getAuth(locals.app).getUser(userID);
 
+            const existingTokensSnap = await getFirestore(locals.app).collection("Tokens").doc("SingleUse").collection("VerifyEmail").where("user", "==", userID).get();
+
+            for(const doc of existingTokensSnap.docs){
+                await getFirestore(locals.app).collection("Tokens").doc("SingleUse").collection("VerifyEmail").doc(doc.id).delete();
+            }
+
             const tokenSnap = await getFirestore(locals.app).collection("Tokens").doc("SingleUse").collection("VerifyEmail").add({
                 user : userRecord.uid,
                 used: false,
@@ -19,10 +25,9 @@ export const load : PageServerLoad = async({url, locals})=>{
             })
             //TODO: SEND EMAIL
             const res = await SendVerifyEmail(import.meta.env.VITE_EMAIL_PASSWORD, userRecord.email || "", tokenSnap.id, userID);
-            console.log(res);
-            console.log(userRecord.email);
+
             return {userEmail: userRecord.email}
-        } catch{
+        } catch (error){
             return {userEmail:  null};
         }
     } else{

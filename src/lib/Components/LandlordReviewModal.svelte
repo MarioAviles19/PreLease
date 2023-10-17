@@ -26,7 +26,6 @@
             </div>
             <div class="rightSide">
                 <p class="housingType">Type - 1 bedroom Apartment</p>
-                <p class="rent">Average Rent - {review.price ?? "$600"}</p>
             </div>
         </div>
         <div class="ratings">

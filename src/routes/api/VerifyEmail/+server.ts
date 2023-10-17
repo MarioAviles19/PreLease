@@ -3,7 +3,7 @@ import { redirect } from "@sveltejs/kit";
 import { getFirestore } from "firebase-admin/firestore";
 import { getAuth } from "firebase-admin/auth";
 
-export const GET = async({request,url, locals})=>{
+export const GET = async({request,url, locals, cookies})=>{
     
     const userID = url.searchParams.get("u");
     const token = url.searchParams.get("token");
@@ -13,16 +13,14 @@ export const GET = async({request,url, locals})=>{
     }
 
 
-    const existingTokensSnap = await getFirestore(locals.app).collection("Tokens").doc("SingleUse").collection("VerifyEmail").where("user", "==", userID).get();
-
-    for(const doc of existingTokensSnap.docs){
-        await getFirestore(locals.app).collection("Tokens").doc("SingleUse").collection("VerifyEmail").doc(doc.id).delete();
-    }
-
     const tokenSnap = await getFirestore(locals.app).collection("Tokens").doc("SingleUse").collection("VerifyEmail").doc(token).get();
 
     const tokenData = tokenSnap.data() as {timestamp : FirebaseTimestamp, used : boolean, user: string};
 
+
+    if(!tokenSnap.exists){
+        return new Response(null, {headers: {Location: "/TokenExpired"}, status : 302});
+    }
     if(tokenData.user != userID || tokenData.used == true){
         return new Response(null, {headers: {Location: "/TokenExpired"}, status : 302});
     }
@@ -36,7 +34,7 @@ export const GET = async({request,url, locals})=>{
         return new Response(null, {headers: {Location: "/TokenExpired"}, status : 302});
     }
 
-    const res = new Response(null, {headers: {Location: "/SignIn"}, status : 302});
+    const res = new Response(null, {headers: {Location: locals.user? "/": "/SignIn"}, status : 302});
     
     return res;
 }
