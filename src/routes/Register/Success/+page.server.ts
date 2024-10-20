@@ -1,8 +1,9 @@
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { getAuth } from "firebase-admin/auth";
-import {SendVerifyEmail} from "prelease";
+import { sendEmailVerification } from "firebase/auth";
 import { FieldValue, getFirestore } from "firebase-admin/firestore";
+
 
 export const load : PageServerLoad = async({url, locals})=>{
     
@@ -23,11 +24,11 @@ export const load : PageServerLoad = async({url, locals})=>{
                 used: false,
                 timestamp : FieldValue.serverTimestamp(),
             })
-            //TODO: SEND EMAIL
-            const res = await SendVerifyEmail(import.meta.env.VITE_EMAIL_PASSWORD, userRecord.email || "", tokenSnap.id, userID);
+           
 
             return {userEmail: userRecord.email}
         } catch (error){
+            console.log(error);
             return {userEmail:  null};
         }
     } else{

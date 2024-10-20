@@ -11,10 +11,6 @@ export const load = async({locals, url})=>{
     if(!user){
         throw redirect(302, "/SignIn?redirect=" + url.pathname)
     }
-    if(!user.emailVerified){
-
-        throw redirect(302, "/VerifyEmail")
-    }
 
     const getHealthChecks = async()=>{
         const healthCheckSnap = await firestore.collection("RentalHealthChecks").where("owner", "==", user.uid).orderBy("timestamp", "desc").limit(15).get();

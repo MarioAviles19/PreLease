@@ -34,9 +34,10 @@
 			
 		}
 		await update({reset: !(result.type == "failure")});
+		console.log(result)
 		formBusy = false;
 		formResultType = result.type;
-		formResultMessage = result.data.message;
+		formResultMessage = result?.data?.message;
 		modalOpen = true;
 
 
@@ -89,7 +90,7 @@
 			{#if formResultType == "success"}
 			<a class="largeButton" href="/SignIn">Return to Sign In</a>
 			{:else}
-			<button class="secondaryButton" type="button">Close</button>
+			<button on:click={()=>{modalOpen = false}} class="secondaryButton" type="button">Close</button>
 			{/if}
 		</div>
 	</div>

@@ -4,10 +4,10 @@
 
 <section class="panel content">
     {#if data.userEmail}
-    <h2>Verify Your Email!</h2>
-    <p>An email has been sent to <span class="highlightedText">{data.userEmail}</span> asking you to verify your email. 
-        Once you've done that, you can sign in and enjoy using PreLease</p>
-    <p class="smallText">You may close this tab</p>
+    <h2>Success!</h2>
+    <p>Your PreLease account has been successfully created</p>
+    <a href="/SignIn" class="largeButton">Return to Sign In</a>
+
     {:else}
     <h2>Error!</h2>
     <p>An unknown error occured!</p>

@@ -71,7 +71,7 @@ export const actions : Actions = {
 
         let newUser;
         try{
-        newUser = await auth.createUser({email: email, password: password, displayName: firstName});
+            newUser = await auth.createUser({email: email, password: password, displayName: firstName, emailVerified : true});
 
         } catch (error){
             

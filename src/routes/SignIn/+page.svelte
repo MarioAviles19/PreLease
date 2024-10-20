@@ -82,7 +82,7 @@
 		<a href="/SignIn/ResetPassword">Forgot Password?</a>
 	</div>
 	<div class="buttons">
-		<button type="submit">Signing In
+		<button type="submit">Sign In
 			{#if submitting}
 			<span aria-hidden="true" class="fas fa-spinner fa-spinn"></span>
 			{/if}

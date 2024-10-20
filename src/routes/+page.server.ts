@@ -16,13 +16,8 @@ export const load = async({locals, cookies})=>{
 
         const userDocData = userDoc.data();
         
-        if(!user.emailVerified){
-            throw redirect(302, "/Profile/VerifyEmail");
-        }
-        if (!userDocData?.setupComplete){
-            throw redirect(302, "/Profile/Setup")
-        }
+
     }
-    console.log(user?.emailVerified);
+
 
 }
